@@ -58,7 +58,7 @@ public Integer getEdadRecomendada()
 ---
 
 
-### [Conplejidad de juego]
+### [Complejidad de juego]
 **Definición:** [Es el nivel de dificultad que presenta un juego de mesa para comprender sus reglas, aprender sus dinámicas y desarrollar una partida.]
 **Precondiciones:** [El nivel de complejidad debe corresponder a las características y reglas reales del juego y clasificarse de acuerdo con los niveles definidos por DICEVA.]
 **Sinónimos aceptados:** [Nivel de dificultad, Dificultad del juego]
@@ -72,6 +72,31 @@ public String getComplejidadDeJuego() {
 \`\`\`
 
 ---
+## Reglas de negocion 
+## Reglas de Negocio Clave
+
+1. **Un comprador solo puede calificar juegos que haya adquirido.**
+
+2. **Un vendedor solo puede administrar sus propios juegos.**
+
+3. **No se puede comprar una cantidad superior al stock disponible.**
+
+4. **El stock se descuenta cuando el pedido es confirmado.**
+
+5. **Un pedido solo puede ser confirmado cuando el pago haya sido aprobado.**
+
+6. **Un juego debe tener un rango de jugadores válido, donde el mínimo sea mayor o igual a 1**
+
+7. **El precio de un juego debe ser mayor a cero.**
+
+8. **Una calificación debe estar entre 1 y 5 estrellas.**
+
+9. **Un juego solo puede estar disponible para compra cuando se encuentre activo y tenga la información obligatoria completa.**
+
+10. **La edad recomendada de un juego debe ser un valor mayor o igual a cero.**
+
+---
+
 
 
 ## Anti-patrones (Términos a EVITAR en nuestro proyecto)
