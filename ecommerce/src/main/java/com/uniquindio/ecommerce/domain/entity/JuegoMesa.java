@@ -35,6 +35,9 @@ public class JuegoMesa {
         this.imagenUrl = imagenUrl;
         this.activo = activo;
     }
+    public int consultarStock(){
+        return stock;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
