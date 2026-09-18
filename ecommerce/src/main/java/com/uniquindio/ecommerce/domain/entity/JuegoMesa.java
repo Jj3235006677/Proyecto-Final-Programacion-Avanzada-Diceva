@@ -35,6 +35,9 @@ public class JuegoMesa {
         this.imagenUrl = imagenUrl;
         this.activo = activo;
     }
+    public Precio valorJuegoMesa(){
+        return precio;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

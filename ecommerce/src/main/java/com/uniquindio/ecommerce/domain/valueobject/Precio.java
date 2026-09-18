@@ -9,4 +9,7 @@ public record Precio(float precioProducto) {
             throw new ReglaDominioException("Valor incorrecto");
         }
     }
+    public float sacarPrecio(){
+        return precioProducto;
+    }
 }
