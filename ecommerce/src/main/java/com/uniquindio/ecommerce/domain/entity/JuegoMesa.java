@@ -4,8 +4,11 @@ import com.uniquindio.ecommerce.domain.valueobject.ComplejidadJuego;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.domain.valueobject.RagoJugadores;
 
+import java.util.UUID;
+
 public class JuegoMesa {
-    private final int id;
+
+    private final UUID id;
 
     private String nombre;
     private String descripcion;
@@ -19,9 +22,20 @@ public class JuegoMesa {
     private String imagenUrl;
     private boolean activo;
 
-    public JuegoMesa(int id, String nombre, String descripcion, Precio precio, int stock,
-                     RagoJugadores rangoJugadores, ComplejidadJuego complejidad, String mecanicaDeJuego,
-                     String tematicaDeJuego, int edadRecomendada, String imagenUrl, boolean activo) {
+    public JuegoMesa(
+            UUID id,
+            String nombre,
+            String descripcion,
+            Precio precio,
+            int stock,
+            RagoJugadores rangoJugadores,
+            ComplejidadJuego complejidad,
+            String mecanicaDeJuego,
+            String tematicaDeJuego,
+            int edadRecomendada,
+            String imagenUrl,
+            boolean activo) {
+
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -35,19 +49,24 @@ public class JuegoMesa {
         this.imagenUrl = imagenUrl;
         this.activo = activo;
     }
-    public int consultarStock(){
+
+    public int consultarStock() {
         return stock;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+
         if (!(o instanceof JuegoMesa)) return false;
+
         JuegoMesa juegoMesa = (JuegoMesa) o;
-        return id == juegoMesa.id;
+
+        return id.equals(juegoMesa.id);
     }
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(id);
+        return id.hashCode();
     }
 }
