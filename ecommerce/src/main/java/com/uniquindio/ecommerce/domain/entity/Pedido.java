@@ -92,4 +92,7 @@ public class Pedido {
         }
     }
 
+    public EstadoPedido getEstado() {
+        return estado;
+    }
 }

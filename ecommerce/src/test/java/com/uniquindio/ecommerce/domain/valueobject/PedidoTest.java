@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PedidoTest {
@@ -27,17 +28,19 @@ public class PedidoTest {
     }
     @Test
     public void No_Dejar_Pasar_A_Un_Estado_Invalido(){
+        Pedido pedido=new Pedido(
+                1,
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                2,
+                new Precio(150000),
+                "Carrera 14 # 20-30, Armenia",
+                EstadoPedido.PENDIENTE,
+                false
+        );
         assertThrows(ReglaDominioException.class,()->{
-            new Pedido(
-                    1,
-                    UUID.randomUUID(),
-                    UUID.randomUUID(),
-                    2,
-                    new Precio(150000),
-                    "Carrera 14 # 20-30, Armenia",
-                    EstadoPedido.PENDIENTE,
-                    false
-            ).solicitarReembolso("El producto salio malo");
+            pedido.solicitarReembolso("El producto salio malo");
         });
+        assertEquals(EstadoPedido.PENDIENTE,pedido.getEstado());
     }
 }
