@@ -11,7 +11,7 @@ public class Pedido {
     private final int id;
 
     private UUID idUsuario;
-    private UUID juegoId;
+    private UUID compraId;
     private int cantidad;
     private Precio precio;
     private String direccionEnvio;
@@ -66,7 +66,7 @@ public class Pedido {
 
         this.id = id;
         this.idUsuario = idUsuario;
-        this.juegoId = juegoId;
+        this.compraId = juegoId;
         this.cantidad = cantidad;
         this.precio = precio;
         this.direccionEnvio = direccionEnvio;
