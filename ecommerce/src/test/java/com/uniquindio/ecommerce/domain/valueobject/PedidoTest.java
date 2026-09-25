@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PedidoTest {
-    @Test
+    @Test//Entregar
     public void Verificar_Que_El_Reelbolso_Tenga_Su_Mensaje(){
         assertThrows(ReglaDominioException.class,()->{
             new Pedido(
