@@ -5,13 +5,7 @@ public enum TipoUsuario {
     PROVEDOR,
     ADMINISTRADOR;
 
-    public boolean puedePasar(TipoUsuario usuarioSiguiente){
-        return switch (this){
-            case CLIENTE -> usuarioSiguiente==PROVEDOR;
-            case PROVEDOR ->usuarioSiguiente==CLIENTE;
-            case ADMINISTRADOR -> false;
-        };
-    }
+
 
 
 }

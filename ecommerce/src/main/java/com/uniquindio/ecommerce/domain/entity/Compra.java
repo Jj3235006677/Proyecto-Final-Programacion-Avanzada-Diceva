@@ -6,6 +6,7 @@ import com.uniquindio.ecommerce.domain.valueobject.Precio;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Compra {
@@ -24,33 +25,16 @@ public class Compra {
             Precio precioTotal,
             LocalDateTime fechaCompra) {
 
-        if (id == null) {
-            throw new ReglaDominioException(
-                    "El id de la compra no puede ser nulo"
-            );
-        }
+        if (id == null
+                || cedulaUsuario == null
+                || precioTotal == null
+                || fechaCompra == null) {
 
-        if (idListaJuegosMesa == null || idListaJuegosMesa.isEmpty()) {
+            throw new ReglaDominioException("La compra debe tener toda la informacion obligatoria");
+        }
+        if (idListaJuegosMesa == null || idListaJuegosMesa.isEmpty()) {//2 invariante una compra debe tener como minimo un juego
             throw new ReglaDominioException(
                     "La compra debe tener al menos un juego de mesa"
-            );
-        }
-
-        if (cedulaUsuario == null) {
-            throw new ReglaDominioException(
-                    "El usuario no puede ser nulo"
-            );
-        }
-
-        if (precioTotal == null) {
-            throw new ReglaDominioException(
-                    "El precio total no puede ser nulo"
-            );
-        }
-
-        if (fechaCompra == null) {
-            throw new ReglaDominioException(
-                    "La fecha de compra no puede ser nula"
             );
         }
 
@@ -59,10 +43,10 @@ public class Compra {
         this.cedulaUsuario = cedulaUsuario;
         this.precioTotal = precioTotal;
         this.fechaCompra = fechaCompra;
-        this.estadoPago = EstadoPago.PENDIENTE;
+        this.estadoPago = EstadoPago.PENDIENTE;// 3 Invariante toda compra nueva inicia en estado PENDIENTE.
     }
 
-    // Única puerta de entrada para crear una Compra recomendaddo por la profesora
+    // Única puerta de entrada para crear una Compra.
     public static Compra realizarCompra(
             UUID id,
             List<UUID> idListaJuegosMesa,
@@ -78,5 +62,22 @@ public class Compra {
                 fechaCompra
         );
     }
-    public UUID getId() { return id; }
-}
+    public UUID getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof Compra)) return false;
+
+        Compra compra = (Compra) o;
+
+        return id.equals(compra.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }}
