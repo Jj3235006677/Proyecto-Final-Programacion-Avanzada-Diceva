@@ -11,19 +11,18 @@ import java.util.UUID;
 public class Compra {
 
     private final UUID id;
-    private final List<UUID> idJuegoMesa;
+    private final List<UUID> idListaJuegosMesa;
     private final UUID cedulaUsuario;
     private final Precio precioTotal;
     private final LocalDateTime fechaCompra;
     private final EstadoPago estadoPago;
 
-    public Compra(
+    private Compra(
             UUID id,
-            List<UUID> idJuegoMesa,
+            List<UUID> idListaJuegosMesa,
             UUID cedulaUsuario,
             Precio precioTotal,
-            LocalDateTime fechaCompra,
-            EstadoPago estadoPago) {
+            LocalDateTime fechaCompra) {
 
         if (id == null) {
             throw new ReglaDominioException(
@@ -31,7 +30,7 @@ public class Compra {
             );
         }
 
-        if (idJuegoMesa == null || idJuegoMesa.isEmpty()) {
+        if (idListaJuegosMesa == null || idListaJuegosMesa.isEmpty()) {
             throw new ReglaDominioException(
                     "La compra debe tener al menos un juego de mesa"
             );
@@ -55,17 +54,29 @@ public class Compra {
             );
         }
 
-        if (estadoPago == null) {
-            throw new ReglaDominioException(
-                    "El estado del pago no puede ser nulo"
-            );
-        }
-
         this.id = id;
-        this.idJuegoMesa = idJuegoMesa;
+        this.idListaJuegosMesa = idListaJuegosMesa;
         this.cedulaUsuario = cedulaUsuario;
         this.precioTotal = precioTotal;
         this.fechaCompra = fechaCompra;
-        this.estadoPago = estadoPago;
+        this.estadoPago = EstadoPago.PENDIENTE;
     }
+
+    // Única puerta de entrada para crear una Compra recomendaddo por la profesora
+    public static Compra realizarCompra(
+            UUID id,
+            List<UUID> idListaJuegosMesa,
+            UUID cedulaUsuario,
+            Precio precioTotal,
+            LocalDateTime fechaCompra) {
+
+        return new Compra(
+                id,
+                idListaJuegosMesa,
+                cedulaUsuario,
+                precioTotal,
+                fechaCompra
+        );
+    }
+    public UUID getId() { return id; }
 }

@@ -1,4 +1,4 @@
-package com.uniquindio.ecommerce.application;
+package com.uniquindio.ecommerce.application.usecase;
 
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 
