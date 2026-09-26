@@ -3,7 +3,6 @@ package com.uniquindio.ecommerce.domain.entity;
 import com.uniquindio.ecommerce.domain.exeption.ReglaDominioException;
 import com.uniquindio.ecommerce.domain.valueobject.EstadoPedido;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
-
 import java.util.UUID;
 
 public class Pedido {
@@ -18,10 +17,10 @@ public class Pedido {
     private EstadoPedido estado;
     private boolean pagoAprobado;
 
-    public Pedido(
+    private Pedido(
             int id,
             UUID idUsuario,
-            UUID juegoId,
+            UUID compraId,
             int cantidad,
             Precio precio,
             String direccionEnvio,
@@ -34,9 +33,9 @@ public class Pedido {
             );
         }
 
-        if (juegoId == null) {
+        if (compraId == null) {
             throw new ReglaDominioException(
-                    "El juego no puede ser nulo"
+                    "La Compra no puede ser nulo"
             );
         }
 
@@ -66,12 +65,24 @@ public class Pedido {
 
         this.id = id;
         this.idUsuario = idUsuario;
-        this.compraId = juegoId;
+        this.compraId = compraId;
         this.cantidad = cantidad;
         this.precio = precio;
         this.direccionEnvio = direccionEnvio;
         this.estado = estado;
         this.pagoAprobado = pagoAprobado;
+    }
+    public static Pedido crearPedido(int id,
+                              UUID idUsuario,
+                              UUID compraId,
+                              int cantidad,
+                              Precio precio,
+                              String direccionEnvio,
+                              EstadoPedido estado,
+                              boolean pagoAprobado){
+
+
+        return new Pedido(id,idUsuario,compraId,cantidad,precio,direccionEnvio,estado,pagoAprobado);
     }
 
     public void solicitarReembolso(String mensaje) {
@@ -94,5 +105,20 @@ public class Pedido {
 
     public EstadoPedido getEstado() {
         return estado;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof Pedido)) return false;
+
+        Pedido pedido = (Pedido) o;
+
+        return id == pedido.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
     }
 }
