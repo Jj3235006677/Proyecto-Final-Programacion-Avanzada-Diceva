@@ -62,9 +62,14 @@ public class Compra {
                 fechaCompra
         );
     }
+    public EstadoPago consultarEstadoCompra(){
+        return estadoPago;
+    }
+
     public UUID getId() {
         return id;
     }
+
 
     @Override
     public boolean equals(Object o) {

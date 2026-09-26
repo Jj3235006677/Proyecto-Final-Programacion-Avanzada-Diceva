@@ -101,6 +101,10 @@ public class JuegoMesa {
         );
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public int consultarStock() {
         return stock;
     }

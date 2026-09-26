@@ -45,6 +45,10 @@ public class Comentario {
 
     }
 
+    public UUID getIdComentario() {
+        return idComentario;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

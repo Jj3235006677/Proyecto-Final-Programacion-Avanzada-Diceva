@@ -9,9 +9,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class CompraRepositorioEnMemoria implements CompraRepository {
+
     private final Map<UUID, Compra>compras=new HashMap<>();
 
-//Guardado que no entiendo casi nada pilas preguntar a la profesora
+
     @Override
     public Optional<Compra> obtenerPorId(UUID id){
         return Optional.ofNullable(compras.get(id));

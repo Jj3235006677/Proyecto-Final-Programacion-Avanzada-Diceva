@@ -17,22 +17,10 @@ public class RealizarCompraUseCase {
         this.repository=repository;
     }
 
-    public Compra ejecutar(//en el ejecutar ya se realiza la accion del caso de uso, en este caso tiene un contrutor privado
-                           //lo que hace que tenga una unica puerta privada y de la unica forma de crearlo el mediante el metodo
-                           //o caso de uso ante creado
-            UUID id,
-            List<UUID> idListaJuegosMesa,
-            UUID cedula,
-            Precio precio,
-            LocalDateTime fechaCompra) {//se ingresan lo atributos del objeto(esta caso compra)
+    public Compra ejecutar(UUID id, List<UUID> idListaJuegosMesa, UUID cedula, Precio precio, LocalDateTime fechaCompra) {//se ingresan lo atributos del objeto(esta caso compra)
+        //ese ejecutar crea ya el objeto
 
-        // AQUÍ SE CREA
-        Compra compra = Compra.realizarCompra(
-                id,
-                idListaJuegosMesa,
-                cedula,
-                precio,
-                fechaCompra);
+        Compra compra = Compra.realizarCompra(id, idListaJuegosMesa, cedula, precio, fechaCompra);
 
         // AQUÍ SE GUARDA
         repository.guardar(compra);
