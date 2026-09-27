@@ -1,4 +1,4 @@
-package com.uniquindio.ecommerce.application.usecase;
+package com.uniquindio.ecommerce.application;
 
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.repository.CompraRepository;

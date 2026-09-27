@@ -1,4 +1,4 @@
-package com.uniquindio.ecommerce.application.usecase;
+package com.uniquindio.ecommerce.application;
 
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
@@ -20,7 +20,7 @@ public class CrearJuegoMesaUseCase {
                               int stock, RangoJugadores rangoJugadores, ComplejidadJuego complejidad,
                               String mecanicaDeJuego, String tematicaDeJuego, int edadRecomendada,
                               String imagenUrl, boolean activo){
-        
+
         JuegoMesa juegoMesa=JuegoMesa.crear(id,nombre,descripcion,precio,stock,rangoJugadores,complejidad,mecanicaDeJuego,tematicaDeJuego,edadRecomendada,imagenUrl,activo);
         repository.guardar(juegoMesa);
         return juegoMesa;
