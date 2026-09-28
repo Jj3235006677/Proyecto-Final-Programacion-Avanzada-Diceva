@@ -18,7 +18,7 @@ public class CrearJuegoMesaUseCaseTest {
         @Test
         public void Debe_Crear_Y_Guardar_Un_JuegoMesa() {
 
-            // Arrange
+            // Arrangeo
             JuegoMesaRepositorioMemoria repository =
                     new JuegoMesaRepositorioMemoria();
 
