@@ -1,6 +1,6 @@
 package com.uniquindio.ecommerce.domain.TestUseCase;
 
-import com.uniquindio.ecommerce.application.RealizarComentarioUseCase;
+import com.uniquindio.ecommerce.application.UseCase.RealizarComentarioUseCase;
 import com.uniquindio.ecommerce.domain.entity.Comentario;
 import com.uniquindio.ecommerce.domain.valueobject.Calificacion;
 import com.uniquindio.ecommerce.infrastructure.ComentarioRepositorioEnMemoria;

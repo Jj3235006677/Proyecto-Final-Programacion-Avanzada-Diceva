@@ -1,8 +1,7 @@
-package com.uniquindio.ecommerce.application;
+package com.uniquindio.ecommerce.application.UseCase;
 
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.repository.CompraRepository;
-import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 
 import java.time.LocalDateTime;

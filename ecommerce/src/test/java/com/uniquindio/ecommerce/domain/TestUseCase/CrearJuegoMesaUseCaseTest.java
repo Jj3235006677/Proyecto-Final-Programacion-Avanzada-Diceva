@@ -1,6 +1,6 @@
 package com.uniquindio.ecommerce.domain.TestUseCase;
 
-import com.uniquindio.ecommerce.application.CrearJuegoMesaUseCase;
+import com.uniquindio.ecommerce.application.UseCase.CrearJuegoMesaUseCase;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.valueobject.ComplejidadJuego;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;

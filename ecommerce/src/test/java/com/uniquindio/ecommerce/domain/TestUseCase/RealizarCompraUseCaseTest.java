@@ -1,6 +1,6 @@
 package com.uniquindio.ecommerce.domain.TestUseCase;
 
-import com.uniquindio.ecommerce.application.RealizarCompraUseCase;
+import com.uniquindio.ecommerce.application.UseCase.RealizarCompraUseCase;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.infrastructure.CompraRepositorioEnMemoria;
