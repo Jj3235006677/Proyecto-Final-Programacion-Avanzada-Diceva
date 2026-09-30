@@ -16,7 +16,7 @@ public class Compra {
     private final UUID cedulaUsuario;
     private final Precio precioTotal;
     private final LocalDateTime fechaCompra;
-    private final EstadoPago estadoPago;
+    private  EstadoPago estadoPago;
 
     private Compra(
             UUID id,

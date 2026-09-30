@@ -30,7 +30,7 @@ public class UsuarioTest {
                 "juan1234@gmail.com",
                 "123456",
                 TipoUsuario.CLIENTE);
-                usuarioUno.tipoUsuario =TipoUsuario.PROVEDOR;
+                usuarioUno.tipoUsuario =TipoUsuario.PROVEEDOR;
                 Usuario usuarioDos=usuarioUno;
 
 

@@ -14,7 +14,7 @@ public class Usuario {
     TipoUsuario tipoUsuario;
 
 
-    public Usuario(UUID cedula, String nombre, String apellido, String correo, String contraseña, TipoUsuario tipoUsuario) {
+    public  Usuario(UUID cedula, String nombre, String apellido, String correo, String contraseña, TipoUsuario tipoUsuario) {
         if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || contraseña.isEmpty() ){
             throw  new ReglaDominioException("No se puede dejar campos vacios");
         }else if(cedula==null){
