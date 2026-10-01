@@ -38,7 +38,7 @@ public class RealizarComentarioUseCaseTest {
         assertNotNull(comentario);
         assertEquals(
                 comentario,
-                repository.obtenerComentariId(idComentario).orElse(null)
+                repository.obtenerComentarioId(idComentario).orElse(null)
         );
     }
 }

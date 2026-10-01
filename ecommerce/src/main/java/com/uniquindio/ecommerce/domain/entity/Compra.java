@@ -1,12 +1,11 @@
 package com.uniquindio.ecommerce.domain.entity;
 
-import com.uniquindio.ecommerce.domain.exeption.ReglaDominioException;
+import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
 import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Compra {

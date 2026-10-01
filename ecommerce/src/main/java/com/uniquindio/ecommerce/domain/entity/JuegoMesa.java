@@ -1,6 +1,6 @@
 package com.uniquindio.ecommerce.domain.entity;
 
-import com.uniquindio.ecommerce.domain.exeption.ReglaDominioException;
+import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
 import com.uniquindio.ecommerce.domain.valueobject.ComplejidadJuego;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;

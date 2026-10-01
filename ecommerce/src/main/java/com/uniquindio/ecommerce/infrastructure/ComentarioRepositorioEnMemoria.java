@@ -13,7 +13,7 @@ public class ComentarioRepositorioEnMemoria implements ComentarioRepository {
     private final Map<UUID, Comentario> comentarios=new HashMap<>();
 
     @Override
-    public Optional<Comentario> obtenerComentariId(UUID id) {
+    public Optional<Comentario> obtenerComentarioId(UUID id) {
 
         return Optional.ofNullable(comentarios.get(id));
     }

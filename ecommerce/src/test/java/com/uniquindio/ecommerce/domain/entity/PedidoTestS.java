@@ -1,6 +1,6 @@
 package com.uniquindio.ecommerce.domain.entity;
 
-import com.uniquindio.ecommerce.domain.exeption.ReglaDominioException;
+import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
 import com.uniquindio.ecommerce.domain.valueobject.EstadoPedido;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import org.junit.jupiter.api.Test;

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface ComentarioRepository {
 
-    Optional<Comentario> obtenerComentariId(UUID id);
+    Optional<Comentario> obtenerComentarioId(UUID id);
 
     void guardar(Comentario comentario);
 }

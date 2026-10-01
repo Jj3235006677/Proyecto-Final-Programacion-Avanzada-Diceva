@@ -1,6 +1,6 @@
 package com.uniquindio.ecommerce.domain.valueobject;
 
-import com.uniquindio.ecommerce.domain.exeption.ReglaDominioException;
+import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
 
 public record Calificacion(int valor) {
 
