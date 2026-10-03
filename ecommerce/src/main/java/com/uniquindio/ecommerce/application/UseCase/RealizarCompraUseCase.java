@@ -1,5 +1,5 @@
 package com.uniquindio.ecommerce.application.UseCase;
-
+import org.springframework.stereotype.Component;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.repository.CompraRepository;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
@@ -7,6 +7,7 @@ import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+@Component
 
 public class RealizarCompraUseCase {
 

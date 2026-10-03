@@ -1,5 +1,5 @@
 package com.uniquindio.ecommerce.infrastructure;
-
+import org.springframework.stereotype.Component;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.repository.CompraRepository;
 
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
+@Component
 public class CompraRepositorioEnMemoria implements CompraRepository {
 
     private final Map<UUID, Compra>compras=new HashMap<>();

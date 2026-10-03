@@ -2,9 +2,9 @@
 
 ## Conceptos Centrales
 
-### [Mecanica de juego]
+### [Mecánica de juego]
 **Definición:** [Es la forma en que funciona y se desarrolla una partida, incluyendo las acciones, reglas y dinámicas que determinan cómo se juega.]
-**Precondiciones:** [a mecánica debe corresponder a las reglas reales del juego y estar definida antes de publicarlo en el catálogo.]
+**Precondiciones:** [La mecánica debe corresponder a las reglas reales del juego y estar definida antes de publicarlo en el catálogo.]
 **Sinónimos aceptados:** [mecánica, mecánica de juego]
 **No usar:** [tipo, característica]
 
@@ -28,12 +28,11 @@ private RangoDeJugadores rangoDeJugadores;
 
 ---
 
-
-### [Tematica de juego]
+### [Temática de juego]
 **Definición:** [Es el tema, ambientación o contexto que representa el juego y que permite identificar de qué trata su experiencia de juego.]
 **Precondiciones:** [La temática debe corresponder al contenido y ambientación real del juego.]
 **Sinónimos aceptados:** [temática, tema del juego]
-**No usar:** [tema, tipo, categoria]
+**No usar:** [tema, tipo, categoría]
 
 **Ejemplo de uso en código:**
 \`\`\`java
@@ -44,19 +43,18 @@ public String getTematicaDeJuego() {
 
 ---
 
-### [Edad recomdadada]
+### [Edad recomendada]
 **Definición:** [Es la edad mínima recomendada para que una persona pueda participar adecuadamente en el juego, de acuerdo con sus características y reglas.]
 **Precondiciones:** [Debe corresponder a la edad mínima recomendada indicada para el juego y representarse como un valor numérico de edad.]
-**Sinónimos aceptados:** [Edad minima,Edad sugerida]
-**No usar:** [Edad, Años, Rango, Rando edad ]
+**Sinónimos aceptados:** [Edad mínima, Edad sugerida]
+**No usar:** [Edad, Años, Rango, Rango de edad]
 
 **Ejemplo de uso en código:**
 \`\`\`java
-public Integer getEdadRecomendada() 
+public Integer getEdadRecomendada()
 \`\`\`
 
 ---
-
 
 ### [Complejidad de juego]
 **Definición:** [Es el nivel de dificultad que presenta un juego de mesa para comprender sus reglas, aprender sus dinámicas y desarrollar una partida.]
@@ -72,7 +70,8 @@ public String getComplejidadDeJuego() {
 \`\`\`
 
 ---
-## Reglas de negocion 
+
+## Reglas de negocio
 ## Reglas de Negocio Clave
 
 1. **Un comprador solo puede calificar juegos que haya adquirido.**
@@ -89,7 +88,7 @@ public String getComplejidadDeJuego() {
 
 7. **El precio de un juego debe ser mayor a cero.**
 
-8. **Una calificación debe estar entre 1 y 5 estrellas.**
+8. **Una calificación debe estar entre 0 y 5 estrellas.**
 
 9. **Un juego solo puede estar disponible para compra cuando se encuentre activo y tenga la información obligatoria completa.**
 
@@ -97,14 +96,12 @@ public String getComplejidadDeJuego() {
 
 ---
 
-
-
 ## Anti-patrones (Términos a EVITAR en nuestro proyecto)
 
 | No usar | Usar |
 |---|---|
-| [Mecanica] | [MecanicaDeJuego] |
+| [Mecánica] | [MecanicaDeJuego] |
 | [Jugadores] | [RangoDeJugadores] |
-| [Tematica] | [TematicaDeJuego] |
+| [Temática] | [TematicaDeJuego] |
 | [Edad] | [EdadRecomendada] |
-| [Dificultad] | [ConplejidadDeJuego] |
+| [Dificultad] | [ComplejidadDeJuego] |

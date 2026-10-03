@@ -69,6 +69,21 @@ public class Compra {
         return id;
     }
 
+    public List<UUID> getIdListaJuegosMesa() {
+        return idListaJuegosMesa;
+    }
+
+    public UUID getCedulaUsuario() {
+        return cedulaUsuario;
+    }
+
+    public Precio getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public LocalDateTime getFechaCompra() {
+        return fechaCompra;
+    }
 
     @Override
     public boolean equals(Object o) {
