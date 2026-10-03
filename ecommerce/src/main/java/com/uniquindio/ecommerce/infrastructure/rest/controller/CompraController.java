@@ -1,5 +1,5 @@
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
-
+//Vamos bien
 
 import com.uniquindio.ecommerce.application.UseCase.RealizarCompraUseCase;
 import com.uniquindio.ecommerce.application.dto.request.RealizarCompraRequest;
