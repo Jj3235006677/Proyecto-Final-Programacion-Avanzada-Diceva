@@ -12,15 +12,13 @@
 \`\`\`java
 private Set<MecanicaDeJuego> mecanicasDeJuego;
 \`\`\`
-
+h
 ---
 
 ### [Rango de jugadores]
 **Definición:** [Es la cantidad mínima y máxima de jugadores que pueden participar en una partida del juego de mesa.]
 **Precondiciones:** [La cantidad mínima de jugadores debe ser mayor o igual a 1 y la cantidad máxima debe ser mayor o igual a la cantidad mínima.]
 **Sinónimos aceptados:** [cantidad de jugadores, número de jugadores]
-**No usar:** [jugadores, cantidad, número]
-
 **Ejemplo de uso en código:**
 \`\`\`java
 private RangoDeJugadores rangoDeJugadores;
