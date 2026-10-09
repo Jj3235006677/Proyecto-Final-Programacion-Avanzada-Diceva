@@ -21,7 +21,7 @@ public class JuegoMesa {
     private String tematicaDeJuego;
     private int edadRecomendada;
     private String imagenUrl;
-    private boolean activo;
+    private boolean activo;//enum preventa disponible agotado enpreveta
 
     private JuegoMesa(
             UUID id,

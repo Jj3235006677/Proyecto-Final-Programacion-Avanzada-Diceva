@@ -22,3 +22,5 @@ public class RealizarComentarioUseCase {
 
     }
 }
+//congelar precio
+//activo
