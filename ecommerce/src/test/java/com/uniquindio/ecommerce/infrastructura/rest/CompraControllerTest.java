@@ -62,7 +62,7 @@ class CompraControllerTest {
         when(realizarCompraUseCase.ejecutar(any(), any(), any(), any(),any()))
                 .thenReturn(compraSimulada);
 
-// ACT y ASSERTo
+// ACT y ASSERT
         mockMvc.perform(post("/api/compras")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
