@@ -1,5 +1,6 @@
 package com.uniquindio.ecommerce.infrastructura.rest;
 
+import com.uniquindio.ecommerce.application.UseCase.ConfirmarCompraUseCase;
 import com.uniquindio.ecommerce.application.UseCase.RealizarCompraUseCase;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
@@ -18,9 +19,11 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 
 @WebMvcTest(CompraController.class)
 class CompraControllerTest {
@@ -30,6 +33,10 @@ class CompraControllerTest {
 
     @MockitoBean
     private RealizarCompraUseCase realizarCompraUseCase;
+
+    @MockitoBean
+    private ConfirmarCompraUseCase confirmarCompraUseCase;
+
 
     @MockitoBean
     private CompraMapper mapper;
@@ -69,4 +76,20 @@ class CompraControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
     }
+    @Test
+    void deberiaConfirmarCompra() throws Exception {
+
+        // Arrange
+        UUID compraId = UUID.fromString(
+                "550e8400-e29b-41d4-a716-446655440003"
+        );
+
+        // Act y Assert
+        mockMvc.perform(patch("/api/compras/{id}/confirmar", compraId))
+                .andExpect(status().isNoContent());
+
+        // Verificar que se ejecutó el caso de uso
+        verify(confirmarCompraUseCase).ejecutar(compraId);
+    }
+
 }

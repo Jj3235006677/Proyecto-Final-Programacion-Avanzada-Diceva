@@ -1,7 +1,9 @@
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
 //Vamos bien
 
+import com.uniquindio.ecommerce.application.UseCase.ConfirmarCompraUseCase;
 import com.uniquindio.ecommerce.application.UseCase.RealizarCompraUseCase;
+import com.uniquindio.ecommerce.application.UseCase.RealizarRembolsoUseCase;
 import com.uniquindio.ecommerce.application.dto.request.RealizarCompraRequest;
 import com.uniquindio.ecommerce.application.dto.response.CompraResponse;
 
@@ -23,15 +25,34 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class CompraController {
 
     private final RealizarCompraUseCase realizarCompraUseCase;
+    private final ConfirmarCompraUseCase confirmarCompraUseCase;
+    private final RealizarRembolsoUseCase realizarRembolsoUseCase;
     private final CompraMapper mapper;
 
     public CompraController(
-            RealizarCompraUseCase realizarCompraUseCase,
-            CompraMapper mapper) {
+            RealizarCompraUseCase realizarCompraUseCase, ConfirmarCompraUseCase confirmarCompraUseCase,RealizarRembolsoUseCase realizarRembolsoUseCase, CompraMapper mapper) {
 
         this.realizarCompraUseCase = realizarCompraUseCase;
+        this.confirmarCompraUseCase=confirmarCompraUseCase;
+        this.realizarRembolsoUseCase=realizarRembolsoUseCase;
         this.mapper = mapper;
     }
+    @PatchMapping("/{id}/confirmar")
+    public ResponseEntity<Void> confirmarCompra(@PathVariable UUID id) {
+
+        confirmarCompraUseCase.ejecutar(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/reembolsar")
+    public ResponseEntity<Void> reembolsarCompra(@PathVariable UUID id,String motivo) {
+
+        realizarRembolsoUseCase.ejecutar(motivo,id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 
     @PostMapping
     public ResponseEntity<CompraResponse> crear(@Valid @RequestBody RealizarCompraRequest request) {

@@ -61,6 +61,42 @@ public class Compra {
                 fechaCompra
         );
     }
+
+    public void confirmarCompra() {
+        if (!estadoPago.puedeTransicionarA(EstadoPago.APROBADO)) {
+            throw new ReglaDominioException(
+                    "No se puede confirmar la compra porque su pago no está pendiente"
+            );
+        }
+
+        this.estadoPago = EstadoPago.APROBADO;
+    }
+
+    public void realizarReembolso(String motivo) {
+
+        if (estadoPago != EstadoPago.APROBADO) {
+            throw new ReglaDominioException(
+                    "Solo se pueden reembolsar compras con pago aprobado"
+            );
+        }
+
+        if (motivo == null || motivo.isBlank()) {
+            throw new ReglaDominioException(
+                    "Debe indicar el motivo del reembolso"
+            );
+        }
+
+        if (!estadoPago.puedeTransicionarA(EstadoPago.REEMBOLSADO)) {
+            throw new ReglaDominioException(
+                    "No se puede realizar el reembolso"
+            );
+        }
+
+        this.estadoPago = EstadoPago.REEMBOLSADO;
+    }
+
+
+
     public EstadoPago consultarEstadoCompra(){
         return estadoPago;
     }

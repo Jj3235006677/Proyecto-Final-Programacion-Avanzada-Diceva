@@ -18,18 +18,33 @@ repositories {
 }
 
 dependencies {
+	// Spring Boot: persistencia y base de datos
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Validación de datos
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// API REST
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+
+	// Swagger: documentación y pruebas manuales de la API
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.0'
+
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// Base de datos MariaDB
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+	// Pruebas
 	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+
 	testCompileOnly 'org.projectlombok:lombok'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
