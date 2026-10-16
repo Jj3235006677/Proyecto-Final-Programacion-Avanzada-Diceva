@@ -1,9 +1,7 @@
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
 //Vamos bien
 
-import com.uniquindio.ecommerce.application.UseCase.ConfirmarCompraUseCase;
-import com.uniquindio.ecommerce.application.UseCase.RealizarCompraUseCase;
-import com.uniquindio.ecommerce.application.UseCase.RealizarRembolsoUseCase;
+import com.uniquindio.ecommerce.application.UseCase.*;
 import com.uniquindio.ecommerce.application.dto.request.RealizarCompraRequest;
 import com.uniquindio.ecommerce.application.dto.response.CompraResponse;
 
@@ -27,16 +25,19 @@ public class CompraController {
     private final RealizarCompraUseCase realizarCompraUseCase;
     private final ConfirmarCompraUseCase confirmarCompraUseCase;
     private final RealizarRembolsoUseCase realizarRembolsoUseCase;
+    private final AgregarJuegoUseCase agregarJuegoUseCase;
+    private final ConsultarCompraUseCase consultarCompraUseCase;
     private final CompraMapper mapper;
 
-    public CompraController(
-            RealizarCompraUseCase realizarCompraUseCase, ConfirmarCompraUseCase confirmarCompraUseCase,RealizarRembolsoUseCase realizarRembolsoUseCase, CompraMapper mapper) {
-
+    public CompraController(RealizarCompraUseCase realizarCompraUseCase, ConfirmarCompraUseCase confirmarCompraUseCase, RealizarRembolsoUseCase realizarRembolsoUseCase, AgregarJuegoUseCase agregarJuegoUseCase,ConsultarCompraUseCase consultarCompraUseCase, CompraMapper mapper) {
         this.realizarCompraUseCase = realizarCompraUseCase;
-        this.confirmarCompraUseCase=confirmarCompraUseCase;
-        this.realizarRembolsoUseCase=realizarRembolsoUseCase;
+        this.confirmarCompraUseCase = confirmarCompraUseCase;
+        this.realizarRembolsoUseCase = realizarRembolsoUseCase;
+        this.agregarJuegoUseCase = agregarJuegoUseCase;
+        this.consultarCompraUseCase = consultarCompraUseCase;
         this.mapper = mapper;
     }
+
     @PatchMapping("/{id}/confirmar")
     public ResponseEntity<Void> confirmarCompra(@PathVariable UUID id) {
 
@@ -45,6 +46,9 @@ public class CompraController {
         return ResponseEntity.noContent().build();
     }
 
+
+
+
     @PatchMapping("/{id}/reembolsar")
     public ResponseEntity<Void> reembolsarCompra(@PathVariable UUID id,String motivo) {
 
@@ -52,6 +56,30 @@ public class CompraController {
 
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<CompraResponse> obtenerCompra(@PathVariable UUID id) {
+
+        Compra compra = consultarCompraUseCase.ejecutar(id);
+
+        return ResponseEntity.ok(mapper.toResponse(compra));
+    }
+
+
+
+
+    @PatchMapping("/agregarJuego")
+    public ResponseEntity<Void> agregarJuego(
+            @RequestParam UUID idJuego,
+            @RequestParam int cantidad,
+            @RequestParam UUID idCompra) {
+
+        agregarJuegoUseCase.ejecutar(idJuego, cantidad, idCompra);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 
 
     @PostMapping
@@ -79,4 +107,5 @@ public class CompraController {
                 .created(location)
                 .body(response);
     }
+
 }

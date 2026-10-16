@@ -31,11 +31,7 @@ public class Compra {
 
             throw new ReglaDominioException("La compra debe tener toda la informacion obligatoria");
         }
-        if (idListaJuegosMesa == null || idListaJuegosMesa.isEmpty()) {//2 invariante una compra debe tener como minimo un juego
-            throw new ReglaDominioException(
-                    "La compra debe tener al menos un juego de mesa"
-            );
-        }
+
 
         this.id = id;
         this.idListaJuegosMesa = idListaJuegosMesa;
@@ -70,6 +66,30 @@ public class Compra {
         }
 
         this.estadoPago = EstadoPago.APROBADO;
+    }
+    public void agregarJuego(UUID idJuego, int cantidad) {
+
+        if (estadoPago != EstadoPago.PENDIENTE) {
+            throw new ReglaDominioException(
+                    "Solo se pueden agregar juegos a una compra pendiente"
+            );
+        }
+
+        if (idJuego == null) {
+            throw new ReglaDominioException(
+                    "El identificador del juego es obligatorio"
+            );
+        }
+
+        if (cantidad <= 0) {
+            throw new ReglaDominioException(
+                    "La cantidad debe ser mayor que cero"
+            );
+        }
+
+        for (int i = 0; i < cantidad; i++) {
+            idListaJuegosMesa.add(idJuego);
+        }
     }
 
     public void realizarReembolso(String motivo) {

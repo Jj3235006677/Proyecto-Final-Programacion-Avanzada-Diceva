@@ -100,6 +100,22 @@ public class JuegoMesa {
                 activo
         );
     }
+    public void descontarStock(int cantidad) {
+
+        if (cantidad <= 0) {
+            throw new ReglaDominioException(
+                    "La cantidad debe ser mayor que cero"
+            );
+        }
+
+        if (cantidad > stock) {
+            throw new ReglaDominioException(
+                    "No hay stock suficiente para cubrir el pedido"
+            );
+        }
+
+        stock -= cantidad;
+    }
 
     public UUID getId() {
         return id;

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public record RealizarCompraRequest(
 
-        @NotEmpty(message = "La compra debe tener al menos un juego de mesa")
+
         List<UUID> idListaJuegosMesa,
 
         @NotNull(message = "El usuario es obligatorio")
