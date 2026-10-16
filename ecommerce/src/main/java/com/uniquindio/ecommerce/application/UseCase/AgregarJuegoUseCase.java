@@ -18,10 +18,12 @@ public class AgregarJuegoUseCase {
     }
 
     public void ejecutar(UUID idJuego,int cantidad,UUID idCompra){
-       Compra compra=compraRepository.obtenerPorId(idCompra).orElseThrow();
-       compra.agregarJuego(idJuego,cantidad);
         JuegoMesa juegoMesa=juegoMesaRepository.obtenerPorId(idJuego).orElseThrow();
         juegoMesa.descontarStock(cantidad);
+
+        Compra compra=compraRepository.obtenerPorId(idCompra).orElseThrow();
+       compra.agregarJuego(idJuego,cantidad,juegoMesa.getPrecio().precioProducto());
+
 
         compraRepository.guardar(compra);
         juegoMesaRepository.guardar(juegoMesa);

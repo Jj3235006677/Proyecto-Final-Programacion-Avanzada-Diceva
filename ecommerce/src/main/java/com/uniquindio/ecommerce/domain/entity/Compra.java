@@ -13,9 +13,11 @@ public class Compra {
     private final UUID id;
     private final List<UUID> idListaJuegosMesa;
     private final UUID cedulaUsuario;
-    private final Precio precioTotal;
+    private  Precio precioTotal;
     private final LocalDateTime fechaCompra;
     private  EstadoPago estadoPago;
+
+
 
     private Compra(
             UUID id,
@@ -24,21 +26,19 @@ public class Compra {
             Precio precioTotal,
             LocalDateTime fechaCompra) {
 
-        if (id == null
-                || cedulaUsuario == null
-                || precioTotal == null
-                || fechaCompra == null) {
+        if (id == null || cedulaUsuario == null
+                || precioTotal == null || fechaCompra == null) {
 
-            throw new ReglaDominioException("La compra debe tener toda la informacion obligatoria");
+            throw new ReglaDominioException(
+                    "La compra debe tener toda la informacion obligatoria");
         }
-
 
         this.id = id;
         this.idListaJuegosMesa = idListaJuegosMesa;
         this.cedulaUsuario = cedulaUsuario;
         this.precioTotal = precioTotal;
         this.fechaCompra = fechaCompra;
-        this.estadoPago = EstadoPago.PENDIENTE;// 3 Invariante toda compra nueva inicia en estado PENDIENTE.
+        this.estadoPago = EstadoPago.PENDIENTE;
     }
 
     // Única puerta de entrada para crear una Compra.
@@ -56,6 +56,11 @@ public class Compra {
                 precioTotal,
                 fechaCompra
         );
+
+    }
+
+    public void sumarContidadesDinero(int valor){
+        precioTotal.sumar(valor);
     }
 
     public void confirmarCompra() {
@@ -67,7 +72,7 @@ public class Compra {
 
         this.estadoPago = EstadoPago.APROBADO;
     }
-    public void agregarJuego(UUID idJuego, int cantidad) {
+    public void agregarJuego(UUID idJuego, int cantidad,int valorSumar) {
 
         if (estadoPago != EstadoPago.PENDIENTE) {
             throw new ReglaDominioException(
@@ -90,6 +95,8 @@ public class Compra {
         for (int i = 0; i < cantidad; i++) {
             idListaJuegosMesa.add(idJuego);
         }
+
+        precioTotal = precioTotal.sumar(Math.multiplyExact(cantidad, valorSumar));
     }
 
     public void realizarReembolso(String motivo) {
