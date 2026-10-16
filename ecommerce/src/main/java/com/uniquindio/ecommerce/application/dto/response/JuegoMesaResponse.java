@@ -1,12 +1,14 @@
 package com.uniquindio.ecommerce.application.dto.response;
 
 import com.uniquindio.ecommerce.domain.valueobject.ComplejidadJuego;
+import com.uniquindio.ecommerce.domain.valueobject.EstadoJuego;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;
 
 import java.util.UUID;
 
 public record JuegoMesaResponse(
+        UUID cedulaProveedor,
         UUID id,
         String nombre,
         String descripcion,
@@ -18,6 +20,6 @@ public record JuegoMesaResponse(
         String tematicaDeJuego,
         int edadRecomendada,
         String imagenUrl,
-        boolean activo
+        EstadoJuego estado
 ) {
 }

@@ -9,6 +9,7 @@ public class JuegoMesaMapper {
 
     public JuegoMesaResponse toResponse(JuegoMesa juegoMesa) {
         return new JuegoMesaResponse(
+                juegoMesa.getCedulaProveedor(),
                 juegoMesa.getId(),
                 juegoMesa.getNombre(),
                 juegoMesa.getDescripcion(),
@@ -20,7 +21,7 @@ public class JuegoMesaMapper {
                 juegoMesa.getTematicaDeJuego(),
                 juegoMesa.getEdadRecomendada(),
                 juegoMesa.getImagenUrl(),
-                juegoMesa.isActivo()
+                juegoMesa.getEstado()
         );
     }
 }

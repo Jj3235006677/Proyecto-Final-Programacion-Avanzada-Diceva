@@ -1,13 +1,18 @@
 package com.uniquindio.ecommerce.application.dto.request;
 
 import com.uniquindio.ecommerce.domain.valueobject.ComplejidadJuego;
+import com.uniquindio.ecommerce.domain.valueobject.EstadoJuego;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 public record JuegoMesaRequest(
+        @NotBlank(message = "El nombre del juego es obligatorio")
+        UUID cedulaProveedor,
 
         @NotBlank(message = "El nombre del juego es obligatorio")
         String nombre,
@@ -39,7 +44,7 @@ public record JuegoMesaRequest(
         @NotBlank(message = "La URL de la imagen es obligatoria")
         String imagenUrl,
 
-        boolean activo
+        EstadoJuego estado
 
 ) {
 }

@@ -9,16 +9,16 @@ import java.util.UUID;
 public class Comentario {
     private final UUID idComentario;
     private UUID codigoJuegoMesa;
-    private UUID usuarioId;
+    private UUID cedula;
     private String titulo;
     private Calificacion calificacion;
     private String comentario;
 
 
     private Comentario(UUID idComentario, UUID codigoJuegoMesa,
-                       UUID usuarioId, String titulo, Calificacion calificacion, String comentario) {
+                       UUID cedula, String titulo, Calificacion calificacion, String comentario) {
         
-        if (idComentario==null || codigoJuegoMesa==null || usuarioId==null){
+        if (idComentario==null || codigoJuegoMesa==null || cedula ==null){
             throw new ReglaDominioException("no se pueden dejar campos vacios ");
         }
         if (calificacion == null) {
@@ -34,7 +34,7 @@ public class Comentario {
         }
         this.idComentario = idComentario;
         this.codigoJuegoMesa = codigoJuegoMesa;
-        this.usuarioId = usuarioId;
+        this.cedula = cedula;
         this.titulo = titulo;
         this.calificacion = calificacion;
         this.comentario = comentario;

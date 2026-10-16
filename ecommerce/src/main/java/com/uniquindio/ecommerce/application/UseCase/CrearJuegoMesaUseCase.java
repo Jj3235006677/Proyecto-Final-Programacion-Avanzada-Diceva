@@ -3,6 +3,7 @@ package com.uniquindio.ecommerce.application.UseCase;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
 import com.uniquindio.ecommerce.domain.valueobject.ComplejidadJuego;
+import com.uniquindio.ecommerce.domain.valueobject.EstadoJuego;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,12 @@ public class CrearJuegoMesaUseCase {
         this.repository=repository;
     }
 
-    public JuegoMesa ejecutar(UUID id, String nombre, String descripcion, Precio precio,
+    public JuegoMesa ejecutar(UUID cedulaProveedor,UUID id, String nombre, String descripcion, Precio precio,
                               int stock, RangoJugadores rangoJugadores, ComplejidadJuego complejidad,
                               String mecanicaDeJuego, String tematicaDeJuego, int edadRecomendada,
-                              String imagenUrl, boolean activo){
+                              String imagenUrl, EstadoJuego estado){
 
-        JuegoMesa juegoMesa=JuegoMesa.crear(id,nombre,descripcion,precio,stock,rangoJugadores,complejidad,mecanicaDeJuego,tematicaDeJuego,edadRecomendada,imagenUrl,activo);
+        JuegoMesa juegoMesa=JuegoMesa.crear( cedulaProveedor,id,nombre,descripcion,precio,stock,rangoJugadores,complejidad,mecanicaDeJuego,tematicaDeJuego,edadRecomendada,imagenUrl,estado);
         repository.guardar(juegoMesa);
         return juegoMesa;
     }

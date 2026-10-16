@@ -2,15 +2,16 @@ package com.uniquindio.ecommerce.domain.entity;
 
 import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
 import com.uniquindio.ecommerce.domain.valueobject.ComplejidadJuego;
+import com.uniquindio.ecommerce.domain.valueobject.EstadoJuego;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;
 
 import java.util.UUID;
-
+//tengo que agregar el provedor y los enums
 public class JuegoMesa {
 
     private final UUID id;
-
+    private final UUID cedulaProveedor;
     private String nombre;
     private String descripcion;
     private Precio precio;
@@ -21,9 +22,10 @@ public class JuegoMesa {
     private String tematicaDeJuego;
     private int edadRecomendada;
     private String imagenUrl;
-    private boolean activo;//enum preventa disponible agotado enpreveta
+    private EstadoJuego estado;//enum preventa disponible agotado enpreveta
 
     private JuegoMesa(
+            UUID cedulaProveedor,
             UUID id,
             String nombre,
             String descripcion,
@@ -35,7 +37,7 @@ public class JuegoMesa {
             String tematicaDeJuego,
             int edadRecomendada,
             String imagenUrl,
-            boolean activo) {
+            EstadoJuego estado) {
         if (stock<0){
             throw new ReglaDominioException("El stock no puede ser negativo");//invariante Uno el stock no puede ser negativo
         }
@@ -68,10 +70,12 @@ public class JuegoMesa {
         this.tematicaDeJuego = tematicaDeJuego;
         this.edadRecomendada = edadRecomendada;
         this.imagenUrl = imagenUrl;
-        this.activo = activo;
+        this.estado = estado;
+        this.cedulaProveedor=cedulaProveedor;
     }
 
     public static JuegoMesa crear(
+            UUID cedulaProveedor,
             UUID id,
             String nombre,
             String descripcion,
@@ -83,9 +87,10 @@ public class JuegoMesa {
             String tematicaDeJuego,
             int edadRecomendada,
             String imagenUrl,
-            boolean activo) {
+            EstadoJuego estado) {
 
         return new JuegoMesa(
+                cedulaProveedor,
                 id,
                 nombre,
                 descripcion,
@@ -97,7 +102,7 @@ public class JuegoMesa {
                 tematicaDeJuego,
                 edadRecomendada,
                 imagenUrl,
-                activo
+                estado
         );
     }
     public void descontarStock(int cantidad) {
@@ -165,8 +170,12 @@ public class JuegoMesa {
         return imagenUrl;
     }
 
-    public boolean isActivo() {
-        return activo;
+    public EstadoJuego getEstado() {
+        return estado;
+    }
+
+    public UUID getCedulaProveedor() {
+        return cedulaProveedor;
     }
 
     @Override

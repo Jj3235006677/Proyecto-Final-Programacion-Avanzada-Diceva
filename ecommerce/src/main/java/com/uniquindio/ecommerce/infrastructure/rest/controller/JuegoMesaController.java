@@ -45,7 +45,7 @@ public class JuegoMesaController {
     @PostMapping
     public ResponseEntity<JuegoMesaResponse> crear(@Valid @RequestBody JuegoMesaRequest juegoMesaRequest) {
         UUID id=UUID.randomUUID();
-        JuegoMesa juegoMesa=crearJuegoMesaUseCase.ejecutar(id, juegoMesaRequest.nombre(), juegoMesaRequest.descripcion(), juegoMesaRequest.precio(), juegoMesaRequest.stock(),juegoMesaRequest.rangoJugadores(),juegoMesaRequest.complejidad(), juegoMesaRequest.mecanicaDeJuego(), juegoMesaRequest.tematicaDeJuego(), juegoMesaRequest.edadRecomendada(),juegoMesaRequest.imagenUrl(),juegoMesaRequest.activo());
+        JuegoMesa juegoMesa=crearJuegoMesaUseCase.ejecutar(juegoMesaRequest.cedulaProveedor(),id, juegoMesaRequest.nombre(), juegoMesaRequest.descripcion(), juegoMesaRequest.precio(), juegoMesaRequest.stock(),juegoMesaRequest.rangoJugadores(),juegoMesaRequest.complejidad(), juegoMesaRequest.mecanicaDeJuego(), juegoMesaRequest.tematicaDeJuego(), juegoMesaRequest.edadRecomendada(),juegoMesaRequest.imagenUrl(),juegoMesaRequest.estado());
         JuegoMesaResponse response=juegoMesaMapper.toResponse(juegoMesa);
 
         URI location = ServletUriComponentsBuilder
