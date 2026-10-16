@@ -5,9 +5,10 @@ import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
 import com.uniquindio.ecommerce.domain.valueobject.ComplejidadJuego;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-
+@Service
 public class CrearJuegoMesaUseCase {
 
     private final JuegoMesaRepository repository;

@@ -109,6 +109,50 @@ public class JuegoMesa {
         return stock;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public Precio getPrecio() {
+        return precio;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public RangoJugadores getRangoJugadores() {
+        return rangoJugadores;
+    }
+
+    public ComplejidadJuego getComplejidad() {
+        return complejidad;
+    }
+
+    public String getMecanicaDeJuego() {
+        return mecanicaDeJuego;
+    }
+
+    public String getTematicaDeJuego() {
+        return tematicaDeJuego;
+    }
+
+    public int getEdadRecomendada() {
+        return edadRecomendada;
+    }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

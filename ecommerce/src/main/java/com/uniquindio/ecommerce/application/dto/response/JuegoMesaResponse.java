@@ -7,7 +7,6 @@ import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;
 import java.util.UUID;
 
 public record JuegoMesaResponse(
-
         UUID id,
         String nombre,
         String descripcion,
@@ -20,6 +19,5 @@ public record JuegoMesaResponse(
         int edadRecomendada,
         String imagenUrl,
         boolean activo
-
 ) {
 }

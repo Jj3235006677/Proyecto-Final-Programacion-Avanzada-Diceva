@@ -3,12 +3,13 @@ package com.uniquindio.ecommerce.infrastructure;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
+@Repository
 public class JuegoMesaRepositorioMemoria implements JuegoMesaRepository {
 
     private final Map<UUID, JuegoMesa> juegosMesa=new HashMap<>();
