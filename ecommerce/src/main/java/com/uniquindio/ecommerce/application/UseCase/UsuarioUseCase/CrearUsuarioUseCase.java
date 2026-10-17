@@ -16,7 +16,7 @@ public class CrearUsuarioUseCase {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void ejecutar(UUID cedula, String nombre, String apellido,
+    public Usuario ejecutar(UUID cedula, String nombre, String apellido,
                          String correo, String contraseña,
                          TipoUsuario tipoUsuario){
 
@@ -29,6 +29,7 @@ public class CrearUsuarioUseCase {
 
         Usuario usuario=Usuario.crear(cedula,nombre,apellido,correo,contraseña,tipoUsuario);
         usuarioRepository.guardar(usuario);
+        return usuario;
 
     }
 }

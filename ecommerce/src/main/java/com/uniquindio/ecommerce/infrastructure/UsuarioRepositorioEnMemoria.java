@@ -1,17 +1,18 @@
 package com.uniquindio.ecommerce.infrastructure;
 
-import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.entity.Usuario;
 import com.uniquindio.ecommerce.domain.repository.UsuarioRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@Repository
 public class UsuarioRepositorioEnMemoria implements UsuarioRepository {
 
-    private final Map<UUID, Usuario> usuarios=new HashMap<>();
+    private final Map<UUID, Usuario> usuarios = new HashMap<>();
 
     @Override
     public Optional<Usuario> obtenerPorCorreo(String correo) {
@@ -28,6 +29,6 @@ public class UsuarioRepositorioEnMemoria implements UsuarioRepository {
 
     @Override
     public void guardar(Usuario usuario) {
-        usuarios.put(usuario.getCedula(),usuario);
+        usuarios.put(usuario.getCedula(), usuario);
     }
 }
