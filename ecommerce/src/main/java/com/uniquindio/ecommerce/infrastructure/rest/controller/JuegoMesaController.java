@@ -1,14 +1,10 @@
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
 
-import com.uniquindio.ecommerce.application.UseCase.AgregarJuegoUseCase;
-import com.uniquindio.ecommerce.application.UseCase.ConsultarJuegoMesaUseCase;
-import com.uniquindio.ecommerce.application.UseCase.CrearJuegoMesaUseCase;
+import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.ConsultarJuegoMesaUseCase;
+import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.CrearJuegoMesaUseCase;
 import com.uniquindio.ecommerce.application.dto.request.JuegoMesaRequest;
-import com.uniquindio.ecommerce.application.dto.request.RealizarCompraRequest;
-import com.uniquindio.ecommerce.application.dto.response.CompraResponse;
 import com.uniquindio.ecommerce.application.dto.response.JuegoMesaResponse;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
-import com.uniquindio.ecommerce.infrastructure.rest.mapper.CompraMapper;
 import com.uniquindio.ecommerce.infrastructure.rest.mapper.JuegoMesaMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

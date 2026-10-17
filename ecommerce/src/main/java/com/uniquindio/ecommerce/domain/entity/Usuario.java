@@ -8,11 +8,11 @@ import java.util.UUID;
 public class Usuario {
 
     private final UUID cedula;
-    private String nombre;
-    private String apellido;
-    private String correo;
-    private String contraseña;
-    private TipoUsuario tipoUsuario;
+    private final String nombre;
+    private final String apellido;
+    private final String correo;
+    private final String contraseña;
+    private final TipoUsuario tipoUsuario;
 
     private Usuario(UUID cedula, String nombre, String apellido,
                     String correo, String contraseña, TipoUsuario tipoUsuario) {
@@ -58,6 +58,26 @@ public class Usuario {
 
     public UUID getCedula() {
         return cedula;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
     }
 
     @Override

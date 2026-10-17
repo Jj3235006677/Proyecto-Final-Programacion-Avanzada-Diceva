@@ -1,4 +1,4 @@
-package com.uniquindio.ecommerce.application.UseCase;
+package com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase;
 
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;

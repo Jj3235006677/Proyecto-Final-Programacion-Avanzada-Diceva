@@ -1,7 +1,7 @@
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
 //Vamos bien
 
-import com.uniquindio.ecommerce.application.UseCase.*;
+import com.uniquindio.ecommerce.application.UseCase.CompraUseCase.*;
 import com.uniquindio.ecommerce.application.dto.request.RealizarCompraRequest;
 import com.uniquindio.ecommerce.application.dto.response.CompraResponse;
 
@@ -22,15 +22,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping("/api/compras")
 public class CompraController {
 
-    private final RealizarCompraUseCase realizarCompraUseCase;
+    private final CrearCompraUseCase crearCompraUseCase;
     private final ConfirmarCompraUseCase confirmarCompraUseCase;
     private final RealizarRembolsoUseCase realizarRembolsoUseCase;
     private final AgregarJuegoUseCase agregarJuegoUseCase;
     private final ConsultarCompraUseCase consultarCompraUseCase;
     private final CompraMapper mapper;
 
-    public CompraController(RealizarCompraUseCase realizarCompraUseCase, ConfirmarCompraUseCase confirmarCompraUseCase, RealizarRembolsoUseCase realizarRembolsoUseCase, AgregarJuegoUseCase agregarJuegoUseCase,ConsultarCompraUseCase consultarCompraUseCase, CompraMapper mapper) {
-        this.realizarCompraUseCase = realizarCompraUseCase;
+    public CompraController(CrearCompraUseCase crearCompraUseCase, ConfirmarCompraUseCase confirmarCompraUseCase, RealizarRembolsoUseCase realizarRembolsoUseCase, AgregarJuegoUseCase agregarJuegoUseCase, ConsultarCompraUseCase consultarCompraUseCase, CompraMapper mapper) {
+        this.crearCompraUseCase = crearCompraUseCase;
         this.confirmarCompraUseCase = confirmarCompraUseCase;
         this.realizarRembolsoUseCase = realizarRembolsoUseCase;
         this.agregarJuegoUseCase = agregarJuegoUseCase;
@@ -84,7 +84,7 @@ public class CompraController {
 
         UUID id = UUID.randomUUID();
 
-        Compra compra = realizarCompraUseCase.ejecutar(
+        Compra compra = crearCompraUseCase.ejecutar(
                 id,
                 request.idListaJuegosMesa(),
                 request.cedulaUsuario(),

@@ -1,7 +1,7 @@
 package com.uniquindio.ecommerce.infrastructura.rest;
 
-import com.uniquindio.ecommerce.application.UseCase.ConfirmarCompraUseCase;
-import com.uniquindio.ecommerce.application.UseCase.RealizarCompraUseCase;
+import com.uniquindio.ecommerce.application.UseCase.CompraUseCase.ConfirmarCompraUseCase;
+import com.uniquindio.ecommerce.application.UseCase.CompraUseCase.CrearCompraUseCase;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.infrastructure.rest.controller.CompraController;
@@ -32,7 +32,7 @@ class CompraControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private RealizarCompraUseCase realizarCompraUseCase;
+    private CrearCompraUseCase crearCompraUseCase;
 
     @MockitoBean
     private ConfirmarCompraUseCase confirmarCompraUseCase;
@@ -66,7 +66,7 @@ class CompraControllerTest {
         );
 
         // Configurar el comportamiento del caso de uso
-        when(realizarCompraUseCase.ejecutar(any(), any(), any(), any(),any()))
+        when(crearCompraUseCase.ejecutar(any(), any(), any(), any(),any()))
                 .thenReturn(compraSimulada);
 
 // ACT y ASSERT

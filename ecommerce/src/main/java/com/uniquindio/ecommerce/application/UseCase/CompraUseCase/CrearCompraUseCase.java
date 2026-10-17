@@ -1,19 +1,18 @@
-package com.uniquindio.ecommerce.application.UseCase;
+package com.uniquindio.ecommerce.application.UseCase.CompraUseCase;
 import org.springframework.stereotype.Component;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.repository.CompraRepository;
-import com.uniquindio.ecommerce.domain.valueobject.Precio;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 @Component
 
-public class RealizarCompraUseCase {
+public class CrearCompraUseCase {
 
     private final CompraRepository repository;// se pone en cada ccso de uso
 
-    public RealizarCompraUseCase(CompraRepository repository){// se el llama al constructor
+    public CrearCompraUseCase(CompraRepository repository){// se el llama al constructor
         this.repository=repository;
     }
 
