@@ -28,4 +28,5 @@ public record UsuarioRequest(
         @NotNull(message = "El tipo de usuario es obligatorio")
         TipoUsuario tipoUsuario
 ) {
+
 }
