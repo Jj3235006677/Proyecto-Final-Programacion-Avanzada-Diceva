@@ -8,8 +8,8 @@ import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;
 import java.util.UUID;
 
 public record JuegoMesaResponse(
-        UUID cedulaProveedor,
         UUID id,
+        UUID cedulaProveedor,
         String nombre,
         String descripcion,
         Precio precio,

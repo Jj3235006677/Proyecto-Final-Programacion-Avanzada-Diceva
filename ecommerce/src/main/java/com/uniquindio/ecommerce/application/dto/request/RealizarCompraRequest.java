@@ -13,10 +13,7 @@ public record RealizarCompraRequest(
         List<UUID> idListaJuegosMesa,
 
         @NotNull(message = "El usuario es obligatorio")
-        UUID cedulaUsuario,
-
-        @NotNull(message = "El precio total es obligatorio")
-        Precio precioTotal
+        UUID cedulaUsuario
 
 ) {
 }

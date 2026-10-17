@@ -68,10 +68,7 @@ public class CompraController {
 
 
     @PatchMapping("/agregarJuego")
-    public ResponseEntity<Void> agregarJuego(
-            @RequestParam UUID idJuego,
-            @RequestParam int cantidad,
-            @RequestParam UUID idCompra) {
+    public ResponseEntity<Void> agregarJuego(@RequestParam UUID idJuego, @RequestParam int cantidad, @RequestParam UUID idCompra) {
 
         agregarJuegoUseCase.ejecutar(idJuego, cantidad, idCompra);
 
@@ -91,7 +88,6 @@ public class CompraController {
                 id,
                 request.idListaJuegosMesa(),
                 request.cedulaUsuario(),
-                request.precioTotal(),
                 LocalDateTime.now()
         );
 

@@ -9,8 +9,8 @@ public class JuegoMesaMapper {
 
     public JuegoMesaResponse toResponse(JuegoMesa juegoMesa) {
         return new JuegoMesaResponse(
-                juegoMesa.getCedulaProveedor(),
                 juegoMesa.getId(),
+                juegoMesa.getCedulaProveedor(),
                 juegoMesa.getNombre(),
                 juegoMesa.getDescripcion(),
                 juegoMesa.getPrecio(),

@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public record JuegoMesaRequest(
-        @NotBlank(message = "El nombre del juego es obligatorio")
+        @NotNull(message = "La cédula del proveedor es obligatoria")
         UUID cedulaProveedor,
 
         @NotBlank(message = "El nombre del juego es obligatorio")

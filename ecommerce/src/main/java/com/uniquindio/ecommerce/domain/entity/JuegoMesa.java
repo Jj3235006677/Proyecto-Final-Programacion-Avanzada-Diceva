@@ -121,6 +121,20 @@ public class JuegoMesa {
 
         stock -= cantidad;
     }
+    public void devolverStock(int cantidad) {
+
+        if (cantidad <= 0) {
+            throw new ReglaDominioException(
+                    "La cantidad a devolver debe ser mayor que cero"
+            );
+        }
+
+        stock += cantidad;
+
+        if (stock > 0 && estado == EstadoJuego.AGOTADO) {
+            estado = EstadoJuego.DISPONIBLE;
+        }
+    }
 
     public UUID getId() {
         return id;

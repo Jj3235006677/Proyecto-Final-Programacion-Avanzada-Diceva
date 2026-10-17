@@ -13,7 +13,7 @@ public class Compra {
     private final UUID id;
     private final List<UUID> idListaJuegosMesa;
     private final UUID cedulaUsuario;
-    private  Precio precioTotal;
+    private  Precio precioTotal=new Precio(0);
     private final LocalDateTime fechaCompra;
     private  EstadoPago estadoPago;
 
@@ -23,7 +23,6 @@ public class Compra {
             UUID id,
             List<UUID> idListaJuegosMesa,
             UUID cedulaUsuario,
-            Precio precioTotal,
             LocalDateTime fechaCompra) {
 
         if (id == null || cedulaUsuario == null
@@ -36,7 +35,7 @@ public class Compra {
         this.id = id;
         this.idListaJuegosMesa = idListaJuegosMesa;
         this.cedulaUsuario = cedulaUsuario;
-        this.precioTotal = precioTotal;
+
         this.fechaCompra = fechaCompra;
         this.estadoPago = EstadoPago.PENDIENTE;
     }
@@ -46,14 +45,12 @@ public class Compra {
             UUID id,
             List<UUID> idListaJuegosMesa,
             UUID cedulaUsuario,
-            Precio precioTotal,
             LocalDateTime fechaCompra) {
 
         return new Compra(
                 id,
                 idListaJuegosMesa,
                 cedulaUsuario,
-                precioTotal,
                 fechaCompra
         );
 

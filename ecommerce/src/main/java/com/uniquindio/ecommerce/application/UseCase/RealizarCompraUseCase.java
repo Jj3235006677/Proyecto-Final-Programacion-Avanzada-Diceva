@@ -17,10 +17,10 @@ public class RealizarCompraUseCase {
         this.repository=repository;
     }
 
-    public Compra ejecutar(UUID id, List<UUID> idListaJuegosMesa, UUID cedula, Precio precio, LocalDateTime fechaCompra) {//se ingresan lo atributos del objeto(esta caso compra)
+    public Compra ejecutar(UUID id, List<UUID> idListaJuegosMesa, UUID cedula,  LocalDateTime fechaCompra) {//se ingresan lo atributos del objeto(esta caso compra)
         //ese ejecutar crea ya el objeto
 
-        Compra compra = Compra.realizarCompra(id, idListaJuegosMesa, cedula, precio, fechaCompra);
+        Compra compra = Compra.realizarCompra(id, idListaJuegosMesa, cedula,  fechaCompra);
 
         // AQUÍ SE GUARDA
         repository.guardar(compra);
