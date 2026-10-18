@@ -2,7 +2,6 @@ package com.uniquindio.ecommerce.domain.entity;
 
 import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
 import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
-import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -13,56 +12,72 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CompraTestS {
-    //Aqui van estar la pruebas para el agregado de juegoMesa
+
     @Test
-    public void Validar_Todos_Campos_Llenos(){//Todos los campos de la compra tienen que estar llenos
+    public void Validar_Todos_Campos_Llenos() {
 
-
-        assertThrows(ReglaDominioException.class,()->{
-            Compra compra = Compra.realizarCompra(
+        assertThrows(ReglaDominioException.class, () -> {
+            Compra.realizarCompra(
                     UUID.randomUUID(),
                     List.of(UUID.randomUUID()),
-                    UUID.randomUUID(),
                     null,
                     LocalDateTime.now()
             );
         });
-
-
     }
 
     @Test
-    public void Una_Compra_Debe_Tener_Minimo_Un_Juego(){//La compra debe tener minimo un juego agregado
-        assertThrows(ReglaDominioException.class,()->{
-            Compra compra = Compra.realizarCompra(
+    public void Una_Compra_Debe_Tener_Minimo_Un_Juego() {
+
+        assertThrows(ReglaDominioException.class, () -> {
+            Compra.realizarCompra(
                     UUID.randomUUID(),
                     null,
                     UUID.randomUUID(),
-                    new Precio(50000),
                     LocalDateTime.now()
             );
         });
-
-
-
     }
 
     @Test
-    public void Una_Compra_Siempre_Inicia_En_Pendiente(){//una compra siempre debe de iniciar en estado de pendiente
+    public void Una_Compra_No_Debe_Tener_Una_Lista_Vacia() {
 
-            Compra compra = Compra.realizarCompra(
+        assertThrows(ReglaDominioException.class, () -> {
+            Compra.realizarCompra(
+                    UUID.randomUUID(),
+                    List.of(),
+                    UUID.randomUUID(),
+                    LocalDateTime.now()
+            );
+        });
+    }
+
+    @Test
+    public void Una_Compra_No_Debe_Tener_Fecha_Nula() {
+
+        assertThrows(ReglaDominioException.class, () -> {
+            Compra.realizarCompra(
                     UUID.randomUUID(),
                     List.of(UUID.randomUUID()),
                     UUID.randomUUID(),
-                    new Precio(50000),
-                    LocalDateTime.now()
+                    null
             );
-
-            assertEquals(EstadoPago.PENDIENTE,compra.consultarEstadoCompra());
-
-
-
-
+        });
     }
 
+    @Test
+    public void Una_Compra_Siempre_Inicia_En_Pendiente() {
+
+        Compra compra = Compra.realizarCompra(
+                UUID.randomUUID(),
+                List.of(UUID.randomUUID()),
+                UUID.randomUUID(),
+                LocalDateTime.now()
+        );
+
+        assertEquals(
+                EstadoPago.PENDIENTE,
+                compra.consultarEstadoCompra()
+        );
+    }
 }

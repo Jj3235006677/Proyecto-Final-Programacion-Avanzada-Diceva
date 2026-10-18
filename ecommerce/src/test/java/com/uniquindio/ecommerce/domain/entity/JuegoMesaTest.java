@@ -10,78 +10,71 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
-
-
 public class JuegoMesaTest {
 
-    //Aqui estan las pruebas del agregado JuegoMesa
     @Test
-    public void Estock_No_Puede_Ser_Negativo(){//Aqui se valida que el estock no pueda ser negativo
+    public void El_Stock_No_Puede_Ser_Negativo() {
 
-        assertThrows(ReglaDominioException.class,()->{
-            JuegoMesa juego = JuegoMesa.crear(
+        assertThrows(ReglaDominioException.class, () -> {
+            JuegoMesa.crear(
+                    UUID.randomUUID(),
                     UUID.randomUUID(),
                     "Catan",
                     "Juego de estrategia y comercio",
                     new Precio(120000),
                     -2,
-                    new RangoJugadores(4, 3),
+                    new RangoJugadores(3, 4),
                     ComplejidadJuego.BASICA,
                     "Construcción",
                     "Aventura",
                     10,
                     "https://imagen.com/catan.jpg",
-                    true
+                    null
             );
         });
-
-
     }
 
     @Test
-    public void La_Edad_Recomendada_No_Menor_A_Cero(){
+    public void La_Edad_Recomendada_No_Puede_Ser_Menor_A_Cero() {
 
-        assertThrows(ReglaDominioException.class,()->{//Aqui validamos que la edad ingresada no pueda ser menor a cero
-            JuegoMesa juego = JuegoMesa.crear(
+        assertThrows(ReglaDominioException.class, () -> {
+            JuegoMesa.crear(
+                    UUID.randomUUID(),
                     UUID.randomUUID(),
                     "Catan",
                     "Juego de estrategia y comercio",
                     new Precio(120000),
                     2,
-                    new RangoJugadores(4, 3),
+                    new RangoJugadores(3, 4),
                     ComplejidadJuego.BASICA,
                     "Construcción",
                     "Aventura",
                     -8,
                     "https://imagen.com/catan.jpg",
-                    true
+                    null
             );
         });
-
-
     }
 
     @Test
-    public void Todos_Campos_Llenos(){
+    public void La_Tematica_No_Puede_Estar_Vacia() {
 
-        assertThrows(ReglaDominioException.class,()->{//Aqui validamos que todos los campos esten llenos
-            JuegoMesa juego = JuegoMesa.crear(
+        assertThrows(ReglaDominioException.class, () -> {
+            JuegoMesa.crear(
+                    UUID.randomUUID(),
                     UUID.randomUUID(),
                     "Catan",
                     "Juego de estrategia y comercio",
                     new Precio(120000),
                     2,
-                    new RangoJugadores(4, 3),
+                    new RangoJugadores(3, 4),
                     ComplejidadJuego.BASICA,
                     "Construcción",
                     "",
                     8,
                     "https://imagen.com/catan.jpg",
-                    true
+                    null
             );
         });
-
-
     }
 }

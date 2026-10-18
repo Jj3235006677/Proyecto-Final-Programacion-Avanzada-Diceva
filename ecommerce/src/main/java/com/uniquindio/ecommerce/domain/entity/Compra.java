@@ -5,6 +5,7 @@ import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,11 +14,9 @@ public class Compra {
     private final UUID id;
     private final List<UUID> idListaJuegosMesa;
     private final UUID cedulaUsuario;
-    private  Precio precioTotal=new Precio(0);
+    private Precio precioTotal;
     private final LocalDateTime fechaCompra;
-    private  EstadoPago estadoPago;
-
-
+    private EstadoPago estadoPago;
 
     private Compra(
             UUID id,
@@ -25,22 +24,51 @@ public class Compra {
             UUID cedulaUsuario,
             LocalDateTime fechaCompra) {
 
-        if (id == null || cedulaUsuario == null
-                || precioTotal == null || fechaCompra == null) {
-
+        // Validar el identificador de la compra
+        if (id == null) {
             throw new ReglaDominioException(
-                    "La compra debe tener toda la informacion obligatoria");
+                    "El identificador de la compra es obligatorio"
+            );
+        }
+
+        // Validar que la lista exista y contenga al menos un juego
+        if (idListaJuegosMesa == null || idListaJuegosMesa.isEmpty()) {
+            throw new ReglaDominioException(
+                    "La compra debe tener al menos un juego"
+            );
+        }
+
+        // Validar que ningún identificador de juego sea nulo
+        for (UUID idJuego : idListaJuegosMesa) {
+            if (idJuego == null) {
+                throw new ReglaDominioException(
+                        "La lista no puede contener identificadores de juegos nulos"
+                );
+            }
+        }
+
+        // Validar el usuario
+        if (cedulaUsuario == null) {
+            throw new ReglaDominioException(
+                    "El identificador del usuario es obligatorio"
+            );
+        }
+
+        // Validar la fecha
+        if (fechaCompra == null) {
+            throw new ReglaDominioException(
+                    "La fecha de compra es obligatoria"
+            );
         }
 
         this.id = id;
-        this.idListaJuegosMesa = idListaJuegosMesa;
+        this.idListaJuegosMesa = new ArrayList<>(idListaJuegosMesa);
         this.cedulaUsuario = cedulaUsuario;
-
         this.fechaCompra = fechaCompra;
+        this.precioTotal = new Precio(0);
         this.estadoPago = EstadoPago.PENDIENTE;
     }
 
-    // Única puerta de entrada para crear una Compra.
     public static Compra realizarCompra(
             UUID id,
             List<UUID> idListaJuegosMesa,
@@ -53,14 +81,21 @@ public class Compra {
                 cedulaUsuario,
                 fechaCompra
         );
-
     }
 
-    public void sumarContidadesDinero(int valor){
-        precioTotal.sumar(valor);
+    public void sumarContidadesDinero(int valor) {
+
+        if (valor < 0) {
+            throw new ReglaDominioException(
+                    "El valor que se suma no puede ser negativo"
+            );
+        }
+
+        precioTotal = precioTotal.sumar(valor);
     }
 
     public void confirmarCompra() {
+
         if (!estadoPago.puedeTransicionarA(EstadoPago.APROBADO)) {
             throw new ReglaDominioException(
                     "No se puede confirmar la compra porque su pago no está pendiente"
@@ -69,7 +104,8 @@ public class Compra {
 
         this.estadoPago = EstadoPago.APROBADO;
     }
-    public void agregarJuego(UUID idJuego, int cantidad,int valorSumar) {
+
+    public void agregarJuego(UUID idJuego, int cantidad, int valorSumar) {
 
         if (estadoPago != EstadoPago.PENDIENTE) {
             throw new ReglaDominioException(
@@ -89,11 +125,27 @@ public class Compra {
             );
         }
 
+        if (valorSumar < 0) {
+            throw new ReglaDominioException(
+                    "El valor del juego no puede ser negativo"
+            );
+        }
+
+        int valorTotal;
+
+        try {
+            valorTotal = Math.multiplyExact(cantidad, valorSumar);
+        } catch (ArithmeticException e) {
+            throw new ReglaDominioException(
+                    "El valor total de los juegos excede el límite permitido"
+            );
+        }
+
+        precioTotal = precioTotal.sumar(valorTotal);
+
         for (int i = 0; i < cantidad; i++) {
             idListaJuegosMesa.add(idJuego);
         }
-
-        precioTotal = precioTotal.sumar(Math.multiplyExact(cantidad, valorSumar));
     }
 
     public void realizarReembolso(String motivo) {
@@ -119,9 +171,7 @@ public class Compra {
         this.estadoPago = EstadoPago.REEMBOLSADO;
     }
 
-
-
-    public EstadoPago consultarEstadoCompra(){
+    public EstadoPago consultarEstadoCompra() {
         return estadoPago;
     }
 
@@ -130,7 +180,7 @@ public class Compra {
     }
 
     public List<UUID> getIdListaJuegosMesa() {
-        return idListaJuegosMesa;
+        return List.copyOf(idListaJuegosMesa);
     }
 
     public UUID getCedulaUsuario() {
@@ -147,9 +197,14 @@ public class Compra {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
 
-        if (!(o instanceof Compra)) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Compra)) {
+            return false;
+        }
 
         Compra compra = (Compra) o;
 
@@ -159,4 +214,5 @@ public class Compra {
     @Override
     public int hashCode() {
         return id.hashCode();
-    }}
+    }
+}
