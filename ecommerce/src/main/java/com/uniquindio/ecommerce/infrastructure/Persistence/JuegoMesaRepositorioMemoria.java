@@ -1,6 +1,5 @@
-package com.uniquindio.ecommerce.infrastructure;
+package com.uniquindio.ecommerce.infrastructure.Persistence;
 
-import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,6 +12,11 @@ import java.util.UUID;
 public class JuegoMesaRepositorioMemoria implements JuegoMesaRepository {
 
     private final Map<UUID, JuegoMesa> juegosMesa=new HashMap<>();
+
+
+
+
+
 
 
     @Override
