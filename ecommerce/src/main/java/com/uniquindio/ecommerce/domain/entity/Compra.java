@@ -54,6 +54,7 @@ public class Compra {
             );
         }
 
+
         // Validar la fecha
         if (fechaCompra == null) {
             throw new ReglaDominioException(
