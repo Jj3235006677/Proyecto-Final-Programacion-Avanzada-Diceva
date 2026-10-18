@@ -23,6 +23,7 @@ public class CompraTestS {
                     null,
                     LocalDateTime.now()
             );
+
         });
     }
 
