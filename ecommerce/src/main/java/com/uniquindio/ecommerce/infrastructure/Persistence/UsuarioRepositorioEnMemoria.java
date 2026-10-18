@@ -1,4 +1,4 @@
-package com.uniquindio.ecommerce.infrastructure;
+package com.uniquindio.ecommerce.infrastructure.Persistence;
 
 import com.uniquindio.ecommerce.domain.entity.Usuario;
 import com.uniquindio.ecommerce.domain.repository.UsuarioRepository;
