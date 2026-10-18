@@ -9,6 +9,7 @@ public record UsuarioResponse(
         String nombre,
         String apellido,
         String correo,
-        TipoUsuario tipoUsuario
+        TipoUsuario tipoUsuario,
+        String contrseaña
 ) {
 }

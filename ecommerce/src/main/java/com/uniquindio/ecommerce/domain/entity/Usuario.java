@@ -55,6 +55,14 @@ public class Usuario {
                 tipoUsuario
         );
     }
+    public boolean validarCredenciales(String correoValidar, String contraseñaValidar) {
+
+        if (correo.equals(correoValidar) && contraseña.equals(contraseñaValidar)) {
+            return true;
+        }
+
+        throw new ReglaDominioException("Las credenciales no concuerdan");
+    }
 
     public UUID getCedula() {
         return cedula;
