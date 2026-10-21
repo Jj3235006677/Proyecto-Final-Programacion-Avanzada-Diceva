@@ -1,4 +1,4 @@
-package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.mapper;
+package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.Mapper;
 
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;

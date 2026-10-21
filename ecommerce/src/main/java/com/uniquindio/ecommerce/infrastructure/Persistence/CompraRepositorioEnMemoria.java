@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-@Component
+//@Component
 public class CompraRepositorioEnMemoria implements CompraRepository {
 
     private final Map<UUID, Compra>compras=new HashMap<>();
