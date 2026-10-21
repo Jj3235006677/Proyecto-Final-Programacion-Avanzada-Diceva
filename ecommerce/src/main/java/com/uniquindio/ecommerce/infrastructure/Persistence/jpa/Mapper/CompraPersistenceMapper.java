@@ -8,14 +8,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompraPersistenceMapper {
 
+    /**
+     * Convierte una compra del dominio en una entidad JPA
+     * para guardarla en la base de datos.
+     */
     public CompraEntity toEntity(Compra compra) {
 
         CompraEntity entity = new CompraEntity();
 
         entity.setId(compra.getId());
-        entity.setCedulaUsuario(compra.getCedulaUsuario());
-        entity.setFechaCompra(compra.getFechaCompra());
-        entity.setEstadoPago(compra.consultarEstadoCompra());
+
+        entity.setCedulaUsuario(
+                compra.getCedulaUsuario()
+        );
+
+        entity.setFechaCompra(
+                compra.getFechaCompra()
+        );
+
+        entity.setEstadoPago(
+                compra.consultarEstadoCompra()
+        );
 
         entity.setPrecioTotal(
                 compra.getPrecioTotal().precioProducto()
@@ -28,43 +41,19 @@ public class CompraPersistenceMapper {
         return entity;
     }
 
+    /**
+     * Reconstruye una compra del dominio a partir
+     * de los datos recuperados de la base de datos.
+     */
     public Compra toDomain(CompraEntity entity) {
 
-        Compra compra = Compra.realizarCompra(
+        return Compra.reconstruir(
                 entity.getId(),
                 entity.getIdListaJuegosMesa(),
                 entity.getCedulaUsuario(),
-                entity.getFechaCompra()
+                entity.getFechaCompra(),
+                new Precio(entity.getPrecioTotal()),
+                entity.getEstadoPago()
         );
-
-        // Recuperar el precio total
-        int precio = entity.getPrecioTotal();
-
-        if (precio > 0) {
-            compra.sumarContidadesDinero(precio);
-        }
-
-        // Recuperar el estado de pago
-        if (entity.getEstadoPago() != null) {
-
-            switch (entity.getEstadoPago()) {
-
-                case APROBADO:
-                    compra.confirmarCompra();
-                    break;
-
-                case REEMBOLSADO:
-                    compra.confirmarCompra();
-                    compra.realizarReembolso(
-                            "Reembolso recuperado de la base de datos"
-                    );
-                    break;
-
-                case PENDIENTE:
-                    break;
-            }
-        }
-
-        return compra;
     }
 }

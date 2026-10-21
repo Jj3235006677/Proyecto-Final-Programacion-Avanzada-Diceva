@@ -54,7 +54,6 @@ public class Compra {
             );
         }
 
-
         // Validar la fecha
         if (fechaCompra == null) {
             throw new ReglaDominioException(
@@ -70,6 +69,23 @@ public class Compra {
         this.estadoPago = EstadoPago.PENDIENTE;
     }
 
+    // NUEVO: constructor para reconstruir una compra existente
+    private Compra(
+            UUID id,
+            List<UUID> idListaJuegosMesa,
+            UUID cedulaUsuario,
+            LocalDateTime fechaCompra,
+            Precio precioTotal,
+            EstadoPago estadoPago) {
+
+        this.id = id;
+        this.idListaJuegosMesa = new ArrayList<>(idListaJuegosMesa);
+        this.cedulaUsuario = cedulaUsuario;
+        this.fechaCompra = fechaCompra;
+        this.precioTotal = precioTotal;
+        this.estadoPago = estadoPago;
+    }
+
     public static Compra realizarCompra(
             UUID id,
             List<UUID> idListaJuegosMesa,
@@ -81,6 +97,46 @@ public class Compra {
                 idListaJuegosMesa,
                 cedulaUsuario,
                 fechaCompra
+        );
+    }
+
+    // NUEVO: reconstruir una compra recuperada de la base de datos
+    public static Compra reconstruir(
+            UUID id,
+            List<UUID> idListaJuegosMesa,
+            UUID cedulaUsuario,
+            LocalDateTime fechaCompra,
+            Precio precioTotal,
+            EstadoPago estadoPago) {
+
+        if (id == null
+                || idListaJuegosMesa == null
+                || idListaJuegosMesa.isEmpty()
+                || cedulaUsuario == null
+                || fechaCompra == null
+                || precioTotal == null
+                || estadoPago == null) {
+
+            throw new ReglaDominioException(
+                    "No se puede reconstruir una compra con datos incompletos"
+            );
+        }
+
+        for (UUID idJuego : idListaJuegosMesa) {
+            if (idJuego == null) {
+                throw new ReglaDominioException(
+                        "La lista no puede contener identificadores de juegos nulos"
+                );
+            }
+        }
+
+        return new Compra(
+                id,
+                idListaJuegosMesa,
+                cedulaUsuario,
+                fechaCompra,
+                precioTotal,
+                estadoPago
         );
     }
 

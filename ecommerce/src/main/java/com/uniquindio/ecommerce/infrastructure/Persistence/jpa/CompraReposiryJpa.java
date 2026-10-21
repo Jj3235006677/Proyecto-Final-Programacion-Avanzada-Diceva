@@ -1,0 +1,4 @@
+package com.uniquindio.ecommerce.infrastructure.Persistence.jpa;
+
+public class CompraReposiryJpa {
+}
