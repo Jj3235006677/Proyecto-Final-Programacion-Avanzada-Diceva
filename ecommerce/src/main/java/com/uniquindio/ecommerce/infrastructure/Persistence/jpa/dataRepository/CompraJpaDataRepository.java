@@ -1,6 +1,5 @@
-package com.uniquindio.ecommerce.infrastructure.Persistence.jpa;
+package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.dataRepository;
 
-import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity.CompraEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

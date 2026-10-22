@@ -1,9 +1,9 @@
-package com.uniquindio.ecommerce.infrastructure.Persistence.jpa;
+package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.repositoryJpa;
 
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.repository.CompraRepository;
-import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.Mapper.CompraPersistenceMapper;
+import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.dataRepository.CompraJpaDataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

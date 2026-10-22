@@ -32,8 +32,8 @@ public class CompraEntity {
     @Column(name = "estado_pago", nullable = false)
     private EstadoPago estadoPago;
 
-    @Column(name = "precio_total", nullable = false)
-    private Integer precioTotal;
+    @Embedded
+    private PrecioEmbeddable precio;
 
     @ElementCollection
     @CollectionTable(
