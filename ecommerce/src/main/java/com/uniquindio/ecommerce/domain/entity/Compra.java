@@ -24,43 +24,6 @@ public class Compra {
             UUID cedulaUsuario,
             LocalDateTime fechaCompra) {
 
-        // Validar el identificador de la compra
-        if (id == null) {
-            throw new ReglaDominioException(
-                    "El identificador de la compra es obligatorio"
-            );
-        }
-
-        // Validar que la lista exista y contenga al menos un juego
-        if (idListaJuegosMesa == null || idListaJuegosMesa.isEmpty()) {
-            throw new ReglaDominioException(
-                    "La compra debe tener al menos un juego"
-            );
-        }
-
-        // Validar que ningún identificador de juego sea nulo
-        for (UUID idJuego : idListaJuegosMesa) {
-            if (idJuego == null) {
-                throw new ReglaDominioException(
-                        "La lista no puede contener identificadores de juegos nulos"
-                );
-            }
-        }
-
-        // Validar el usuario
-        if (cedulaUsuario == null) {
-            throw new ReglaDominioException(
-                    "El identificador del usuario es obligatorio"
-            );
-        }
-
-        // Validar la fecha
-        if (fechaCompra == null) {
-            throw new ReglaDominioException(
-                    "La fecha de compra es obligatoria"
-            );
-        }
-
         this.id = id;
         this.idListaJuegosMesa = new ArrayList<>(idListaJuegosMesa);
         this.cedulaUsuario = cedulaUsuario;
@@ -69,7 +32,6 @@ public class Compra {
         this.estadoPago = EstadoPago.PENDIENTE;
     }
 
-    // NUEVO: constructor para reconstruir una compra existente
     private Compra(
             UUID id,
             List<UUID> idListaJuegosMesa,
@@ -86,39 +48,21 @@ public class Compra {
         this.estadoPago = estadoPago;
     }
 
-    public static Compra realizarCompra(
+    private static void validarDatosCompra(
             UUID id,
             List<UUID> idListaJuegosMesa,
             UUID cedulaUsuario,
             LocalDateTime fechaCompra) {
 
-        return new Compra(
-                id,
-                idListaJuegosMesa,
-                cedulaUsuario,
-                fechaCompra
-        );
-    }
-
-    // NUEVO: reconstruir una compra recuperada de la base de datos
-    public static Compra reconstruir(
-            UUID id,
-            List<UUID> idListaJuegosMesa,
-            UUID cedulaUsuario,
-            LocalDateTime fechaCompra,
-            Precio precioTotal,
-            EstadoPago estadoPago) {
-
-        if (id == null
-                || idListaJuegosMesa == null
-                || idListaJuegosMesa.isEmpty()
-                || cedulaUsuario == null
-                || fechaCompra == null
-                || precioTotal == null
-                || estadoPago == null) {
-
+        if (id == null) {
             throw new ReglaDominioException(
-                    "No se puede reconstruir una compra con datos incompletos"
+                    "El identificador de la compra es obligatorio"
+            );
+        }
+
+        if (idListaJuegosMesa == null || idListaJuegosMesa.isEmpty()) {
+            throw new ReglaDominioException(
+                    "La compra debe tener al menos un juego"
             );
         }
 
@@ -129,6 +73,79 @@ public class Compra {
                 );
             }
         }
+
+        if (cedulaUsuario == null) {
+            throw new ReglaDominioException(
+                    "El identificador del usuario es obligatorio"
+            );
+        }
+
+        if (fechaCompra == null) {
+            throw new ReglaDominioException(
+                    "La fecha de compra es obligatoria"
+            );
+        }
+    }
+
+    private static void validarDatosReconstruccion(
+            UUID id,
+            List<UUID> idListaJuegosMesa,
+            UUID cedulaUsuario,
+            LocalDateTime fechaCompra,
+            Precio precioTotal,
+            EstadoPago estadoPago) {
+
+        validarDatosCompra(
+                id,
+                idListaJuegosMesa,
+                cedulaUsuario,
+                fechaCompra
+        );
+
+        if (precioTotal == null || estadoPago == null) {
+            throw new ReglaDominioException(
+                    "No se puede reconstruir una compra con datos incompletos"
+            );
+        }
+    }
+
+    public static Compra realizarCompra(
+            UUID id,
+            List<UUID> idListaJuegosMesa,
+            UUID cedulaUsuario,
+            LocalDateTime fechaCompra) {
+
+        validarDatosCompra(
+                id,
+                idListaJuegosMesa,
+                cedulaUsuario,
+                fechaCompra
+        );
+
+        return new Compra(
+                id,
+                idListaJuegosMesa,
+                cedulaUsuario,
+                fechaCompra
+        );
+    }
+
+    public static Compra reconstruir(
+            UUID id,
+            List<UUID> idListaJuegosMesa,
+            UUID cedulaUsuario,
+            LocalDateTime fechaCompra,
+            Precio precioTotal,
+            EstadoPago estadoPago) {
+
+        validarDatosReconstruccion(
+                id,
+                idListaJuegosMesa,
+                cedulaUsuario,
+                fechaCompra,
+                precioTotal,
+                estadoPago
+        );
 
         return new Compra(
                 id,

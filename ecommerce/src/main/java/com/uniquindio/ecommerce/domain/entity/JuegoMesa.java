@@ -7,7 +7,7 @@ import com.uniquindio.ecommerce.domain.valueobject.Precio;
 import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;
 
 import java.util.UUID;
-//tengo que agregar el provedor y los enums
+
 public class JuegoMesa {
 
     private final UUID id;
@@ -22,7 +22,7 @@ public class JuegoMesa {
     private String tematicaDeJuego;
     private int edadRecomendada;
     private String imagenUrl;
-    private EstadoJuego estado;//enum preventa disponible agotado enpreveta
+    private EstadoJuego estado;
 
     private JuegoMesa(
             UUID cedulaProveedor,
@@ -38,27 +38,8 @@ public class JuegoMesa {
             int edadRecomendada,
             String imagenUrl,
             EstadoJuego estado) {
-        if (stock<0){
-            throw new ReglaDominioException("El stock no puede ser negativo");//invariante Uno el stock no puede ser negativo
-        }
-        if(edadRecomendada<0){
-            throw new ReglaDominioException("La edad recomendada no puede ser menor a cero");//invariante dos la edad no puede ser negativa
-        }
-        if (nombre == null || nombre.isBlank()//invariante 3 ningun campo puede quedar vacio
-                || descripcion == null || descripcion.isBlank()
-                || precio == null
-                || rangoJugadores == null
-                || complejidad == null
-                || mecanicaDeJuego == null || mecanicaDeJuego.isBlank()
-                || tematicaDeJuego == null || tematicaDeJuego.isBlank()
-                || imagenUrl == null || imagenUrl.isBlank()) {
 
-            throw new ReglaDominioException(
-                    "Los campos obligatorios del juego no pueden estar vacios"
-            );
-        }
-
-
+        this.cedulaProveedor = cedulaProveedor;
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -71,7 +52,61 @@ public class JuegoMesa {
         this.edadRecomendada = edadRecomendada;
         this.imagenUrl = imagenUrl;
         this.estado = estado;
-        this.cedulaProveedor=cedulaProveedor;
+    }
+
+    private static void validarDatosJuego(
+            UUID cedulaProveedor,
+            UUID id,
+            String nombre,
+            String descripcion,
+            Precio precio,
+            int stock,
+            RangoJugadores rangoJugadores,
+            ComplejidadJuego complejidad,
+            String mecanicaDeJuego,
+            String tematicaDeJuego,
+            int edadRecomendada,
+            String imagenUrl,
+            EstadoJuego estado) {
+
+        if (cedulaProveedor == null) {
+            throw new ReglaDominioException(
+                    "El identificador del proveedor es obligatorio"
+            );
+        }
+
+        if (id == null) {
+            throw new ReglaDominioException(
+                    "El identificador del juego es obligatorio"
+            );
+        }
+
+        if (stock < 0) {
+            throw new ReglaDominioException(
+                    "El stock no puede ser negativo"
+            );
+        }
+
+        if (edadRecomendada < 0) {
+            throw new ReglaDominioException(
+                    "La edad recomendada no puede ser menor a cero"
+            );
+        }
+
+        if (nombre == null || nombre.isBlank()
+                || descripcion == null || descripcion.isBlank()
+                || precio == null
+                || rangoJugadores == null
+                || complejidad == null
+                || mecanicaDeJuego == null || mecanicaDeJuego.isBlank()
+                || tematicaDeJuego == null || tematicaDeJuego.isBlank()
+                || imagenUrl == null || imagenUrl.isBlank()
+                || estado == null) {
+
+            throw new ReglaDominioException(
+                    "Los campos obligatorios del juego no pueden estar vacíos"
+            );
+        }
     }
 
     public static JuegoMesa crear(
@@ -89,6 +124,22 @@ public class JuegoMesa {
             String imagenUrl,
             EstadoJuego estado) {
 
+        validarDatosJuego(
+                cedulaProveedor,
+                id,
+                nombre,
+                descripcion,
+                precio,
+                stock,
+                rangoJugadores,
+                complejidad,
+                mecanicaDeJuego,
+                tematicaDeJuego,
+                edadRecomendada,
+                imagenUrl,
+                estado
+        );
+
         return new JuegoMesa(
                 cedulaProveedor,
                 id,
@@ -105,6 +156,7 @@ public class JuegoMesa {
                 estado
         );
     }
+
     public void descontarStock(int cantidad) {
 
         if (cantidad <= 0) {
@@ -120,7 +172,12 @@ public class JuegoMesa {
         }
 
         stock -= cantidad;
+
+        if (stock == 0) {
+            estado = EstadoJuego.AGOTADO;
+        }
     }
+
     public void devolverStock(int cantidad) {
 
         if (cantidad <= 0) {
@@ -129,7 +186,13 @@ public class JuegoMesa {
             );
         }
 
-        stock += cantidad;
+        try {
+            stock = Math.addExact(stock, cantidad);
+        } catch (ArithmeticException e) {
+            throw new ReglaDominioException(
+                    "El stock excede el límite permitido"
+            );
+        }
 
         if (stock > 0 && estado == EstadoJuego.AGOTADO) {
             estado = EstadoJuego.DISPONIBLE;
@@ -194,9 +257,14 @@ public class JuegoMesa {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
 
-        if (!(o instanceof JuegoMesa)) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof JuegoMesa)) {
+            return false;
+        }
 
         JuegoMesa juegoMesa = (JuegoMesa) o;
 
