@@ -35,9 +35,8 @@ public class JuegoMesaEntity {
     @Column(nullable = false)
     private int stock;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "rango_jugadores", nullable = false)
-    private RangoJugadores rangoJugadores;
+    @Embedded
+    private RangoJugadoresEmbeddable rangoJugadores;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

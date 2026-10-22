@@ -1,5 +1,4 @@
-package com.uniquindio.ecommerce.infrastructure.Persistence;
-import org.springframework.stereotype.Component;
+package com.uniquindio.ecommerce.infrastructure.Persistence.Memoria;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.repository.CompraRepository;
 

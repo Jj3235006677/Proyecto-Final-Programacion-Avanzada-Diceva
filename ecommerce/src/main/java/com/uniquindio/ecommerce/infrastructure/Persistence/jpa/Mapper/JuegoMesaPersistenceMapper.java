@@ -2,8 +2,10 @@ package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.Mapper;
 
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
+import com.uniquindio.ecommerce.domain.valueobject.RangoJugadores;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity.JuegoMesaEntity;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity.PrecioEmbeddable;
+import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity.RangoJugadoresEmbeddable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,7 +31,14 @@ public class JuegoMesaPersistenceMapper {
         );
 
         entity.setStock(juegoMesa.getStock());
-        entity.setRangoJugadores(juegoMesa.getRangoJugadores());
+
+        entity.setRangoJugadores(
+                new RangoJugadoresEmbeddable(
+                        juegoMesa.getRangoJugadores().minimoJugadores(),
+                        juegoMesa.getRangoJugadores().maximoJugadores()
+                )
+        );
+
         entity.setComplejidad(juegoMesa.getComplejidad());
         entity.setMecanicaDeJuego(juegoMesa.getMecanicaDeJuego());
         entity.setTematicaDeJuego(juegoMesa.getTematicaDeJuego());
@@ -53,7 +62,10 @@ public class JuegoMesaPersistenceMapper {
                 entity.getDescripcion(),
                 new Precio(entity.getPrecio().getMonto()),
                 entity.getStock(),
-                entity.getRangoJugadores(),
+                new RangoJugadores(
+                        entity.getRangoJugadores().getMaximoJugadores(),
+                        entity.getRangoJugadores().getMinimoJugadores()
+                ),
                 entity.getComplejidad(),
                 entity.getMecanicaDeJuego(),
                 entity.getTematicaDeJuego(),

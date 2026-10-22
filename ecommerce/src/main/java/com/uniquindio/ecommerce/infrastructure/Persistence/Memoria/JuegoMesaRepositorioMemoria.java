@@ -1,8 +1,7 @@
-package com.uniquindio.ecommerce.infrastructure.Persistence;
+package com.uniquindio.ecommerce.infrastructure.Persistence.Memoria;
 
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
