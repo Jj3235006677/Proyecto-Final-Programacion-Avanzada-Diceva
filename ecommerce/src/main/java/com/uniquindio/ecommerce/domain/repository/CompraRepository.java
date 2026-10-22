@@ -10,4 +10,5 @@ public interface CompraRepository {
 
 
     void guardar(Compra compra);
+
 }
