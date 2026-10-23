@@ -1,14 +1,17 @@
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
 
+
+
+import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.BuscarJuegosPaginadosUseCase;
 import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.ConsultarJuegoMesaUseCase;
 import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.CrearJuegoMesaUseCase;
 import com.uniquindio.ecommerce.application.dto.request.JuegoMesaRequest;
 import com.uniquindio.ecommerce.application.dto.response.JuegoMesaResponse;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
+import com.uniquindio.ecommerce.domain.valueobject.ResultadoPaginado;
 import com.uniquindio.ecommerce.infrastructure.rest.mapper.JuegoMesaMapper;
 
 import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,15 +26,48 @@ public class JuegoMesaController {
     private final JuegoMesaMapper juegoMesaMapper;
     private final CrearJuegoMesaUseCase crearJuegoMesaUseCase;
     private final ConsultarJuegoMesaUseCase consultarJuegoMesaUseCase;
+    private final BuscarJuegosPaginadosUseCase buscarJuegosPaginadosUseCase;
 
     public JuegoMesaController(
             JuegoMesaMapper juegoMesaMapper,
             CrearJuegoMesaUseCase crearJuegoMesaUseCase,
-            ConsultarJuegoMesaUseCase consultarJuegoMesaUseCase) {
+            ConsultarJuegoMesaUseCase consultarJuegoMesaUseCase,
+            BuscarJuegosPaginadosUseCase buscarJuegosPaginadosUseCase) {
 
         this.juegoMesaMapper = juegoMesaMapper;
         this.crearJuegoMesaUseCase = crearJuegoMesaUseCase;
         this.consultarJuegoMesaUseCase = consultarJuegoMesaUseCase;
+        this.buscarJuegosPaginadosUseCase = buscarJuegosPaginadosUseCase;
+    }
+
+    // Consultar juegos de mesa con búsqueda, filtro y paginación
+    @GetMapping
+    public ResponseEntity<ResultadoPaginado<JuegoMesaResponse>> buscarPaginado(
+            @RequestParam(required = false) String texto,
+            @RequestParam(required = false) Integer precioMaximo,
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanio) {
+
+        ResultadoPaginado<JuegoMesa> resultado =
+                buscarJuegosPaginadosUseCase.ejecutar(
+                        texto,
+                        precioMaximo,
+                        pagina,
+                        tamanio
+                );
+
+        ResultadoPaginado<JuegoMesaResponse> respuesta =
+                new ResultadoPaginado<>(
+                        resultado.contenido().stream()
+                                .map(juegoMesaMapper::toResponse)
+                                .toList(),
+                        resultado.totalElementos(),
+                        resultado.totalPaginas(),
+                        resultado.paginaActual(),
+                        resultado.tamanioPagina()
+                );
+
+        return ResponseEntity.ok(respuesta);
     }
 
     // Consultar un juego de mesa por su identificador

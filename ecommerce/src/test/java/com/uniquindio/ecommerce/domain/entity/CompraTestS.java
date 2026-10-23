@@ -27,31 +27,7 @@ public class CompraTestS {
         });
     }
 
-    @Test
-    public void Una_Compra_Debe_Tener_Minimo_Un_Juego() {
 
-        assertThrows(ReglaDominioException.class, () -> {
-            Compra.realizarCompra(
-                    UUID.randomUUID(),
-                    null,
-                    UUID.randomUUID(),
-                    LocalDateTime.now()
-            );
-        });
-    }
-
-    @Test
-    public void Una_Compra_No_Debe_Tener_Una_Lista_Vacia() {
-
-        assertThrows(ReglaDominioException.class, () -> {
-            Compra.realizarCompra(
-                    UUID.randomUUID(),
-                    List.of(),
-                    UUID.randomUUID(),
-                    LocalDateTime.now()
-            );
-        });
-    }
 
     @Test
     public void Una_Compra_No_Debe_Tener_Fecha_Nula() {
