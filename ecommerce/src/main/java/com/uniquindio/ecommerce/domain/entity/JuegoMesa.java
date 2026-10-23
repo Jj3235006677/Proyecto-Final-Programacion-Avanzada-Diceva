@@ -23,6 +23,7 @@ public class JuegoMesa {
     private int edadRecomendada;
     private String imagenUrl;
     private EstadoJuego estado;
+    private boolean eliminacionLogica;
 
     private JuegoMesa(
             UUID cedulaProveedor,
@@ -52,6 +53,8 @@ public class JuegoMesa {
         this.edadRecomendada = edadRecomendada;
         this.imagenUrl = imagenUrl;
         this.estado = estado;
+        this.eliminacionLogica=false;
+
     }
 
     private static void validarDatosJuego(
@@ -140,6 +143,7 @@ public class JuegoMesa {
                 estado
         );
 
+
         return new JuegoMesa(
                 cedulaProveedor,
                 id,
@@ -155,10 +159,15 @@ public class JuegoMesa {
                 imagenUrl,
                 estado
         );
+
     }
 
     public void descontarStock(int cantidad) {
-
+        if (eliminacionLogica) {
+            throw new ReglaDominioException(
+                    "No se puede vender un juego eliminado"
+            );
+        }
         if (cantidad <= 0) {
             throw new ReglaDominioException(
                     "La cantidad debe ser mayor que cero"
@@ -177,7 +186,19 @@ public class JuegoMesa {
             estado = EstadoJuego.AGOTADO;
         }
     }
+    public void eliminarLogicamente() {
+        if (eliminacionLogica) {
+            throw new ReglaDominioException(
+                    "El juego ya se encuentra eliminado"
+            );
+        }
 
+        eliminacionLogica = true;
+    }
+
+    public boolean estaEliminado() {
+        return eliminacionLogica;
+    }
     public void devolverStock(int cantidad) {
 
         if (cantidad <= 0) {
@@ -254,6 +275,7 @@ public class JuegoMesa {
     public UUID getCedulaProveedor() {
         return cedulaProveedor;
     }
+
 
     @Override
     public boolean equals(Object o) {

@@ -58,5 +58,8 @@ public class JuegoMesaEntity {
     @Column(nullable = false)
     private EstadoJuego estado;
 
+    @Column(name = "eliminacion_logica", nullable = false)
+    private boolean eliminacionLogica = false;
+
 
 }

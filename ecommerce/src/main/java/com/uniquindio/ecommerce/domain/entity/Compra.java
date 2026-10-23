@@ -60,11 +60,7 @@ public class Compra {
             );
         }
 
-        if (idListaJuegosMesa == null || idListaJuegosMesa.isEmpty()) {
-            throw new ReglaDominioException(
-                    "La compra debe tener al menos un juego"
-            );
-        }
+        
 
         for (UUID idJuego : idListaJuegosMesa) {
             if (idJuego == null) {
