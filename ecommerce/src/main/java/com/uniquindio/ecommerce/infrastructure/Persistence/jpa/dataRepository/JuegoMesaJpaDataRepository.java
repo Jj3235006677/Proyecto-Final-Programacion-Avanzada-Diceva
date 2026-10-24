@@ -1,9 +1,11 @@
 package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.dataRepository;
 
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity.JuegoMesaEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -48,6 +50,9 @@ public interface JuegoMesaJpaDataRepository
     );
 
 
+
+
+
     @Query("""
     SELECT j.nombre, COUNT(cj)
     FROM JuegoMesaEntity j
@@ -58,4 +63,17 @@ public interface JuegoMesaJpaDataRepository
     ORDER BY COUNT(cj) DESC
     """)
     List<Object[]> obtenerRankingJuegos();
+
+
+    // Eliminación lógica de un juego de mesa
+    @Modifying
+    @Transactional
+    @Query("""
+    UPDATE JuegoMesaEntity j
+    SET j.eliminacionLogica = true
+    WHERE j.id = :id
+      AND j.eliminacionLogica = false
+    """)
+    int eliminarLogicamente(@Param("id") UUID id);
+    
 }

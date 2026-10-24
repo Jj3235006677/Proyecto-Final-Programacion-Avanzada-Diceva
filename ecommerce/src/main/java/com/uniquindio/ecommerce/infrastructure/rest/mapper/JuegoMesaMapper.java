@@ -21,7 +21,8 @@ public class JuegoMesaMapper {
                 juegoMesa.getTematicaDeJuego(),
                 juegoMesa.getEdadRecomendada(),
                 juegoMesa.getImagenUrl(),
-                juegoMesa.getEstado()
+                juegoMesa.getEstado(),
+                juegoMesa.isEliminacionLogica()
         );
     }
 }

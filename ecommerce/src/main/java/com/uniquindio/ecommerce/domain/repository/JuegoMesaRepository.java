@@ -21,4 +21,6 @@ public interface JuegoMesaRepository {
     );
 
     List<Object[]> obtenerRankingJuegos();
+
+    void eliminarLogicamente(UUID idJuegoMesa);
 }

@@ -220,6 +220,10 @@ public class JuegoMesa {
         }
     }
 
+    public boolean isEliminacionLogica() {
+        return eliminacionLogica;
+    }
+
     public UUID getId() {
         return id;
     }

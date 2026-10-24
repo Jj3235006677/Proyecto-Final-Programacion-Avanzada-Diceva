@@ -20,6 +20,7 @@ public record JuegoMesaResponse(
         String tematicaDeJuego,
         int edadRecomendada,
         String imagenUrl,
-        EstadoJuego estado
+        EstadoJuego estado,
+        boolean eliminacionLogica
 ) {
 }

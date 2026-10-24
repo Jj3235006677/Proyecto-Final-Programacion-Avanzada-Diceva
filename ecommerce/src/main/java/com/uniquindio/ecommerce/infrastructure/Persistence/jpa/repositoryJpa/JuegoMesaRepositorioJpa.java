@@ -1,5 +1,5 @@
-package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.repositoryJpa;
 
+package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.repositoryJpa;
 
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Repository
 @RequiredArgsConstructor
@@ -81,9 +83,16 @@ public class JuegoMesaRepositorioJpa implements JuegoMesaRepository {
                 resultado.getSize()
         );
     }
+
     @Override
     @Transactional(readOnly = true)
     public List<Object[]> obtenerRankingJuegos() {
         return juegoMesaJpaDataRepository.obtenerRankingJuegos();
+    }
+
+    @Override
+    @Transactional
+    public void eliminarLogicamente(UUID idJuegoMesa) {
+        juegoMesaJpaDataRepository.eliminarLogicamente(idJuegoMesa);
     }
 }

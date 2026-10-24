@@ -35,4 +35,9 @@ public class JuegoMesaRepositorioMemoria implements JuegoMesaRepository {
         return List.of();
     }
 
+    @Override
+    public void eliminarLogicamente(UUID idJuegoMesa) {
+
+    }
+
 }

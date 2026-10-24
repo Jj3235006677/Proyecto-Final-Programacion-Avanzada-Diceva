@@ -46,5 +46,7 @@ public record JuegoMesaRequest(
 
         EstadoJuego estado
 
+
+
 ) {
 }

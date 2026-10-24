@@ -1,6 +1,5 @@
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
-
-import com.uniquindio.ecommerce.application.UseCase.CompraUseCase.AgregarJuegoUseCase;
+import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.AgregarJuegoUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.ConfirmarCompraUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.ConsultarCompraUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.CrearCompraUseCase;
