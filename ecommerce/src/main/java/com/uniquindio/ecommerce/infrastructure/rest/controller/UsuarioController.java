@@ -78,19 +78,4 @@ public class UsuarioController {
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<UsuarioResponse> login(
-            @Valid @RequestBody LoginRequest loginRequest) {
-
-        Usuario usuario = realizarLogueUseCase.ejecutar(
-                loginRequest.correo(),
-                loginRequest.contraseña()
-        );
-
-        UsuarioResponse response = usuarioMapper.toResponse(usuario);
-
-        return ResponseEntity
-                .ok()
-                .body(response);
-    }
 }

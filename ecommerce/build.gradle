@@ -1,3 +1,4 @@
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.1.1'
@@ -27,6 +28,10 @@ dependencies {
 	// API REST
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 
+	// Seguridad y autenticación JWT
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-resource-server'
+
 	// Swagger: documentación y pruebas manuales de la API
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.0'
 
@@ -37,17 +42,18 @@ dependencies {
 	// Base de datos MariaDB
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
+	// Base de datos H2 y consola
+	implementation 'org.springframework.boot:spring-boot-h2console'
+	runtimeOnly 'com.h2database:h2'
+
 	// Pruebas
 	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 
-	implementation 'org.springframework.boot:spring-boot-h2console'
-
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

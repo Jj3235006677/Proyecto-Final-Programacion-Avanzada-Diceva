@@ -1,3 +1,4 @@
+
 package com.uniquindio.ecommerce.domain.entity;
 
 import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
@@ -10,15 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class UsuarioTest {
+class UsuarioTest {
 
     @Test
-    void No_Se_Puede_Dejar_Campos_Vacios() {
-
-        // Arrange
+    void noDebePermitirCamposObligatoriosVacios() {
         UUID cedula = UUID.randomUUID();
 
-        // Act & Assert
         assertThrows(
                 ReglaDominioException.class,
                 () -> Usuario.crear(
@@ -27,35 +25,28 @@ public class UsuarioTest {
                         "Buitrago",
                         "",
                         "123456",
-                        TipoUsuario.CLIENTE
+                        TipoUsuario.USER
                 )
         );
     }
 
     @Test
-    void No_Se_Puede_Crear_Un_Usuario_Sin_Cedula() {
-
-        // Arrange
-        UUID cedula = null;
-
-        // Act & Assert
+    void noDebeCrearUsuarioSinCedula() {
         assertThrows(
                 ReglaDominioException.class,
                 () -> Usuario.crear(
-                        cedula,
+                        null,
                         "Juan",
                         "Buitrago",
                         "juan1234@gmail.com",
                         "123456",
-                        TipoUsuario.CLIENTE
+                        TipoUsuario.USER
                 )
         );
     }
 
     @Test
-    void Dos_Usuarios_Con_La_Misma_Cedula_Son_La_Misma_Entidad() {
-
-        // Arrange
+    void usuariosConLaMismaCedulaDebenSerIguales() {
         UUID cedula = UUID.randomUUID();
 
         Usuario usuarioUno = Usuario.crear(
@@ -64,7 +55,7 @@ public class UsuarioTest {
                 "Buitrago",
                 "juan1234@gmail.com",
                 "123456",
-                TipoUsuario.CLIENTE
+                TipoUsuario.USER
         );
 
         Usuario usuarioDos = Usuario.crear(
@@ -73,24 +64,21 @@ public class UsuarioTest {
                 "Perez",
                 "pedro@gmail.com",
                 "654321",
-                TipoUsuario.PROVEEDOR
+                TipoUsuario.ADMIN
         );
 
-        // Act & Assert
         assertEquals(usuarioUno, usuarioDos);
     }
 
     @Test
-    void Dos_Usuarios_Con_Diferente_Cedula_Son_Entidades_Diferentes() {
-
-        // Arrange
+    void usuariosConDiferenteCedulaDebenSerDiferentes() {
         Usuario usuarioUno = Usuario.crear(
                 UUID.randomUUID(),
                 "Juan",
                 "Buitrago",
                 "juan1234@gmail.com",
                 "123456",
-                TipoUsuario.CLIENTE
+                TipoUsuario.USER
         );
 
         Usuario usuarioDos = Usuario.crear(
@@ -99,10 +87,9 @@ public class UsuarioTest {
                 "Buitrago",
                 "juan1234@gmail.com",
                 "123456",
-                TipoUsuario.CLIENTE
+                TipoUsuario.USER
         );
 
-        // Act & Assert
         assertNotEquals(usuarioUno, usuarioDos);
     }
 }

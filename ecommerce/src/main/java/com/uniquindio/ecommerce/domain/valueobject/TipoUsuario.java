@@ -1,9 +1,8 @@
 package com.uniquindio.ecommerce.domain.valueobject;
 
 public enum TipoUsuario {
-    CLIENTE,
-    PROVEEDOR,
-    ADMINISTRADOR;
+    USER,
+    ADMIN
 
 
 
