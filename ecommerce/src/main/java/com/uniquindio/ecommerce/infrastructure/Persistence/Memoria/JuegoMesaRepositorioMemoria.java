@@ -4,10 +4,7 @@ import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
 import com.uniquindio.ecommerce.domain.valueobject.ResultadoPaginado;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class JuegoMesaRepositorioMemoria implements JuegoMesaRepository {
 
@@ -31,6 +28,11 @@ public class JuegoMesaRepositorioMemoria implements JuegoMesaRepository {
     @Override
     public ResultadoPaginado<JuegoMesa> buscarPaginado(String texto, Integer precioMaximo, int pagina, int tamanio) {
         return null;
+    }
+
+    @Override
+    public List<Object[]> obtenerRankingJuegos() {
+        return List.of();
     }
 
 }

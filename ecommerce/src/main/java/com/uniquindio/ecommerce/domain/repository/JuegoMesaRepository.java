@@ -1,9 +1,9 @@
 package com.uniquindio.ecommerce.domain.repository;
 
-
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.valueobject.ResultadoPaginado;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,4 +19,6 @@ public interface JuegoMesaRepository {
             int pagina,
             int tamanio
     );
+
+    List<Object[]> obtenerRankingJuegos();
 }

@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface JuegoMesaJpaDataRepository
         extends JpaRepository<JuegoMesaEntity, UUID> {
 
-    @Query(
+    @Query(//buscar por nombre,cantidad,precio
             value = """
             SELECT j
             FROM JuegoMesaEntity j
@@ -45,4 +46,16 @@ public interface JuegoMesaJpaDataRepository
             @Param("precioMaximo") Integer precioMaximo,
             Pageable pageable
     );
+
+
+    @Query("""
+    SELECT j.nombre, COUNT(cj)
+    FROM JuegoMesaEntity j
+    JOIN CompraEntity c ON j.id MEMBER OF c.idListaJuegosMesa
+    JOIN c.idListaJuegosMesa cj
+    WHERE j.eliminacionLogica = false
+    GROUP BY j.id, j.nombre
+    ORDER BY COUNT(cj) DESC
+    """)
+    List<Object[]> obtenerRankingJuegos();
 }

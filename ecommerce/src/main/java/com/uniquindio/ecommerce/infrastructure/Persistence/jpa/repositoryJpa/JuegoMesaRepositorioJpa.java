@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -79,5 +80,10 @@ public class JuegoMesaRepositorioJpa implements JuegoMesaRepository {
                 resultado.getNumber(),
                 resultado.getSize()
         );
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<Object[]> obtenerRankingJuegos() {
+        return juegoMesaJpaDataRepository.obtenerRankingJuegos();
     }
 }

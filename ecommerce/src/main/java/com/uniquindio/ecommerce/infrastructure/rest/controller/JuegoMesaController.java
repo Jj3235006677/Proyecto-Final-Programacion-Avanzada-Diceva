@@ -5,8 +5,10 @@ package com.uniquindio.ecommerce.infrastructure.rest.controller;
 import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.BuscarJuegosPaginadosUseCase;
 import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.ConsultarJuegoMesaUseCase;
 import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.CrearJuegoMesaUseCase;
+import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.ObtenerRankingJuegosUseCase;
 import com.uniquindio.ecommerce.application.dto.request.JuegoMesaRequest;
 import com.uniquindio.ecommerce.application.dto.response.JuegoMesaResponse;
+import com.uniquindio.ecommerce.application.dto.response.RankingJuegoResponse;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.valueobject.ResultadoPaginado;
 import com.uniquindio.ecommerce.infrastructure.rest.mapper.JuegoMesaMapper;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,17 +30,19 @@ public class JuegoMesaController {
     private final CrearJuegoMesaUseCase crearJuegoMesaUseCase;
     private final ConsultarJuegoMesaUseCase consultarJuegoMesaUseCase;
     private final BuscarJuegosPaginadosUseCase buscarJuegosPaginadosUseCase;
+    private final ObtenerRankingJuegosUseCase obtenerRankingJuegosUseCase;
 
     public JuegoMesaController(
             JuegoMesaMapper juegoMesaMapper,
             CrearJuegoMesaUseCase crearJuegoMesaUseCase,
             ConsultarJuegoMesaUseCase consultarJuegoMesaUseCase,
-            BuscarJuegosPaginadosUseCase buscarJuegosPaginadosUseCase) {
+            BuscarJuegosPaginadosUseCase buscarJuegosPaginadosUseCase,ObtenerRankingJuegosUseCase obtenerRankingJuegosUseCase) {
 
         this.juegoMesaMapper = juegoMesaMapper;
         this.crearJuegoMesaUseCase = crearJuegoMesaUseCase;
         this.consultarJuegoMesaUseCase = consultarJuegoMesaUseCase;
         this.buscarJuegosPaginadosUseCase = buscarJuegosPaginadosUseCase;
+        this.obtenerRankingJuegosUseCase=obtenerRankingJuegosUseCase;
     }
 
     // Consultar juegos de mesa con búsqueda, filtro y paginación
@@ -117,4 +122,22 @@ public class JuegoMesaController {
                 .created(location)
                 .body(response);
     }
+
+    // Consultar el ranking de juegos más incluidos en compras
+    @GetMapping("/ranking")
+    public ResponseEntity<List<RankingJuegoResponse>> obtenerRanking() {
+
+        List<Object[]> resultados = obtenerRankingJuegosUseCase.ejecutar();
+
+        List<RankingJuegoResponse> respuesta = resultados.stream()
+                .map(fila -> new RankingJuegoResponse(
+                        (String) fila[0],
+                        ((Number) fila[1]).longValue()
+                ))
+                .toList();
+
+        return ResponseEntity.ok(respuesta);
+    }
+
+
 }
