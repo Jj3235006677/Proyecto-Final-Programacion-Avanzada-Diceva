@@ -55,7 +55,7 @@ public class JuegoMesaPersistenceMapper {
      */
     public JuegoMesa toDomain(JuegoMesaEntity entity) {
 
-        return JuegoMesa.crear(
+        JuegoMesa juegoMesa = JuegoMesa.crear(
                 entity.getCedulaProveedor(),
                 entity.getId(),
                 entity.getNombre(),
@@ -73,5 +73,11 @@ public class JuegoMesaPersistenceMapper {
                 entity.getImagenUrl(),
                 entity.getEstado()
         );
+
+        juegoMesa.restaurarEliminacionLogica(
+                entity.isEliminacionLogica()
+        );
+
+        return juegoMesa;
     }
 }

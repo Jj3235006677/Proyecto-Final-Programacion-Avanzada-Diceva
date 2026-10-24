@@ -196,6 +196,10 @@ public class JuegoMesa {
         eliminacionLogica = true;
     }
 
+    public void restaurarEliminacionLogica(boolean eliminado) {
+        this.eliminacionLogica = eliminado;
+    }
+
     public boolean estaEliminado() {
         return eliminacionLogica;
     }
