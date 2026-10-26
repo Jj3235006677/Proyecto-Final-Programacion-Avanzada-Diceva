@@ -1,5 +1,6 @@
-
 package com.uniquindio.ecommerce.infrastructure.security;
+
+
 
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.dataRepository.UsuarioJpaDataRepository;
 import org.springframework.context.annotation.Bean;
@@ -11,13 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class UserConfig {
 
     @Bean
-    public UserDetailsService userDetailsService(
-            UsuarioJpaDataRepository repository) {
-
+    public UserDetailsService userDetailsService(UsuarioJpaDataRepository repository) {
         return email -> repository.findByEmail(email)
                 .map(CustomUserDetails::new)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Usuario no existe")
-                );
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no existe"));
     }
 }

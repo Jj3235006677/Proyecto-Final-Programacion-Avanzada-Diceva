@@ -1,4 +1,3 @@
-
 package com.uniquindio.ecommerce.infrastructure.security;
 
 import com.uniquindio.ecommerce.application.dto.request.LoginRequest;
@@ -26,41 +25,20 @@ public class AutenticacionService {
     private long minutosDeVida;
 
     public TokenResponse login(LoginRequest request) {
+        Authentication autenticacion = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.correo(), request.contraseña()));
 
-        Authentication autenticacion =
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                request.correo(),
-                                request.contraseña()
-                        )
-                );
-
-        CustomUserDetails usuario =
-                (CustomUserDetails) autenticacion.getPrincipal();
-
-        Instant ahora = Instant.now();
-        Instant expira = ahora.plus(
-                minutosDeVida,
-                ChronoUnit.MINUTES
-        );
-
-        List<String> roles = autenticacion.getAuthorities()
-                .stream()
+        CustomUserDetails detalles = (CustomUserDetails) autenticacion.getPrincipal();
+        List<String> roles = autenticacion.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
 
-        String token = jwtTokenProvider.generar(
-                usuario.getUsername(),
-                usuario.usuario().getId(),
-                roles,
-                ahora,
-                expira
-        );
+        Instant ahora = Instant.now();
+        Instant expira = ahora.plus(minutosDeVida, ChronoUnit.MINUTES);
 
-        return new TokenResponse(
-                token,
-                "Bearer",
-                minutosDeVida * 60
-        );
+        String token = jwtTokenProvider.generar(
+                autenticacion.getName(), detalles.usuario().getId(), roles, ahora, expira);
+
+        return new TokenResponse(token, "Bearer", expira, roles);
     }
 }

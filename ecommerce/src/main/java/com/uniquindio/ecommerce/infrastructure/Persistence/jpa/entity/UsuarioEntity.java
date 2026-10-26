@@ -1,6 +1,7 @@
 
 package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity;
 
+import com.uniquindio.ecommerce.domain.valueobject.TipoUsuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Entity
 @Table(name = "usuarios")

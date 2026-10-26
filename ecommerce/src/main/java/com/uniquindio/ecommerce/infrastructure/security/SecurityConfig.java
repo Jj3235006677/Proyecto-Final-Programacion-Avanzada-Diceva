@@ -53,8 +53,11 @@ public class SecurityConfig {
                         ).permitAll()
 
                         // Catálogo público de juegos de mesa.
+                        // Catálogo público de juegos de mesa.
                         .requestMatchers(
-                                HttpMethod.GET, "/api/juegos/**"
+                                HttpMethod.GET,
+                                "/api/juegoMesa",
+                                "/api/juegoMesa/**"
                         ).permitAll()
 
                         // Rutas administrativas.

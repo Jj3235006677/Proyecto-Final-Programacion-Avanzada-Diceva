@@ -1,5 +1,5 @@
-
 package com.uniquindio.ecommerce.infrastructure.security;
+
 
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity.UsuarioEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,9 +13,7 @@ public record CustomUserDetails(UsuarioEntity usuario) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(
-                new SimpleGrantedAuthority(usuario.getRol().name())
-        );
+        return List.of(new SimpleGrantedAuthority(usuario.getRol().name()));
     }
 
     @Override

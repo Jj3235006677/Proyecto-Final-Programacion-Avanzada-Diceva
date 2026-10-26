@@ -15,18 +15,18 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
-public class JwtConfig {
+public class  JwtConfig {
 
     @Value("${jwt.secret}")
     private String jwtSecret;
-
+        //Crea el token
     @Bean
     public JwtEncoder jwtEncoder() {
         return new NimbusJwtEncoder(
                 new ImmutableSecret<>(jwtSecret.getBytes())
         );
     }
-
+        //Revisa en token
     @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder
@@ -38,7 +38,7 @@ public class JwtConfig {
                 )
                 .build();
     }
-
+        //lee los roles que tree el token
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter authorities =

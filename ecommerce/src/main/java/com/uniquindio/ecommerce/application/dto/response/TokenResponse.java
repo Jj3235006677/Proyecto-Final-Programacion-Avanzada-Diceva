@@ -1,8 +1,9 @@
 
 package com.uniquindio.ecommerce.application.dto.response;
 
+import java.time.Instant;
+import java.util.Collection;
+
 public record TokenResponse(
-        String accessToken,
-        String tokenType,
-        long expiresIn
+        String token, String type, Instant expireAt, Collection<String> roles
 ) {}
