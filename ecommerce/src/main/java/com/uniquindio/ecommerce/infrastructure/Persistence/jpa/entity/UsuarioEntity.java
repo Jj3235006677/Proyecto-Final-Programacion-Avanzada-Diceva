@@ -22,8 +22,9 @@ import lombok.Setter;
 public class UsuarioEntity {
 
     @Id
-    @Column(length = 36)
-    private String id;
+    @Column(nullable = false, unique = true)
+    private String cedula;
+
 
     @Column(nullable = false)
     private String nombre;
@@ -34,8 +35,7 @@ public class UsuarioEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
-    private String cedula;
+
 
     @Column(nullable = false)
     private String password;

@@ -16,7 +16,6 @@ import java.util.List;
 public class UsuariosIniciales implements CommandLineRunner {
 
     private record Semilla(
-            String id,
             String nombre,
             String apellido,
             String email,
@@ -32,29 +31,36 @@ public class UsuariosIniciales implements CommandLineRunner {
     public void run(String... args) {
 
         List<Semilla> semillas = List.of(
-                new Semilla("admin", "Administrador", "DICEVA",
+                new Semilla(
+                        "Administrador", "DICEVA",
                         "admin@diceva.com", "900000001",
-                        "c", TipoUsuario.ADMIN),
-
-                new Semilla("ana", "Ana", "García",
+                        "c", TipoUsuario.ADMIN
+                ),
+                new Semilla(
+                        "Ana", "García",
                         "ana@diceva.com", "900000002",
-                        "Ana123!", TipoUsuario.USER),
-
-                new Semilla("bruno", "Bruno", "López",
+                        "Ana123!", TipoUsuario.USER
+                ),
+                new Semilla(
+                        "Bruno", "López",
                         "bruno@diceva.com", "900000003",
-                        "Bruno123!", TipoUsuario.USER),
-
-                new Semilla("carla", "Carla", "Martínez",
+                        "Bruno123!", TipoUsuario.USER
+                ),
+                new Semilla(
+                        "Carla", "Martínez",
                         "carla@diceva.com", "900000004",
-                        "Carla123!", TipoUsuario.USER),
-
-                new Semilla("diego", "Diego", "Ramírez",
+                        "Carla123!", TipoUsuario.USER
+                ),
+                new Semilla(
+                        "Diego", "Ramírez",
                         "diego@diceva.com", "900000005",
-                        "Diego123!", TipoUsuario.USER),
-
-                new Semilla("elena", "Elena", "Torres",
+                        "Diego123!", TipoUsuario.USER
+                ),
+                new Semilla(
+                        "Elena", "Torres",
                         "elena@diceva.com", "900000006",
-                        "Elena123!", TipoUsuario.USER)
+                        "Elena123!", TipoUsuario.USER
+                )
         );
 
         for (Semilla semilla : semillas) {
@@ -66,11 +72,10 @@ public class UsuariosIniciales implements CommandLineRunner {
             if (!existe) {
 
                 UsuarioEntity usuario = new UsuarioEntity(
-                        semilla.id(),
+                        semilla.cedula(),
                         semilla.nombre(),
                         semilla.apellido(),
                         semilla.email(),
-                        semilla.cedula(),
                         encoder.encode(semilla.clave()),
                         semilla.tipoUsuario()
                 );

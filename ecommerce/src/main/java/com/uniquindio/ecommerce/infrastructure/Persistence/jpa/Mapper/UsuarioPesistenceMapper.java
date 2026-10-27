@@ -18,7 +18,6 @@ public class UsuarioPesistenceMapper {
 
         UsuarioEntity entity = new UsuarioEntity();
 
-        entity.setId(UUID.randomUUID().toString());
         entity.setNombre(usuario.getNombre());
         entity.setApellido(usuario.getApellido());
         entity.setEmail(usuario.getEmail());

@@ -37,7 +37,7 @@ public class AutenticacionService {
         Instant expira = ahora.plus(minutosDeVida, ChronoUnit.MINUTES);
 
         String token = jwtTokenProvider.generar(
-                autenticacion.getName(), detalles.usuario().getId(), roles, ahora, expira);
+                autenticacion.getName(), detalles.usuario().getCedula(), roles, ahora, expira);
 
         return new TokenResponse(token, "Bearer", expira, roles);
     }
