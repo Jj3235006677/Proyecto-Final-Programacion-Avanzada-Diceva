@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Table(name = "usuarios")
 @Getter
@@ -26,10 +25,16 @@ public class UsuarioEntity {
     @Column(length = 36)
     private String id;
 
+    @Column(nullable = false)
+    private String nombre;
+
+    @Column(nullable = false)
+    private String apellido;
+
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column (nullable = false , unique = true)
+    @Column(nullable = false, unique = true)
     private String cedula;
 
     @Column(nullable = false)
@@ -37,5 +42,5 @@ public class UsuarioEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TipoUsuario rol;
+    private TipoUsuario tipoUsuario;
 }

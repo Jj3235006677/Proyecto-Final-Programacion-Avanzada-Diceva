@@ -8,20 +8,23 @@ import java.util.Objects;
 
 public class Usuario {
 
-    private final String id;
+    private final String nombre;
+    private final String apellido;
     private final String email;
     private final String cedula;
     private final String password;
     private final TipoUsuario rol;
 
     private Usuario(
-            String id,
+            String nombre,
+            String apellido,
             String email,
             String cedula,
             String password,
             TipoUsuario rol) {
 
-        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.email = email;
         this.cedula = cedula;
         this.password = password;
@@ -29,27 +32,34 @@ public class Usuario {
     }
 
     public static Usuario crear(
-            String id,
+            String nombre,
+            String apellido,
             String email,
             String cedula,
             String password,
             TipoUsuario rol) {
 
-        validarDatos(id, email, cedula, password, rol);
+        validarDatos(nombre, apellido, email, cedula, password, rol);
 
-        return new Usuario(id, email, cedula, password, rol);
+        return new Usuario(nombre, apellido, email, cedula, password, rol);
     }
 
     private static void validarDatos(
-            String id,
+            String nombre,
+            String apellido,
             String email,
             String cedula,
             String password,
             TipoUsuario rol) {
 
-        if (id == null || id.isBlank()) {
+        if (nombre == null || nombre.isBlank()) {
             throw new ReglaDominioException(
-                    "El identificador del usuario es obligatorio");
+                    "El nombre del usuario es obligatorio");
+        }
+
+        if (apellido == null || apellido.isBlank()) {
+            throw new ReglaDominioException(
+                    "El apellido del usuario es obligatorio");
         }
 
         if (email == null || email.isBlank()
@@ -74,8 +84,12 @@ public class Usuario {
         }
     }
 
-    public String getId() {
-        return id;
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
     }
 
     public String getEmail() {
@@ -104,11 +118,11 @@ public class Usuario {
             return false;
         }
 
-        return id.equals(usuario.id);
+        return Objects.equals(email, usuario.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(email);
     }
 }

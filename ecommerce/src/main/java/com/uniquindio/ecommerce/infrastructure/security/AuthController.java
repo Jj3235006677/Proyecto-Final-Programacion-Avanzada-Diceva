@@ -1,8 +1,11 @@
 package com.uniquindio.ecommerce.infrastructure.security;
 
 
+import com.uniquindio.ecommerce.application.UseCase.UsuarioUseCase.RegistrarUsuarioUseCase;
 import com.uniquindio.ecommerce.application.dto.request.LoginRequest;
+import com.uniquindio.ecommerce.application.dto.request.RegistroUsuarioRequest;
 import com.uniquindio.ecommerce.application.dto.response.TokenResponse;
+import com.uniquindio.ecommerce.domain.entity.Usuario;
 import com.uniquindio.ecommerce.infrastructure.security.AutenticacionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +25,36 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthController {
 
+
     private final AutenticacionService autenticacionService;
+    private final RegistrarUsuarioUseCase registrarUsuarioUseCase;
+
 
     @PostMapping("/login")
     public TokenResponse login(@Valid @RequestBody LoginRequest request) {
         return autenticacionService.login(request);
     }
+
+    @PostMapping("/registro")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Map<String, String> registrar(
+            @Valid @RequestBody RegistroUsuarioRequest request) {
+
+        Usuario usuario = registrarUsuarioUseCase.ejecutar(
+                request.cedula(),
+                request.nombre(),
+                request.apellido(),
+                request.email(),
+                request.password(),
+                request.tipoUsuario()
+        );
+
+        return Map.of(
+                "mensaje", "Usuario registrado correctamente",
+                "email", usuario.getEmail()
+        );
+    }
+
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class RegistrarUsuarioUseCase {
@@ -20,8 +18,11 @@ public class RegistrarUsuarioUseCase {
 
     public Usuario ejecutar(
             String cedula,
+            String nombre,
+            String apellido,
             String email,
-            String password) {
+            String password,
+            TipoUsuario tipoUsuario) {
 
         if (usuarioRepository.buscarPorEmail(email).isPresent()) {
             throw new ReglaDominioException(
@@ -33,8 +34,19 @@ public class RegistrarUsuarioUseCase {
                     "La cédula ya está registrada");
         }
 
+        if (tipoUsuario == null) {
+            throw new ReglaDominioException(
+                    "El tipo de usuario es obligatorio");
+        }
+
+        if (tipoUsuario != TipoUsuario.USER) {
+            throw new ReglaDominioException(
+                    "Solo se permite registrar usuarios con el rol USER");
+        }
+
         Usuario usuario = Usuario.crear(
-                UUID.randomUUID().toString(),
+                nombre,
+                apellido,
                 email,
                 cedula,
                 passwordEncoder.encode(password),
