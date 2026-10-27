@@ -22,6 +22,12 @@ public class BuscarJuegosPaginadosUseCase {
             int pagina,
             int tamanio
     ) {
+        if (pagina < 0) {
+            throw new IllegalArgumentException("El número de página no puede ser negativo");
+        }
+        if (tamanio <= 0) {
+            throw new IllegalArgumentException("El tamaño de página debe ser mayor que cero");
+        }
         return juegoMesaRepository.buscarPaginado(
                 texto,
                 precioMaximo,

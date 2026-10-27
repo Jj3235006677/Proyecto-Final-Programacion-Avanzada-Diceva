@@ -10,4 +10,6 @@ public interface UsuarioJpaDataRepository
         extends JpaRepository<UsuarioEntity, String> {
 
     Optional<UsuarioEntity> findByEmail(String email);
+
+    Optional<UsuarioEntity> findByCedula(String cedula);
 }

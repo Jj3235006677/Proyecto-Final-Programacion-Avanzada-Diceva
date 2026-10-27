@@ -116,4 +116,14 @@ public class GlobalExceptionHandler {
                 .status(status)
                 .body(cuerpo);
     }
+    // Argumentos inválidos: 400 Bad Request
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> manejarArgumentoInvalido(
+            IllegalArgumentException ex) {
+
+        return construirRespuesta(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage()
+        );
+    }
 }

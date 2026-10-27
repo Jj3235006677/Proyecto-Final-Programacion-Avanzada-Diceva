@@ -46,6 +46,7 @@ public class SecurityConfig {
                         // Inicio de sesión y documentación pública.
                         .requestMatchers(
                                 "/api/auth/login",
+                                "/api/auth/registro",
                                 "/error",
                                 "/api-docs/**",
                                 "/v3/api-docs/**",

@@ -3,9 +3,9 @@ package com.uniquindio.ecommerce.domain.Service;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
-import org.springframework.stereotype.Component;
 
-@Component
+
+
 public class VerificadorDeCompra {
 
     public void verificarQuePuedeAgregarJuego(

@@ -16,7 +16,7 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
-                .info(new Info().title("API Modelos 3D Imprimibles").version("1.0"))
+                .info(new Info().title("API Diceva").version("1.0"))
                 .components(new Components().addSecuritySchemes(ESQUEMA,
                         new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
