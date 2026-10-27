@@ -42,6 +42,8 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+
+                        // Inicio de sesión y documentación pública.
                         .requestMatchers(
                                 "/api/auth/login",
                                 "/error",
@@ -52,19 +54,36 @@ public class SecurityConfig {
                                 "/h2-console/**"
                         ).permitAll()
 
-                        // Catálogo público de juegos de mesa.
-                        // Catálogo público de juegos de mesa.
+                        // Consultar el catálogo y el ranking es público.
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/api/juegoMesa",
                                 "/api/juegoMesa/**"
                         ).permitAll()
 
+                        // Solo ADMIN puede crear juegos.
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/juegoMesa"
+                        ).hasAuthority("ADMIN")
+
+                        // Solo ADMIN puede eliminar juegos lógicamente.
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/juegoMesa/*/eliminacion-logica"
+                        ).hasAuthority("ADMIN")
+
+                        // Solo ADMIN puede confirmar compras.
+                        .requestMatchers(
+                                HttpMethod.PATCH,
+                                "/api/compras/*/confirmar"
+                        ).hasAuthority("ADMIN")
+
                         // Rutas administrativas.
                         .requestMatchers("/api/admin/**")
                         .hasAuthority("ADMIN")
 
-                        // Las demás rutas requieren token.
+                        // Las demás rutas requieren autenticación.
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
@@ -96,7 +115,8 @@ public class SecurityConfig {
         config.setAllowedOrigins(
                 List.of("http://localhost:4200"));
         config.setAllowedMethods(
-                List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                List.of("GET", "POST", "PUT", "PATCH",
+                        "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source =

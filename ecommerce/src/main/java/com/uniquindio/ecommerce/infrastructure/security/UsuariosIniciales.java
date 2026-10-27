@@ -1,5 +1,5 @@
-package com.uniquindio.ecommerce.infrastructure.security;
 
+package com.uniquindio.ecommerce.infrastructure.security;
 
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.dataRepository.UsuarioJpaDataRepository;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity.RolSeguridad;
@@ -15,23 +15,82 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsuariosIniciales implements CommandLineRunner {
 
-    private record Semilla(String id, String email, String clave, RolSeguridad rol) {}
+    private record Semilla(
+            String id,
+            String email,
+            String clave,
+            RolSeguridad rol
+    ) {}
 
     private final UsuarioJpaDataRepository repository;
     private final PasswordEncoder encoder;
 
     @Override
     public void run(String... args) {
+
         List<Semilla> semillas = List.of(
-                new Semilla("admin", "admin@modelos3d.com", "admin123", RolSeguridad.ADMIN),
-                new Semilla("ana", "ana@modelos3d.com", "ana123", RolSeguridad.USER),
-                new Semilla("bruno", "bruno@modelos3d.com", "bruno123", RolSeguridad.USER),
-                new Semilla("carla", "carla@modelos3d.com", "carla123", RolSeguridad.USER),
-                new Semilla("diego", "diego@modelos3d.com", "diego123", RolSeguridad.USER),
-                new Semilla("elena", "elena@modelos3d.com", "elena123", RolSeguridad.USER)
+                new Semilla(
+                        "admin",
+                        "admin@diceva.com",
+                        "c",
+                        RolSeguridad.ADMIN
+                ),
+                new Semilla(
+                        "ana",
+                        "ana@diceva.com",
+                        "Ana123!",
+                        RolSeguridad.USER
+                ),
+                new Semilla(
+                        "bruno",
+                        "bruno@diceva.com",
+                        "Bruno123!",
+                        RolSeguridad.USER
+                ),
+                new Semilla(
+                        "carla",
+                        "carla@diceva.com",
+                        "Carla123!",
+                        RolSeguridad.USER
+                ),
+                new Semilla(
+                        "diego",
+                        "diego@diceva.com",
+                        "Diego123!",
+                        RolSeguridad.USER
+                ),
+                new Semilla(
+                        "elena",
+                        "elena@diceva.com",
+                        "Elena123!",
+                        RolSeguridad.USER
+                )
         );
-        for (Semilla s : semillas) {
-            repository.save(new UsuarioEntity(s.id(), s.email(), encoder.encode(s.clave()), s.rol()));
+
+        for (Semilla semilla : semillas) {
+
+            boolean existe = repository
+                    .findByEmail(semilla.email())
+                    .isPresent();
+
+            if (!existe) {
+
+                UsuarioEntity usuario = new UsuarioEntity(
+                        semilla.id(),
+                        semilla.email(),
+                        encoder.encode(semilla.clave()),
+                        semilla.rol()
+                );
+
+                repository.save(usuario);
+
+                System.out.println(
+                        "Usuario inicial creado: "
+                                + semilla.email()
+                                + " - Rol: "
+                                + semilla.rol()
+                );
+            }
         }
     }
 }

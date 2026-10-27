@@ -62,7 +62,7 @@ public class CompraController {
 
         Compra compra = crearCompraUseCase.ejecutar(
                 id,
-                request.idListaJuegosMesa(),
+                java.util.List.of(),
                 request.cedulaUsuario(),
                 LocalDateTime.now()
         );
