@@ -23,4 +23,6 @@ public interface JuegoMesaRepository {
     List<Object[]> obtenerRankingJuegos();
 
     void eliminarLogicamente(UUID idJuegoMesa);
+
+    Optional<JuegoMesa> obtenerPorNombre(String nombreJuegoMesa);
 }

@@ -95,4 +95,12 @@ public class JuegoMesaRepositorioJpa implements JuegoMesaRepository {
     public void eliminarLogicamente(UUID idJuegoMesa) {
         juegoMesaJpaDataRepository.eliminarLogicamente(idJuegoMesa);
     }
+
+    @Override
+    public Optional<JuegoMesa> obtenerPorNombre(String nombreJuegoMesa) {
+        return juegoMesaJpaDataRepository.buscarPorNombre(nombreJuegoMesa)
+                .stream()
+                .findFirst()
+                .map(juegoMesaPersistenceMapper::toDomain);
+    }
 }

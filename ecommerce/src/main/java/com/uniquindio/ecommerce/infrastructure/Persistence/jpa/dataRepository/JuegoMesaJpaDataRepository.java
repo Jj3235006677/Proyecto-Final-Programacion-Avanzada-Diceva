@@ -75,5 +75,15 @@ public interface JuegoMesaJpaDataRepository
       AND j.eliminacionLogica = false
     """)
     int eliminarLogicamente(@Param("id") UUID id);
-    
+
+
+
+
+    @Query("""
+    SELECT j
+    FROM JuegoMesaEntity j
+    WHERE LOWER(j.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))
+      AND j.eliminacionLogica = false
+    """)
+    List<JuegoMesaEntity> buscarPorNombre(@Param("nombre") String nombre);
 }
