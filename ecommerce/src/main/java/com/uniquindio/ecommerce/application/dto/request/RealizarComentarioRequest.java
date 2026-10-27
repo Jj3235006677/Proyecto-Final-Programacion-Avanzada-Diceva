@@ -1,3 +1,4 @@
+
 package com.uniquindio.ecommerce.application.dto.request;
 
 import com.uniquindio.ecommerce.domain.valueobject.Calificacion;
@@ -11,13 +12,10 @@ public record RealizarComentarioRequest(
         @NotNull(message = "El juego de mesa es obligatorio")
         UUID codigoJuegoMesa,
 
-        @NotNull(message = "El usuario es obligatorio")
-        UUID usuarioId,
-
-        @NotBlank(message = "El titulo es obligatorio")
+        @NotBlank(message = "El título es obligatorio")
         String titulo,
 
-        @NotNull(message = "La calificacion es obligatoria")
+        @NotNull(message = "La calificación es obligatoria")
         Calificacion calificacion,
 
         @NotBlank(message = "El comentario es obligatorio")

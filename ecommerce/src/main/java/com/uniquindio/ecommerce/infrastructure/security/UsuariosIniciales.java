@@ -6,6 +6,7 @@ import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.dataRepository.Us
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity.UsuarioEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,7 @@ public class UsuariosIniciales implements CommandLineRunner {
     private final PasswordEncoder encoder;
 
     @Override
+    @Order(1)
     public void run(String... args) {
 
         List<Semilla> semillas = List.of(

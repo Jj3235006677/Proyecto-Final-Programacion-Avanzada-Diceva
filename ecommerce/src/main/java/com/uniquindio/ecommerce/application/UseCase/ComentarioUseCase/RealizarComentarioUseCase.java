@@ -1,26 +1,39 @@
+
 package com.uniquindio.ecommerce.application.UseCase.ComentarioUseCase;
 
 import com.uniquindio.ecommerce.domain.entity.Comentario;
 import com.uniquindio.ecommerce.domain.repository.ComentarioRepository;
 import com.uniquindio.ecommerce.domain.valueobject.Calificacion;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
+@RequiredArgsConstructor
 public class RealizarComentarioUseCase {
-    private final ComentarioRepository repository;
 
-    public RealizarComentarioUseCase(ComentarioRepository repository) {
-        this.repository = repository;
-    }
+    private final ComentarioRepository comentarioRepository;
 
-    public Comentario ejecutar(UUID idComentario, UUID codigoJuegoMesa,
-                               UUID usuarioId, String titulo, Calificacion calificacion, String textoComentario){
-        Comentario comentario=Comentario.crearComentario(idComentario,codigoJuegoMesa,usuarioId,titulo,calificacion,textoComentario);
+    public Comentario ejecutar(
+            UUID idComentario,
+            UUID codigoJuegoMesa,
+            String usuarioId,
+            String titulo,
+            Calificacion calificacion,
+            String comentario
+    ) {
+        Comentario comentario1 = Comentario.crearComentario(
+                idComentario,
+                codigoJuegoMesa,
+                usuarioId,
+                titulo,
+                calificacion,
+                comentario
+        );
 
-        repository.guardar(comentario);
-        return comentario;
+        comentarioRepository.guardar(comentario1);
 
+        return comentario1;
     }
 }
-//congelar precio
-//activo
