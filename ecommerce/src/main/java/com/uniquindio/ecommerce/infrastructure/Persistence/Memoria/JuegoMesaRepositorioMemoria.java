@@ -40,4 +40,9 @@ public class JuegoMesaRepositorioMemoria implements JuegoMesaRepository {
 
     }
 
+    @Override
+    public Optional<JuegoMesa> obtenerPorNombre(String nombreJuegoMesa) {
+        return Optional.empty();
+    }
+
 }

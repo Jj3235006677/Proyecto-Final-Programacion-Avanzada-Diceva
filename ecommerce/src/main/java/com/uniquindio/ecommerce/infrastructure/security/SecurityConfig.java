@@ -62,6 +62,12 @@ public class SecurityConfig {
                                 "/api/juegoMesa/**"
                         ).permitAll()
 
+                        // Consultar comentarios es público.
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/Comentario/**"
+                        ).permitAll()
+
                         // Solo ADMIN puede crear juegos.
                         .requestMatchers(
                                 HttpMethod.POST,

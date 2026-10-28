@@ -4,10 +4,7 @@ import com.uniquindio.ecommerce.domain.entity.Comentario;
 
 import com.uniquindio.ecommerce.domain.repository.ComentarioRepository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class ComentarioRepositorioEnMemoria implements ComentarioRepository {
     private final Map<UUID, Comentario> comentarios=new HashMap<>();
@@ -16,6 +13,11 @@ public class ComentarioRepositorioEnMemoria implements ComentarioRepository {
     public Optional<Comentario> obtenerComentarioId(UUID id) {
 
         return Optional.ofNullable(comentarios.get(id));
+    }
+
+    @Override
+    public Optional<List<Comentario>> consultarComentarios(UUID codigoJuegoMesa) {
+        return Optional.empty();
     }
 
     @Override
