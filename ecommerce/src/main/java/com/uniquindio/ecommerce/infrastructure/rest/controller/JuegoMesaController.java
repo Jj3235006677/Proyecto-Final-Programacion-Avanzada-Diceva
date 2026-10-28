@@ -7,6 +7,7 @@ import com.uniquindio.ecommerce.application.dto.request.JuegoMesaRequest;
 import com.uniquindio.ecommerce.application.dto.response.JuegoMesaResponse;
 import com.uniquindio.ecommerce.application.dto.response.RankingJuegoResponse;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
+import com.uniquindio.ecommerce.domain.valueobject.RankingJuego;
 import com.uniquindio.ecommerce.domain.valueobject.ResultadoPaginado;
 import com.uniquindio.ecommerce.infrastructure.rest.mapper.JuegoMesaMapper;
 
@@ -135,17 +136,19 @@ public class JuegoMesaController {
     @GetMapping("/ranking")
     public ResponseEntity<List<RankingJuegoResponse>> obtenerRanking() {
 
-        List<Object[]> resultados = obtenerRankingJuegosUseCase.ejecutar();
+        List<RankingJuego> resultados =
+                obtenerRankingJuegosUseCase.ejecutar();
 
         List<RankingJuegoResponse> respuesta = resultados.stream()
-                .map(fila -> new RankingJuegoResponse(
-                        (String) fila[0],
-                        ((Number) fila[1]).longValue()
+                .map(ranking -> new RankingJuegoResponse(
+                        ranking.nombreJuego(),
+                        ranking.cantidadVentas()
                 ))
                 .toList();
 
         return ResponseEntity.ok(respuesta);
     }
+    // Consultar el ranking de juegos más incluidos en compras
 
 
 

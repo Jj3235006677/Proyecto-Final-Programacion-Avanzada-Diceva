@@ -1,6 +1,7 @@
 package com.uniquindio.ecommerce.domain.repository;
 
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
+import com.uniquindio.ecommerce.domain.valueobject.RankingJuego;
 import com.uniquindio.ecommerce.domain.valueobject.ResultadoPaginado;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface JuegoMesaRepository {
             int tamanio
     );
 
-    List<Object[]> obtenerRankingJuegos();
+    List<RankingJuego> obtenerRankingJuegos();
 
     void eliminarLogicamente(UUID idJuegoMesa);
 

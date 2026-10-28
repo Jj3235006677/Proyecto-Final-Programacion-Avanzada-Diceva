@@ -1,5 +1,6 @@
 package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.dataRepository;
 
+import com.uniquindio.ecommerce.domain.valueobject.RankingJuego;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity.JuegoMesaEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -54,7 +55,9 @@ public interface JuegoMesaJpaDataRepository
 
 
     @Query("""
-    SELECT j.nombre, COUNT(cj)
+    SELECT new com.uniquindio.ecommerce.domain.valueobject.RankingJuego(
+        j.nombre, COUNT(cj)
+    )
     FROM JuegoMesaEntity j
     JOIN CompraEntity c ON j.id MEMBER OF c.idListaJuegosMesa
     JOIN c.idListaJuegosMesa cj
@@ -62,7 +65,7 @@ public interface JuegoMesaJpaDataRepository
     GROUP BY j.id, j.nombre
     ORDER BY COUNT(cj) DESC
     """)
-    List<Object[]> obtenerRankingJuegos();
+    List<RankingJuego> obtenerRankingJuegos();
 
 
     // Eliminación lógica de un juego de mesa

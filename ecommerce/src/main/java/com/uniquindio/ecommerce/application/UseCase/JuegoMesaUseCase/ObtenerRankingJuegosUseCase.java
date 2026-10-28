@@ -1,6 +1,7 @@
 package com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase;
 
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
+import com.uniquindio.ecommerce.domain.valueobject.RankingJuego;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class ObtenerRankingJuegosUseCase {
         this.juegoMesaRepository = juegoMesaRepository;
     }
 
-    public List<Object[]> ejecutar() {
+    public List<RankingJuego> ejecutar() {
         return juegoMesaRepository.obtenerRankingJuegos();
     }
 }

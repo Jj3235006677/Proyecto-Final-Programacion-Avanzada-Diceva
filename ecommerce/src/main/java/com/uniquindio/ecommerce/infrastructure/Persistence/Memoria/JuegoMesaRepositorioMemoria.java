@@ -2,6 +2,7 @@ package com.uniquindio.ecommerce.infrastructure.Persistence.Memoria;
 
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
+import com.uniquindio.ecommerce.domain.valueobject.RankingJuego;
 import com.uniquindio.ecommerce.domain.valueobject.ResultadoPaginado;
 
 import java.util.*;
@@ -31,9 +32,10 @@ public class JuegoMesaRepositorioMemoria implements JuegoMesaRepository {
     }
 
     @Override
-    public List<Object[]> obtenerRankingJuegos() {
+    public List<RankingJuego> obtenerRankingJuegos() {
         return List.of();
     }
+
 
     @Override
     public void eliminarLogicamente(UUID idJuegoMesa) {

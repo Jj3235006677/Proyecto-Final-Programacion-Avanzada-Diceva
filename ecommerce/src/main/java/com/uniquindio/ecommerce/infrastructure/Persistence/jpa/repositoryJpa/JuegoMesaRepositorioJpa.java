@@ -3,6 +3,7 @@ package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.repositoryJpa;
 
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
 import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
+import com.uniquindio.ecommerce.domain.valueobject.RankingJuego;
 import com.uniquindio.ecommerce.domain.valueobject.ResultadoPaginado;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.Mapper.JuegoMesaPersistenceMapper;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.dataRepository.JuegoMesaJpaDataRepository;
@@ -86,7 +87,7 @@ public class JuegoMesaRepositorioJpa implements JuegoMesaRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Object[]> obtenerRankingJuegos() {
+    public List<RankingJuego> obtenerRankingJuegos() {
         return juegoMesaJpaDataRepository.obtenerRankingJuegos();
     }
 
