@@ -1,4 +1,4 @@
-package com.uniquindio.ecommerce.infrastructura.Persistence.jpa;
+package com.uniquindio.ecommerce.infrastructura.Persistence.jpaSpribootTest;
 
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
