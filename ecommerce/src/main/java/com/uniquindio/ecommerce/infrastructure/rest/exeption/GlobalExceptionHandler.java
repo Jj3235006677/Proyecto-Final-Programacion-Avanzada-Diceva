@@ -1,3 +1,4 @@
+
 package com.uniquindio.ecommerce.infrastructure.rest.exeption;
 
 import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
@@ -19,13 +20,13 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Reglas de negocio incumplidas: 409 Conflict
+    // Reglas de negocio incumplidas: 400 Bad Request
     @ExceptionHandler(ReglaDominioException.class)
     public ResponseEntity<Map<String, Object>> manejarReglaDominio(
             ReglaDominioException ex) {
 
         return construirRespuesta(
-                HttpStatus.CONFLICT,
+                HttpStatus.BAD_REQUEST,
                 ex.getMessage()
         );
     }
@@ -98,7 +99,18 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // Construcción uniforme de las respuestas JSON
+    // Argumentos inválidos: 400 Bad Request
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> manejarArgumentoInvalido(
+            IllegalArgumentException ex) {
+
+        return construirRespuesta(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage()
+        );
+    }
+
+    // Construcción uniforme de las respuestas
     private ResponseEntity<Map<String, Object>> construirRespuesta(
             HttpStatus status,
             String mensaje) {
@@ -115,15 +127,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(status)
                 .body(cuerpo);
-    }
-    // Argumentos inválidos: 400 Bad Request
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> manejarArgumentoInvalido(
-            IllegalArgumentException ex) {
-
-        return construirRespuesta(
-                HttpStatus.BAD_REQUEST,
-                ex.getMessage()
-        );
     }
 }

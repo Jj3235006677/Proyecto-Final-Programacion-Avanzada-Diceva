@@ -1,23 +1,24 @@
-package com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase;
+    package com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase;
 
-import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
-import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
-import org.springframework.stereotype.Service;
+    import com.uniquindio.ecommerce.domain.entity.JuegoMesa;
+    import com.uniquindio.ecommerce.domain.repository.JuegoMesaRepository;
+    import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+    import java.util.UUID;
 
-@Service
-public class ConsultarJuegoMesaUseCase {
+    @Service
+    public class ConsultarJuegoMesaUseCase {
 
-    private final JuegoMesaRepository juegoMesaRepository;
+        private final JuegoMesaRepository juegoMesaRepository;
 
-    public ConsultarJuegoMesaUseCase(JuegoMesaRepository juegoMesaRepository) {
-        this.juegoMesaRepository = juegoMesaRepository;
+        public ConsultarJuegoMesaUseCase(JuegoMesaRepository juegoMesaRepository) {
+            this.juegoMesaRepository = juegoMesaRepository;
+        }
+
+        public JuegoMesa ejecutar(UUID id) {
+            return juegoMesaRepository.obtenerPorId(id)
+                    .orElseThrow(() -> new java.util.NoSuchElementException(
+                            "Juego de mesa no encontrado"
+                    ));
+        }
     }
-
-    public JuegoMesa ejecutar(UUID id) {
-        return juegoMesaRepository.obtenerPorId(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Juego de mesa no encontrado"));
-    }
-}
