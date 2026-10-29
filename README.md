@@ -1,18 +1,59 @@
-# Proyecto-Final-Programacion-avanzada
+# Diceva · Marketplace de juegos de mesa
 
+**Programación Avanzada · Universidad del Quindío · Entrega 2: Backend completo**
 
-Taller pruebas avanzadas 
+**Nicho:** Venta de juegos de mesa
+**Integrantes:** Juan Pablo Buitrago
 
+## Cómo ejecutar
 
-Parte 0: En la parte cero estamos probando cómo nuestros repositorios consultan los datos y verificando que lo hagan bien, aplicando las tres AAA (Arrange, Act, Assert) en el orden visto en clase, para determinar que nuestros repositorios cumplan con la funcionalidad requerida. También comprendimos que, al usar @SpringBootTest, se carga nuestro archivo data.sql, y así evitamos crear todo desde casi cero
+Requisitos: Java 21.
 
+    ./gradlew bootRun
 
-Parte 1: En la parte uno estamos probando la implementación de JWT en un endpoint determinado. Con esto verificamos que determinadas funciones del backend estén restringidas para los diferentes tipos de usuarios, logrando así las respuestas 401, 403 y 200. Lo que más me costó entender fue que el código 401 significa que no saben quién eres, el 403 significa que saben quién eres, pero no tienes permiso, y el 200 indica que la petición fue exitosa y que el endpoint realizó la función correctamente.
+- Swagger: http://localhost:8080/swagger-ui.html (botón **Authorize** para pegar el token)
+- Consola H2: http://localhost:8080/h2-console
+  (JDBC URL `jdbc:h2:mem:ecommercedb`, usuario `sa`, sin clave)
+- Pruebas: `./gradlew test`
 
+La base de datos es H2 en memoria y los datos de prueba se cargan al arrancar.
 
-Parte 2: En esta parte ya estamos usando @DataJpaTest en lugar de @SpringBootTest, y su principal diferencia es que @DataJpaTest solo carga una parte de la persistencia, mientras que @SpringBootTest levanta los controladores, repositorios, servicios, etc. Lo que más me costó entender fue que, como @DataJpaTest solo carga una parte de la persistencia, me tocó importar a mano un mapper que me faltaba para que funcionara.
+## Usuarios de prueba
 
-Parte 3: En esta parte vamos a realizar una prueba de integración, la cual, por lo que entiendo, recorre una gran parte del proyecto en una sola prueba. Es decir, una prueba unitaria sí prueba una parte del código, pero de forma aislada, mientras que una prueba de integración prueba desde el controller, el caso de uso, el repositorio y la base de datos, lo que hace que podamos estar seguros de que nuestros endpoints funcionen bien.
+| Correo | Contraseña | Rol |
+|---|---|---|
+| admin@diceva.com | c | ADMIN |
+| ana@diceva.com | Ana123! | USER |
+| bruno@diceva.com | Bruno123! | USER |
+| carla@diceva.com | Carla123! | USER |
+| diego@diceva.com | Diego123! | USER |
+| elena@diceva.com | Elena123! | USER |
 
+## Endpoints principales
 
-Parte 4: En esta parte probamos un controller desde sus respuestas HTTP, las cuales atribuyen a diferentes situaciones (como 400 cuando se rompe una regla de negocio). De esta manera, comprobamos que nuestro controlador funcione bien.
+| Método | Ruta | Descripción | Acceso |
+|---|---|---|---|
+| POST | /api/auth/registro | Registrar usuario | Público |
+| POST | /api/auth/login | Iniciar sesión (devuelve JWT) | Público |
+| GET | /api/juegoMesa | Listado paginado con búsqueda y filtro | Público |
+| GET | /api/juegoMesa/{id} | Consultar un juego | Público |
+| GET | /api/juegoMesa/ranking | Ranking de juegos más vendidos | Público |
+| POST | /api/juegoMesa | Crear juego | ADMIN |
+| PUT | /api/juegoMesa/{id}/eliminacion-logica | Eliminar juego (soft delete) | ADMIN |
+| POST | /api/compras | Crear compra | Autenticado |
+| GET | /api/compras/{id} | Consultar compra | Autenticado |
+| PATCH | /api/compras/agregarJuego | Agregar juego a una compra | Autenticado |
+| PATCH | /api/compras/{id}/confirmar | Confirmar compra | ADMIN |
+| PATCH | /api/compras/{id}/reembolsar | Solicitar reembolso | Autenticado |
+| POST | /api/Comentario | Comentar un juego | Autenticado |
+| GET | /api/Comentario/{nombreJuego} | Ver comentarios de un juego | Público |
+
+Sin token responde 401; con token pero sin el rol correcto responde 403.
+
+## Correcciones de la Entrega 1
+
+| Observación que nos dieron | Qué cambiamos | Dónde se ve (archivo o rama) |
+|---|---|---|
+| Quitar las validaciones del constructor principal | Sacamos las validaciones del constructor y las pusimos en un método aparte | `JuegoMesa.java` (método `validarDatosJuego`) |
+| El estado del juego era solo activo o inactivo | Agregamos los estados PREVENTA, DISPONIBLE y AGOTADO, con transiciones permitidas | `EstadoJuego.java` |
+| Precio congelado | Pendiente: no alcanzamos a corregirla en esta entrega | `Compra.java` (hoy guarda solo `precioTotal`) |
