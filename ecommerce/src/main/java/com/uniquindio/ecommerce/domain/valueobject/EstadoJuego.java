@@ -10,6 +10,7 @@ public enum EstadoJuego {
             return false;
         }
 
+
         return switch (this) {
             case PREVENTA -> siguiente == DISPONIBLE;
             case DISPONIBLE -> siguiente == AGOTADO;
