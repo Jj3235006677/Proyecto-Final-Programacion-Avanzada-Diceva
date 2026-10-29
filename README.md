@@ -56,4 +56,4 @@ Sin token responde 401; con token pero sin el rol correcto responde 403.
 |---|---|---|
 | Quitar las validaciones del constructor principal | Sacamos las validaciones del constructor y las pusimos en un método aparte | `JuegoMesa.java` (método `validarDatosJuego`) |
 | El estado del juego era solo activo o inactivo | Agregamos los estados PREVENTA, DISPONIBLE y AGOTADO, con transiciones permitidas | `EstadoJuego.java` |
-| Precio congelado | Pendiente: no alcanzamos a corregirla en esta entrega | `Compra.java` (hoy guarda solo `precioTotal`) |
+| Precio congelado | Pendiente: | `Compra.java` (hoy guarda solo `precioTotal`) |
