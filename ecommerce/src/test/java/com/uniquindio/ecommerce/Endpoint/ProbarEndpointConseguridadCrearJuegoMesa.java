@@ -65,6 +65,7 @@ public class ProbarEndpointConseguridadCrearJuegoMesa {
 
     @Test
     void conTokenDeberiaResponder201AlCrearJuegoMesaComoAdmin()
+
             throws Exception {
         // 200 good buen funcionamiento
         mockMvc.perform(post("/api/juegoMesa")
