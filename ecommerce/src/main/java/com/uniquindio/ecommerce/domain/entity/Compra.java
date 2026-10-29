@@ -265,6 +265,10 @@ public class Compra {
         return fechaCompra;
     }
 
+    public EstadoPago getEstadoPago() {
+        return estadoPago;
+    }
+
     @Override
     public boolean equals(Object o) {
 
