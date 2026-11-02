@@ -1,3 +1,4 @@
+
 package com.uniquindio.ecommerce.casosUsoTest;
 
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.CrearCompraUseCase;
@@ -20,7 +21,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -58,26 +58,38 @@ class CasosDeUsoTest {
     void crearCompraDeberiaGuardarYDevolverUnaCompraPendiente() {
         // Arrange
         UUID id = UUID.randomUUID();
+        String cedula = "11111111";
 
         // Act
-        Compra compra = crearCompra.ejecutar(id, List.of(UUID.randomUUID()),
-                UUID.randomUUID(), LocalDateTime.now());
+        Compra compra = crearCompra.ejecutar(
+                id,
+                cedula,
+                LocalDateTime.now()
+        );
 
         // Assert
         assertEquals(EstadoPago.PENDIENTE, compra.consultarEstadoCompra());
+        assertEquals(cedula, compra.getCedulaUsuario());
+        assertEquals(0, compra.getDetalles().size());
+
         verify(compraRepository).guardar(compra);
     }
 
     @Test
     void crearCompraNoDeberiaGuardarSiFaltaElUsuario() {
-        // Act + Assert: la regla la lanza el dominio, no el caso de uso
+        // Act + Assert
         assertThrows(ReglaDominioException.class, () ->
-                crearCompra.ejecutar(UUID.randomUUID(), List.of(UUID.randomUUID()),
-                        null, LocalDateTime.now()));
+                crearCompra.ejecutar(
+                        UUID.randomUUID(),
+                        null,
+                        LocalDateTime.now()
+                )
+        );
 
         verify(compraRepository, never()).guardar(any());
     }
-    //-------------------------------------------------------------//
+
+    // ---------- CrearJuegoMesaUseCase (vendedor) ----------
 
     @Test
     void crearJuegoDeberiaGuardarYDevolverUnJuegoValido() {
@@ -110,6 +122,29 @@ class CasosDeUsoTest {
         verify(juegoMesaRepository).guardar(juego);
     }
 
+    @Test
+    void crearJuegoNoDeberiaGuardarSiElStockEsNegativo() {
+        // Act + Assert
+        assertThrows(ReglaDominioException.class, () ->
+                crearJuegoMesa.ejecutar(
+                        UUID.randomUUID(),
+                        UUID.randomUUID(),
+                        "Catan",
+                        "Juego de estrategia",
+                        new Precio(120000),
+                        -1,
+                        new RangoJugadores(4, 2),
+                        ComplejidadJuego.INTERMEDIA,
+                        "Comercio",
+                        "Colonización",
+                        10,
+                        "http://img/catan.png",
+                        EstadoJuego.DISPONIBLE
+                )
+        );
+
+        verify(juegoMesaRepository, never()).guardar(any());
+    }
 
     // ---------- RealizarRembolsoUseCase (comprador) ----------
 
@@ -118,10 +153,16 @@ class CasosDeUsoTest {
         // Arrange
         UUID idCompra = UUID.randomUUID();
 
-        Compra compra = Compra.realizarCompra(idCompra, List.of(UUID.randomUUID()),
-                UUID.randomUUID(), LocalDateTime.now());
+        Compra compra = Compra.realizarCompra(
+                idCompra,
+                "11111111",
+                LocalDateTime.now()
+        );
+
         compra.confirmarCompra();
-        when(compraRepository.obtenerPorId(idCompra)).thenReturn(Optional.of(compra));
+
+        when(compraRepository.obtenerPorId(idCompra))
+                .thenReturn(Optional.of(compra));
 
         // Act
         realizarReembolso.ejecutar("El juego llegó dañado", idCompra);
@@ -134,41 +175,34 @@ class CasosDeUsoTest {
     @Test
     void reembolsoNoDeberiaGuardarSiLaCompraNoExiste() {
         // Arrange
-        when(compraRepository.obtenerPorId(any())).thenReturn(Optional.empty());
+        when(compraRepository.obtenerPorId(any()))
+                .thenReturn(Optional.empty());
 
         // Act + Assert
         assertThrows(NoSuchElementException.class, () ->
-                realizarReembolso.ejecutar("motivo", UUID.randomUUID()));
+                realizarReembolso.ejecutar("motivo", UUID.randomUUID())
+        );
 
         verify(compraRepository, never()).guardar(any());
     }
 
     @Test
     void reembolsoNoDeberiaGuardarSiLaCompraSigueEnPendiente() {
-        // Arrange: una compra pendiente rompe la regla "solo se reembolsa lo aprobado"
-        Compra pendiente = Compra.realizarCompra(UUID.randomUUID(), List.of(UUID.randomUUID()),
-                UUID.randomUUID(), LocalDateTime.now());
-        when(compraRepository.obtenerPorId(any())).thenReturn(Optional.of(pendiente));
+        // Arrange
+        Compra pendiente = Compra.realizarCompra(
+                UUID.randomUUID(),
+                "11111111",
+                LocalDateTime.now()
+        );
+
+        when(compraRepository.obtenerPorId(any()))
+                .thenReturn(Optional.of(pendiente));
 
         // Act + Assert
         assertThrows(ReglaDominioException.class, () ->
-                realizarReembolso.ejecutar("motivo", UUID.randomUUID()));
+                realizarReembolso.ejecutar("motivo", UUID.randomUUID())
+        );
 
         verify(compraRepository, never()).guardar(any());
-    }
-
-    // ---------- CrearJuegoMesaUseCase (vendedor) ----------
-
-    @Test
-    void crearJuegoNoDeberiaGuardarSiElStockEsNegativo() {
-        // Act + Assert
-        assertThrows(ReglaDominioException.class, () ->
-                crearJuegoMesa.ejecutar(UUID.randomUUID(), UUID.randomUUID(), "Catan",
-                        "Juego de estrategia", new Precio(120000), -1,
-                        new RangoJugadores(4, 2), ComplejidadJuego.INTERMEDIA,
-                        "Comercio", "Colonización", 10, "http://img/catan.png",
-                        EstadoJuego.DISPONIBLE));
-
-        verify(juegoMesaRepository, never()).guardar(any());
     }
 }
