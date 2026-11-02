@@ -1,3 +1,4 @@
+
 package com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS;
 
 import com.uniquindio.ecommerce.domain.Service.VerificadorDeCompra;
@@ -22,14 +23,12 @@ public class AgregarJuegoUseCase {
     @Transactional
     public void ejecutar(UUID idJuego, int cantidad, UUID idCompra) {
 
-
         JuegoMesa juegoMesa = juegoMesaRepository.obtenerPorId(idJuego)
                 .orElseThrow(() ->
                         new java.util.NoSuchElementException(
                                 "El juego de mesa no existe"
                         )
                 );
-
 
         Compra compra = compraRepository.obtenerPorId(idCompra)
                 .orElseThrow(() ->
@@ -38,24 +37,23 @@ public class AgregarJuegoUseCase {
                         )
                 );
 
-        // 3. Verificar las reglas del negocio.
         verificadorDeCompra.verificarQuePuedeAgregarJuego(
                 compra,
                 juegoMesa,
                 cantidad
         );
 
-        // 4. Agregar los juegos a la compra.
+        // Agregar el juego con su precio completo.
         compra.agregarJuego(
                 idJuego,
                 cantidad,
-                juegoMesa.getPrecio().precioProducto()
+                juegoMesa.getPrecio()
         );
 
-        // 5. Descontar las existencias.
+        // Descontar las existencias.
         juegoMesa.descontarStock(cantidad);
 
-        // 6. Guardar los cambios.
+        // Guardar los cambios.
         compraRepository.guardar(compra);
         juegoMesaRepository.guardar(juegoMesa);
     }

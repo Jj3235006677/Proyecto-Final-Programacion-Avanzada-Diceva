@@ -77,6 +77,39 @@ class CasosDeUsoTest {
 
         verify(compraRepository, never()).guardar(any());
     }
+    //-------------------------------------------------------------//
+
+    @Test
+    void crearJuegoDeberiaGuardarYDevolverUnJuegoValido() {
+        // Arrange
+        UUID idJuego = UUID.randomUUID();
+        UUID cedulaProveedor = UUID.randomUUID();
+
+        // Act
+        JuegoMesa juego = crearJuegoMesa.ejecutar(
+                cedulaProveedor,
+                idJuego,
+                "Catan",
+                "Juego de estrategia y comercio",
+                new Precio(120000),
+                10,
+                new RangoJugadores(4, 2),
+                ComplejidadJuego.INTERMEDIA,
+                "Comercio",
+                "Colonización",
+                10,
+                "http://img/catan.png",
+                EstadoJuego.DISPONIBLE
+        );
+
+        // Assert
+        assertEquals(idJuego, juego.getId());
+        assertEquals("Catan", juego.getNombre());
+        assertEquals(EstadoJuego.DISPONIBLE, juego.getEstado());
+
+        verify(juegoMesaRepository).guardar(juego);
+    }
+
 
     // ---------- RealizarRembolsoUseCase (comprador) ----------
 

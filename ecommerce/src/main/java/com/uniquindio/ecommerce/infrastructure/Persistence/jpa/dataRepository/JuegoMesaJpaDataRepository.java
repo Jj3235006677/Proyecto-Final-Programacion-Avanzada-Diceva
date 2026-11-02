@@ -56,14 +56,14 @@ public interface JuegoMesaJpaDataRepository
 
     @Query("""
     SELECT new com.uniquindio.ecommerce.domain.valueobject.RankingJuego(
-        j.nombre, COUNT(cj)
+        j.nombre, SUM(d.cantidad)
     )
-    FROM JuegoMesaEntity j
-    JOIN CompraEntity c ON j.id MEMBER OF c.idListaJuegosMesa
-    JOIN c.idListaJuegosMesa cj
+    FROM CompraEntity c
+    JOIN c.detalles d
+    JOIN JuegoMesaEntity j ON j.id = d.idJuego
     WHERE j.eliminacionLogica = false
     GROUP BY j.id, j.nombre
-    ORDER BY COUNT(cj) DESC
+    ORDER BY SUM(d.cantidad) DESC
     """)
     List<RankingJuego> obtenerRankingJuegos();
 

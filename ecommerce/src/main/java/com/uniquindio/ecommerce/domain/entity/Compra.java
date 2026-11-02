@@ -1,6 +1,8 @@
+
 package com.uniquindio.ecommerce.domain.entity;
 
 import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
+import com.uniquindio.ecommerce.domain.valueobject.DetalleCompra;
 import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 
@@ -12,46 +14,28 @@ import java.util.UUID;
 public class Compra {
 
     private final UUID id;
-    private final List<UUID> idListaJuegosMesa;
-    private final UUID cedulaUsuario;
+    private final List<DetalleCompra> detalles;
+    private final String cedulaUsuario;
     private Precio precioTotal;
     private final LocalDateTime fechaCompra;
     private EstadoPago estadoPago;
 
     private Compra(
             UUID id,
-            List<UUID> idListaJuegosMesa,
-            UUID cedulaUsuario,
+            String cedulaUsuario,
             LocalDateTime fechaCompra) {
 
         this.id = id;
-        this.idListaJuegosMesa = new ArrayList<>(idListaJuegosMesa);
+        this.detalles = new ArrayList<>();
         this.cedulaUsuario = cedulaUsuario;
         this.fechaCompra = fechaCompra;
         this.precioTotal = new Precio(0);
         this.estadoPago = EstadoPago.PENDIENTE;
     }
 
-    private Compra(
-            UUID id,
-            List<UUID> idListaJuegosMesa,
-            UUID cedulaUsuario,
-            LocalDateTime fechaCompra,
-            Precio precioTotal,
-            EstadoPago estadoPago) {
-
-        this.id = id;
-        this.idListaJuegosMesa = new ArrayList<>(idListaJuegosMesa);
-        this.cedulaUsuario = cedulaUsuario;
-        this.fechaCompra = fechaCompra;
-        this.precioTotal = precioTotal;
-        this.estadoPago = estadoPago;
-    }
-
     private static void validarDatosCompra(
             UUID id,
-            List<UUID> idListaJuegosMesa,
-            UUID cedulaUsuario,
+            String cedulaUsuario,
             LocalDateTime fechaCompra) {
 
         if (id == null) {
@@ -60,19 +44,9 @@ public class Compra {
             );
         }
 
-        
-
-        for (UUID idJuego : idListaJuegosMesa) {
-            if (idJuego == null) {
-                throw new ReglaDominioException(
-                        "La lista no puede contener identificadores de juegos nulos"
-                );
-            }
-        }
-
-        if (cedulaUsuario == null) {
+        if (cedulaUsuario == null || cedulaUsuario.isBlank()) {
             throw new ReglaDominioException(
-                    "El identificador del usuario es obligatorio"
+                    "La cédula del usuario es obligatoria"
             );
         }
 
@@ -83,44 +57,15 @@ public class Compra {
         }
     }
 
-    private static void validarDatosReconstruccion(
-            UUID id,
-            List<UUID> idListaJuegosMesa,
-            UUID cedulaUsuario,
-            LocalDateTime fechaCompra,
-            Precio precioTotal,
-            EstadoPago estadoPago) {
-
-        validarDatosCompra(
-                id,
-                idListaJuegosMesa,
-                cedulaUsuario,
-                fechaCompra
-        );
-
-        if (precioTotal == null || estadoPago == null) {
-            throw new ReglaDominioException(
-                    "No se puede reconstruir una compra con datos incompletos"
-            );
-        }
-    }
-
     public static Compra realizarCompra(
             UUID id,
-            List<UUID> idListaJuegosMesa,
-            UUID cedulaUsuario,
+            String cedulaUsuario,
             LocalDateTime fechaCompra) {
 
-        validarDatosCompra(
-                id,
-                idListaJuegosMesa,
-                cedulaUsuario,
-                fechaCompra
-        );
+        validarDatosCompra(id, cedulaUsuario, fechaCompra);
 
         return new Compra(
                 id,
-                idListaJuegosMesa,
                 cedulaUsuario,
                 fechaCompra
         );
@@ -128,36 +73,39 @@ public class Compra {
 
     public static Compra reconstruir(
             UUID id,
-            List<UUID> idListaJuegosMesa,
-            UUID cedulaUsuario,
+            List<DetalleCompra> detalles,
+            String cedulaUsuario,
             LocalDateTime fechaCompra,
             Precio precioTotal,
             EstadoPago estadoPago) {
 
         validarDatosReconstruccion(
                 id,
-                idListaJuegosMesa,
+                detalles,
                 cedulaUsuario,
                 fechaCompra,
                 precioTotal,
                 estadoPago
         );
 
-        return new Compra(
+        Compra compra = new Compra(
                 id,
-                idListaJuegosMesa,
                 cedulaUsuario,
-                fechaCompra,
-                precioTotal,
-                estadoPago
+                fechaCompra
         );
+
+        compra.detalles.addAll(detalles);
+        compra.precioTotal = precioTotal;
+        compra.estadoPago = estadoPago;
+
+        return compra;
     }
 
-    public void sumarContidadesDinero(int valor) {
+    public void sumarContidadesDinero(Precio valor) {
 
-        if (valor < 0) {
+        if (valor == null) {
             throw new ReglaDominioException(
-                    "El valor que se suma no puede ser negativo"
+                    "El precio que se suma es obligatorio"
             );
         }
 
@@ -175,7 +123,10 @@ public class Compra {
         this.estadoPago = EstadoPago.APROBADO;
     }
 
-    public void agregarJuego(UUID idJuego, int cantidad, int valorSumar) {
+    public void agregarJuego(
+            UUID idJuego,
+            int cantidad,
+            Precio precioUnitario) {
 
         if (estadoPago != EstadoPago.PENDIENTE) {
             throw new ReglaDominioException(
@@ -183,39 +134,15 @@ public class Compra {
             );
         }
 
-        if (idJuego == null) {
-            throw new ReglaDominioException(
-                    "El identificador del juego es obligatorio"
-            );
-        }
+        DetalleCompra detalle = new DetalleCompra(
+                idJuego,
+                cantidad,
+                precioUnitario
+        );
 
-        if (cantidad <= 0) {
-            throw new ReglaDominioException(
-                    "La cantidad debe ser mayor que cero"
-            );
-        }
+        detalles.add(detalle);
 
-        if (valorSumar < 0) {
-            throw new ReglaDominioException(
-                    "El valor del juego no puede ser negativo"
-            );
-        }
-
-        int valorTotal;
-
-        try {
-            valorTotal = Math.multiplyExact(cantidad, valorSumar);
-        } catch (ArithmeticException e) {
-            throw new ReglaDominioException(
-                    "El valor total de los juegos excede el límite permitido"
-            );
-        }
-
-        precioTotal = precioTotal.sumar(valorTotal);
-
-        for (int i = 0; i < cantidad; i++) {
-            idListaJuegosMesa.add(idJuego);
-        }
+        precioTotal = precioTotal.sumar(detalle.subtotal());
     }
 
     public void realizarReembolso(String motivo) {
@@ -249,11 +176,11 @@ public class Compra {
         return id;
     }
 
-    public List<UUID> getIdListaJuegosMesa() {
-        return List.copyOf(idListaJuegosMesa);
+    public List<DetalleCompra> getDetalles() {
+        return List.copyOf(detalles);
     }
 
-    public UUID getCedulaUsuario() {
+    public String getCedulaUsuario() {
         return cedulaUsuario;
     }
 
@@ -267,6 +194,35 @@ public class Compra {
 
     public EstadoPago getEstadoPago() {
         return estadoPago;
+    }
+
+    private static void validarDatosReconstruccion(
+            UUID id,
+            List<DetalleCompra> detalles,
+            String cedulaUsuario,
+            LocalDateTime fechaCompra,
+            Precio precioTotal,
+            EstadoPago estadoPago) {
+
+        validarDatosCompra(id, cedulaUsuario, fechaCompra);
+
+        if (detalles == null) {
+            throw new ReglaDominioException(
+                    "La lista de detalles de compra es obligatoria"
+            );
+        }
+
+        if (detalles.stream().anyMatch(detalle -> detalle == null)) {
+            throw new ReglaDominioException(
+                    "La lista no puede contener detalles nulos"
+            );
+        }
+
+        if (precioTotal == null || estadoPago == null) {
+            throw new ReglaDominioException(
+                    "No se puede reconstruir una compra con datos incompletos"
+            );
+        }
     }
 
     @Override

@@ -1,3 +1,4 @@
+
 package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity;
 
 import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
@@ -23,7 +24,7 @@ public class CompraEntity {
     private UUID id;
 
     @Column(name = "cedula_usuario", nullable = false)
-    private UUID cedulaUsuario;
+    private String cedulaUsuario;
 
     @Column(name = "fecha_compra", nullable = false)
     private LocalDateTime fechaCompra;
@@ -40,6 +41,5 @@ public class CompraEntity {
             name = "compra_juegos",
             joinColumns = @JoinColumn(name = "compra_id")
     )
-    @Column(name = "juego_id", nullable = false)
-    private List<UUID> idListaJuegosMesa = new ArrayList<>();
+    private List<DetalleCompraEmbeddable> detalles = new ArrayList<>();
 }

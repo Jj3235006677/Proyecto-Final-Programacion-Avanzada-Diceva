@@ -1,22 +1,26 @@
+
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
+
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.AgregarJuegoUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.ConfirmarCompraUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.ConsultarCompraUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.CrearCompraUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.RealizarRembolsoUseCase;
 
-import com.uniquindio.ecommerce.application.dto.request.RealizarCompraRequest;
 import com.uniquindio.ecommerce.application.dto.response.CompraResponse;
 import com.uniquindio.ecommerce.domain.entity.Compra;
+import com.uniquindio.ecommerce.domain.repository.UsuarioRepository;
 import com.uniquindio.ecommerce.infrastructure.rest.mapper.CompraMapper;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -34,6 +38,7 @@ public class CompraController {
     private final AgregarJuegoUseCase agregarJuegoUseCase;
     private final ConsultarCompraUseCase consultarCompraUseCase;
     private final CompraMapper mapper;
+    private final UsuarioRepository usuarioRepository;
 
     public CompraController(
             CrearCompraUseCase crearCompraUseCase,
@@ -41,7 +46,8 @@ public class CompraController {
             RealizarRembolsoUseCase realizarRembolsoUseCase,
             AgregarJuegoUseCase agregarJuegoUseCase,
             ConsultarCompraUseCase consultarCompraUseCase,
-            CompraMapper mapper) {
+            CompraMapper mapper,
+            UsuarioRepository usuarioRepository) {
 
         this.crearCompraUseCase = crearCompraUseCase;
         this.confirmarCompraUseCase = confirmarCompraUseCase;
@@ -49,21 +55,38 @@ public class CompraController {
         this.agregarJuegoUseCase = agregarJuegoUseCase;
         this.consultarCompraUseCase = consultarCompraUseCase;
         this.mapper = mapper;
+        this.usuarioRepository = usuarioRepository;
     }
 
     /**
-     * Crear una compra.
+     * Crear una compra con la cédula del usuario autenticado.
      */
     @PostMapping
     public ResponseEntity<CompraResponse> crear(
-            @Valid @RequestBody RealizarCompraRequest request) {
+            Authentication authentication) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "El usuario debe iniciar sesión"
+            );
+        }
+
+        String email = authentication.getName();
+
+        var usuario = usuarioRepository.buscarPorEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "El usuario autenticado no existe"
+                ));
+
+        String cedula = usuario.getCedula();
 
         UUID id = UUID.randomUUID();
 
         Compra compra = crearCompraUseCase.ejecutar(
                 id,
-                java.util.List.of(),
-                request.cedulaUsuario(),
+                cedula,
                 LocalDateTime.now()
         );
 
@@ -89,9 +112,7 @@ public class CompraController {
 
         Compra compra = consultarCompraUseCase.ejecutar(id);
 
-        return ResponseEntity.ok(
-                mapper.toResponse(compra)
-        );
+        return ResponseEntity.ok(mapper.toResponse(compra));
     }
 
     /**

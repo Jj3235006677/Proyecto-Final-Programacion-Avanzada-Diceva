@@ -1,3 +1,4 @@
+
 -- =====================================================
 -- 1. INSERTAR JUEGOS DE MESA
 -- =====================================================
@@ -58,9 +59,9 @@ VALUES
      'https://example.com/chess.jpg'),
 
     ('dddddddd-1111-1111-1111-111111111111',
-     'Monopoly', 'Negociación y gestión económica', 95000, 0,
+     'Monopoly', 'Negociación y gestión económica', 95000, 10,
      2, 6, 'Gestión económica', 'Bienes raíces y negocios',
-     8, 'BASICA', 'AGOTADO',
+     8, 'BASICA', 'DISPONIBLE',
      'dddddddd-dddd-dddd-dddd-dddddddddddd', FALSE,
      'https://example.com/monopoly.jpg');
 
@@ -105,49 +106,57 @@ VALUES
 -- 3. ASOCIAR JUEGOS CON SUS COMPRAS
 -- =====================================================
 
-INSERT INTO COMPRA_JUEGOS (COMPRA_ID, JUEGO_ID)
+INSERT INTO COMPRA_JUEGOS
+(COMPRA_ID, JUEGO_ID, CANTIDAD, PRECIO_MONTO)
 VALUES
-    -- Compra 1: Catan + Dixit
+    -- Compra 1: Catan + Dixit = 275000
     ('eeeeeeee-1111-1111-1111-111111111111',
-     'aaaaaaaa-1111-1111-1111-111111111111'),
+     'aaaaaaaa-1111-1111-1111-111111111111', 1, 150000),
+
     ('eeeeeeee-1111-1111-1111-111111111111',
-     'aaaaaaaa-2222-2222-2222-222222222222'),
+     'aaaaaaaa-2222-2222-2222-222222222222', 1, 125000),
 
-    -- Compra 2: Carcassonne + Ticket to Ride
+    -- Compra 2: Carcassonne + Ticket to Ride = 290000
     ('eeeeeeee-2222-2222-2222-222222222222',
-     'aaaaaaaa-3333-3333-3333-333333333333'),
+     'aaaaaaaa-3333-3333-3333-333333333333', 1, 110000),
+
     ('eeeeeeee-2222-2222-2222-222222222222',
-     'bbbbbbbb-1111-1111-1111-111111111111'),
+     'bbbbbbbb-1111-1111-1111-111111111111', 1, 180000),
 
-    -- Compra 3: Pandemic + Azul
+    -- Compra 3: Pandemic + Azul = 305000
     ('eeeeeeee-3333-3333-3333-333333333333',
-     'bbbbbbbb-2222-2222-2222-222222222222'),
+     'bbbbbbbb-2222-2222-2222-222222222222', 1, 165000),
+
     ('eeeeeeee-3333-3333-3333-333333333333',
-     'cccccccc-1111-1111-1111-111111111111'),
+     'cccccccc-1111-1111-1111-111111111111', 1, 140000),
 
-    -- Compra 4: Chess + Catan
+    -- Compra 4: Chess + Catan = 215000
     ('eeeeeeee-4444-4444-4444-444444444444',
-     'cccccccc-2222-2222-2222-222222222222'),
+     'cccccccc-2222-2222-2222-222222222222', 1, 65000),
+
     ('eeeeeeee-4444-4444-4444-444444444444',
-     'aaaaaaaa-1111-1111-1111-111111111111'),
+     'aaaaaaaa-1111-1111-1111-111111111111', 1, 150000),
 
-    -- Compra 5: Dixit + Monopoly
+    -- Compra 5: Dixit + Monopoly = 220000
     ('eeeeeeee-5555-5555-5555-555555555555',
-     'aaaaaaaa-2222-2222-2222-222222222222'),
+     'aaaaaaaa-2222-2222-2222-222222222222', 1, 125000),
+
     ('eeeeeeee-5555-5555-5555-555555555555',
-     'dddddddd-1111-1111-1111-111111111111'),
+     'dddddddd-1111-1111-1111-111111111111', 1, 95000),
 
-    -- Compra 6: Azul + Carcassonne
+    -- Compra 6: Azul + Carcassonne = 250000
     ('eeeeeeee-6666-6666-6666-666666666666',
-     'cccccccc-1111-1111-1111-111111111111'),
-    ('eeeeeeee-6666-6666-6666-666666666666',
-     'aaaaaaaa-3333-3333-3333-333333333333'),
+     'cccccccc-1111-1111-1111-111111111111', 1, 140000),
 
-    -- Compra 7: Ticket to Ride + Pandemic
+    ('eeeeeeee-6666-6666-6666-666666666666',
+     'aaaaaaaa-3333-3333-3333-333333333333', 1, 110000),
+
+    -- Compra 7: Ticket to Ride + Pandemic = 345000
     ('eeeeeeee-7777-7777-7777-777777777777',
-     'bbbbbbbb-1111-1111-1111-111111111111'),
+     'bbbbbbbb-1111-1111-1111-111111111111', 1, 180000),
+
     ('eeeeeeee-7777-7777-7777-777777777777',
-     'bbbbbbbb-2222-2222-2222-222222222222');
+     'bbbbbbbb-2222-2222-2222-222222222222', 1, 165000);
 
 
 -- =====================================================
@@ -207,7 +216,9 @@ SELECT
     C.ESTADO_PAGO,
     J.ID AS JUEGO_ID,
     J.NOMBRE AS NOMBRE_JUEGO,
-    J.PRECIO_MONTO AS PRECIO_JUEGO
+    CJ.CANTIDAD,
+    CJ.PRECIO_MONTO AS PRECIO_UNITARIO,
+    (CJ.CANTIDAD * CJ.PRECIO_MONTO) AS SUBTOTAL
 FROM COMPRAS C
          INNER JOIN COMPRA_JUEGOS CJ
                     ON C.ID = CJ.COMPRA_ID
@@ -216,9 +227,7 @@ FROM COMPRAS C
 ORDER BY C.ID, J.NOMBRE;
 
 
--- =====================================================
--- 6. CONSULTAR COMENTARIOS REGISTRADOS
--- =====================================================
+
 
 SELECT *
 FROM COMENTARIOS;

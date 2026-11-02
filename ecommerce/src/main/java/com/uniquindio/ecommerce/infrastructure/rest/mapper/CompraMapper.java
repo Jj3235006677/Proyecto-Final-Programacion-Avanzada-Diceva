@@ -1,3 +1,4 @@
+
 package com.uniquindio.ecommerce.infrastructure.rest.mapper;
 
 import com.uniquindio.ecommerce.application.dto.response.CompraResponse;
@@ -11,7 +12,7 @@ public class CompraMapper {
 
         return new CompraResponse(
                 compra.getId(),
-                compra.getIdListaJuegosMesa(),
+                compra.getDetalles(),
                 compra.getCedulaUsuario(),
                 compra.getPrecioTotal(),
                 compra.getFechaCompra(),
