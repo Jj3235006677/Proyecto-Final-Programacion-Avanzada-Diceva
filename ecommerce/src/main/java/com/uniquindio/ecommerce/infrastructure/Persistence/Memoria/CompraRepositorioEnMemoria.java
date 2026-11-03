@@ -2,10 +2,8 @@ package com.uniquindio.ecommerce.infrastructure.Persistence.Memoria;
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.repository.CompraRepository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
 //@Component
 public class CompraRepositorioEnMemoria implements CompraRepository {
 
@@ -20,6 +18,11 @@ public class CompraRepositorioEnMemoria implements CompraRepository {
     @Override
     public void guardar(Compra compra) {
         compras.put(compra.getId(), compra);
+    }
+
+    @Override
+    public List<Compra> buscarAprobadasPorUsuarioYJuego(String cedulaUsuario, UUID idJuego) {
+        return List.of();
     }
 
 

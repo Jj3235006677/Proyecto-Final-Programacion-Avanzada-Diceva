@@ -2,12 +2,14 @@ package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.repositoryJpa;
 
 import com.uniquindio.ecommerce.domain.entity.Compra;
 import com.uniquindio.ecommerce.domain.repository.CompraRepository;
+import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.Mapper.CompraPersistenceMapper;
 import com.uniquindio.ecommerce.infrastructure.Persistence.jpa.dataRepository.CompraJpaDataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 @Repository
@@ -26,6 +28,18 @@ public class CompraReposiryJpa implements CompraRepository {
     public void guardar(Compra compra) {
         compraJpaDataRepository.save(compraPersistenceMapper.toEntity(compra));
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Compra> buscarAprobadasPorUsuarioYJuego(String cedulaUsuario, UUID idJuego) {
+        return compraJpaDataRepository
+                .buscarPorUsuarioJuegoYEstado(cedulaUsuario, idJuego, EstadoPago.APROBADO)
+                .stream()
+                .map(compraPersistenceMapper::toDomain)
+                .toList();
+    }
+
+
 
 
 }

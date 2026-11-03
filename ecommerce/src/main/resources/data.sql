@@ -1,4 +1,3 @@
-
 -- =====================================================
 -- 1. INSERTAR JUEGOS DE MESA
 -- =====================================================
@@ -74,31 +73,31 @@ INSERT INTO COMPRAS
 (ID, CEDULA_USUARIO, FECHA_COMPRA, PRECIO_MONTO, ESTADO_PAGO)
 VALUES
     ('eeeeeeee-1111-1111-1111-111111111111',
-     '11111111-1111-1111-1111-111111111111',
+     '900000002',
      CURRENT_TIMESTAMP, 275000, 'APROBADO'),
 
     ('eeeeeeee-2222-2222-2222-222222222222',
-     '22222222-2222-2222-2222-222222222222',
+     '900000003',
      CURRENT_TIMESTAMP, 290000, 'PENDIENTE'),
 
     ('eeeeeeee-3333-3333-3333-333333333333',
-     '33333333-3333-3333-3333-333333333333',
+     '900000004',
      CURRENT_TIMESTAMP, 305000, 'APROBADO'),
 
     ('eeeeeeee-4444-4444-4444-444444444444',
-     '44444444-4444-4444-4444-444444444444',
+     '900000005',
      CURRENT_TIMESTAMP, 215000, 'APROBADO'),
 
     ('eeeeeeee-5555-5555-5555-555555555555',
-     '55555555-5555-5555-5555-555555555555',
+     '900000006',
      CURRENT_TIMESTAMP, 220000, 'PENDIENTE'),
 
     ('eeeeeeee-6666-6666-6666-666666666666',
-     '66666666-6666-6666-6666-666666666666',
+     '900000002',
      CURRENT_TIMESTAMP, 250000, 'APROBADO'),
 
     ('eeeeeeee-7777-7777-7777-777777777777',
-     '77777777-7777-7777-7777-777777777777',
+     '900000003',
      CURRENT_TIMESTAMP, 345000, 'APROBADO');
 
 
@@ -162,47 +161,37 @@ VALUES
 -- =====================================================
 -- 4. INSERTAR COMENTARIOS
 -- =====================================================
--- Se asocian cuatro comentarios con cuatro juegos y
--- cuatro usuarios existentes.
--- IMPORTANTE: USUARIOS debe estar cargada antes de
--- ejecutar esta sección.
+-- Cada comentario apunta a una compra APROBADA del mismo
+-- usuario que incluye el juego comentado (regla: solo
+-- califica quien compró; máximo uno por juego en cada compra).
 
 INSERT INTO COMENTARIOS
-(ID_COMENTARIO, CODIGO_JUEGO_MESA, CEDULA_USUARIO,
+(ID_COMENTARIO, ID_COMPRA, CODIGO_JUEGO_MESA, CEDULA_USUARIO,
  TITULO, CALIFICACION, COMENTARIO, ELIMINACION_LOGICA)
-SELECT
-    RANDOM_UUID(),
-    J.ID,
-    U.CEDULA,
-    V.TITULO,
-    V.CALIFICACION,
-    V.TEXTO_COMENTARIO,
-    FALSE
-FROM (
-         VALUES
-             (1, 'aaaaaaaa-1111-1111-1111-111111111111',
-              'Excelente juego', 5,
-              'Es muy divertido para compartir en familia. Las reglas son fáciles de aprender.'),
+VALUES
+    -- Ana, compra 1: Catan
+    (RANDOM_UUID(), 'eeeeeeee-1111-1111-1111-111111111111',
+     'aaaaaaaa-1111-1111-1111-111111111111', '900000002',
+     'Excelente juego', 5,
+     'Es muy divertido para compartir en familia. Las reglas son fáciles de aprender.', FALSE),
 
-             (2, 'aaaaaaaa-2222-2222-2222-222222222222',
-              'Muy entretenido', 4,
-              'Tiene buenas estrategias y cada partida se siente diferente.'),
+    -- Ana, compra 1: Dixit
+    (RANDOM_UUID(), 'eeeeeeee-1111-1111-1111-111111111111',
+     'aaaaaaaa-2222-2222-2222-222222222222', '900000002',
+     'Muy entretenido', 4,
+     'Tiene buenas estrategias y cada partida se siente diferente.', FALSE),
 
-             (3, 'aaaaaaaa-3333-3333-3333-333333333333',
-              'Ideal para amigos', 5,
-              'Es perfecto para jugar con amigos y pasar un buen rato.'),
+    -- Carla, compra 3: Pandemic
+    (RANDOM_UUID(), 'eeeeeeee-3333-3333-3333-333333333333',
+     'bbbbbbbb-2222-2222-2222-222222222222', '900000004',
+     'Ideal para amigos', 5,
+     'Es perfecto para jugar con amigos y pasar un buen rato.', FALSE),
 
-             (4, 'bbbbbbbb-1111-1111-1111-111111111111',
-              'Buenas mecanicas', 4,
-              'El juego es interesante y ofrece una experiencia entretenida.')
-     ) V(NUMERO, JUEGO_ID, TITULO, CALIFICACION, TEXTO_COMENTARIO)
-         INNER JOIN (
-    SELECT
-        CEDULA,
-        ROW_NUMBER() OVER (ORDER BY CEDULA) AS NUMERO
-    FROM USUARIOS
-) U ON U.NUMERO = V.NUMERO
-         INNER JOIN JUEGOS_MESA J ON J.ID = V.JUEGO_ID;
+    -- Bruno, compra 7: Ticket to Ride
+    (RANDOM_UUID(), 'eeeeeeee-7777-7777-7777-777777777777',
+     'bbbbbbbb-1111-1111-1111-111111111111', '900000003',
+     'Buenas mecanicas', 4,
+     'El juego es interesante y ofrece una experiencia entretenida.', FALSE);
 
 
 -- =====================================================

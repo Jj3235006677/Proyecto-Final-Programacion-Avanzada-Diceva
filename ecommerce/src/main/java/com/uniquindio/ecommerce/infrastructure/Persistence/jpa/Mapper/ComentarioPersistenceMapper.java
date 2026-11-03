@@ -20,6 +20,7 @@ public class ComentarioPersistenceMapper {
         entity.setCalificacion(comentario.getCalificacion().valor());
         entity.setComentario(comentario.getComentario());
         entity.setEliminacionLogica(comentario.isEliminacionLogica());
+        entity.setIdCompra(comentario.getIdCompra());
 
         return entity;
     }
@@ -28,6 +29,7 @@ public class ComentarioPersistenceMapper {
 
         return Comentario.reconstruir(
                 entity.getIdComentario(),
+                entity.getIdCompra(),
                 entity.getCodigoJuegoMesa(),
                 entity.getCedula(),
                 entity.getTitulo(),

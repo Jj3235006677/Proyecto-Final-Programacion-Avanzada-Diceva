@@ -1,6 +1,6 @@
 package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity;
 
-import com.uniquindio.ecommerce.domain.valueobject.Calificacion;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,13 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "comentarios")
+@Table(
+        name = "comentarios",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_comentario_compra_juego",
+                columnNames = {"id_compra", "codigo_juego_mesa"}
+        )
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,6 +24,9 @@ public class ComentarioEntity {
     @Id
     @Column(name = "id_comentario", nullable = false)
     private UUID idComentario;
+
+    @Column(name = "id_compra", nullable = false)
+    private UUID idCompra;
 
     @Column(name = "codigo_juego_mesa", nullable = false)
     private UUID codigoJuegoMesa;
@@ -32,7 +41,7 @@ public class ComentarioEntity {
     @Column(name = "calificacion", nullable = false)
     private Integer calificacion;
 
-    @Column(name = "comentario", nullable = false, length = 2000)
+    @Column(name = "comentario", nullable = false, length = 500)
     private String comentario;
 
     @Column(name = "eliminacion_logica", nullable = false)

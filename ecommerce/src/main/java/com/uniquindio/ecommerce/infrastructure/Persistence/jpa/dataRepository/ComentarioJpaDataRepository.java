@@ -21,4 +21,5 @@ public interface ComentarioJpaDataRepository
     List<ComentarioEntity> buscarPorJuegoMesa(
             @Param("codigoJuegoMesa") UUID codigoJuegoMesa
     );
+    boolean existsByIdCompraAndCodigoJuegoMesa(UUID idCompra, UUID codigoJuegoMesa);
 }

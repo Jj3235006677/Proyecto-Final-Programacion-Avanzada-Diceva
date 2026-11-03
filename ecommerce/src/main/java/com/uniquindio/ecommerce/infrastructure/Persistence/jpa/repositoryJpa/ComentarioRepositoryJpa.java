@@ -48,4 +48,9 @@ public class ComentarioRepositoryJpa implements ComentarioRepository {
                 comentarioPersistenceMapper.toEntity(comentario)
         );
     }
+
+    @Override
+    public boolean existeComentario(UUID idCompra, UUID codigoJuegoMesa) {
+        return comentarioJpaDataRepository.existsByIdCompraAndCodigoJuegoMesa(idCompra, codigoJuegoMesa);
+    }
 }

@@ -168,6 +168,23 @@ public class Compra {
         this.estadoPago = EstadoPago.REEMBOLSADO;
     }
 
+    public void verificarQuePermiteComentar(String cedula, UUID idJuego) {
+        if (cedula == null || !cedulaUsuario.equals(cedula)) {
+            throw new ReglaDominioException("La compra no pertenece al usuario que intenta comentar");
+        }
+        if (estadoPago != EstadoPago.APROBADO) {
+            throw new ReglaDominioException("Solo se puede comentar un juego de una compra con pago aprobado");
+        }
+        if (!contieneJuego(idJuego)) {
+            throw new ReglaDominioException("El juego que intenta comentar no hace parte de esta compra");
+        }
+    }
+
+    public boolean contieneJuego(UUID idJuego) {
+        return idJuego != null && detalles.stream()
+                .anyMatch(detalle -> detalle.idJuego().equals(idJuego));
+    }
+
     public EstadoPago consultarEstadoCompra() {
         return estadoPago;
     }

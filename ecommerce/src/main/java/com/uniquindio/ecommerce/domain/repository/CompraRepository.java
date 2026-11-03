@@ -2,6 +2,7 @@ package com.uniquindio.ecommerce.domain.repository;
 
 import com.uniquindio.ecommerce.domain.entity.Compra;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,5 +11,7 @@ public interface CompraRepository {
 
 
     void guardar(Compra compra);
+
+    List<Compra> buscarAprobadasPorUsuarioYJuego(String cedulaUsuario, UUID idJuego);
 
 }

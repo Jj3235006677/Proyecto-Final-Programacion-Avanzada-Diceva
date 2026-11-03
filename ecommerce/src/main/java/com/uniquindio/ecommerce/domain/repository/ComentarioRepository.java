@@ -12,4 +12,6 @@ public interface ComentarioRepository {
 
     Optional<List<Comentario>> consultarComentarios(UUID codigoJuegoMesa);
     void guardar(Comentario comentario);
+
+    boolean existeComentario(UUID idCompra, UUID codigoJuegoMesa);
 }

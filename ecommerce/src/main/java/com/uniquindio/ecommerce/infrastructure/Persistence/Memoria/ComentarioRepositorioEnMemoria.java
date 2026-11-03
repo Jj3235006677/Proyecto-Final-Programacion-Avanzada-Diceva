@@ -25,4 +25,9 @@ public class ComentarioRepositorioEnMemoria implements ComentarioRepository {
 
         comentarios.put(comentario.getIdComentario(),comentario);
     }
+
+    @Override
+    public boolean existeComentario(UUID idCompra, UUID codigoJuegoMesa) {
+        return false;
+    }
 }
