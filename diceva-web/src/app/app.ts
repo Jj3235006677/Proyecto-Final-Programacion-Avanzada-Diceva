@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink  } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { Auth } from './servicios/auth';
 
 @Component({
   imports: [RouterOutlet, RouterLink],
@@ -8,6 +9,7 @@ import { RouterOutlet, RouterLink  } from '@angular/router';
   templateUrl: './app.html',
 })
 export class App {
-  title=signal('Diceva Juegos de mesa')
-  footer=signal('Univiersidad del Quindio')
+  auth = inject(Auth);
+  title = signal('Diceva Juegos de mesa');
+  footer = signal('Universidad del Quindío');
 }

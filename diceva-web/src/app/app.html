@@ -1,15 +1,21 @@
-<header> 
-<p> Bienvenido a {{title ()}}</p>
+<header>
+  <p>Bienvenido a {{ title() }}</p>
 
-<ul>
-   <li> <a routerLink="/">Inicio </a> </li>
-   <li>  <a routerLink="/login">Login </a></li>
-   <li> <a routerLink="catalogo">catalogo</a> </li>
-</ul>
-
-  
+  <nav>
+    <ul>
+      <li><a routerLink="/">Inicio</a></li>
+      <li><a routerLink="/catalogo">Catálogo</a></li>
+      <li>
+        @if (auth.isAuthenticated()) {
+          <a href="a" (click)="auth.logout();$event.preventDefault()">Cerrar sesion </a>
+        } @else {
+          <a routerLink="/login">Iniciar sesión</a>
+        }
+      </li>
+    </ul>
+  </nav>
 </header>
 
-<router-outlet>   </router-outlet>
+<router-outlet />
 
-<footer> {{footer()}} </footer>
+<footer>{{ footer() }}</footer>

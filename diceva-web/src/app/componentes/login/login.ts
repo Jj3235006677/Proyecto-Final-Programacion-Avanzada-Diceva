@@ -1,7 +1,10 @@
-import { Component , computed, inject, signal} from '@angular/core';
-
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component,DestroyRef , computed, inject, signal} from '@angular/core';
+import { takeUntilDestroyed,toSignal } from '@angular/core/rxjs-interop';
+import { Router} from '@angular/router'
+import { Auth } from '../../servicios/auth';
 import { FormBuilder ,ReactiveFormsModule, Validators } from  '@angular/forms'
+import { LoginRequest } from '../../modelos/auth';
+
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -12,6 +15,10 @@ import { FormBuilder ,ReactiveFormsModule, Validators } from  '@angular/forms'
 
 
 export class Login {
+  private authService = inject(Auth);  
+  private router= inject(Router);
+  private destroyRef = inject(DestroyRef)
+
   LoginForm= inject(FormBuilder).group({
     correo:['',[Validators.required,Validators.email]],
     contraseña:['',[Validators.required,Validators.minLength(6)]]
@@ -26,11 +33,26 @@ export class Login {
   canSubmit = computed(()=>this.formStatus()==='VALID'&& !this.isLoading());
 
 
-  onSubmit():void{
-    console.log("Credenciales", this.LoginForm.value);
+  onSubmit(): void {
+  if (!this.canSubmit()) return;
+  this.isLoading.set(true);
+  const credenciales = this.LoginForm.value as LoginRequest;
 
-    this.result.set('Intendo  ingresar ... ');
-  }
+  this.authService.login(credenciales)
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (respuesta) => {
+        this.authService.guardarSesion(respuesta);
+        this.result.set('Sesión iniciada correctamente');
+        this.router.navigate(['/']);
+      },
+
+      error: () => {
+        this.isLoading.set(false);
+        this.result.set('Error al iniciar sesión. Verifica tus credenciales.');
+      }
+    });
+}
 
 
 
