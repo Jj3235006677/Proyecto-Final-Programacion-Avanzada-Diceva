@@ -1,4 +1,3 @@
-
 package com.uniquindio.ecommerce.domain.valueobject;
 
 import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
@@ -21,5 +20,9 @@ public record Precio(int precioProducto) {
 
     public Precio multiplicarPor(int cantidad) {
         return new Precio(precioProducto * cantidad);
+    }
+
+    public Precio aplicarDescuento(int porcentaje) {
+        return new Precio(precioProducto * (100 - porcentaje) / 100);
     }
 }

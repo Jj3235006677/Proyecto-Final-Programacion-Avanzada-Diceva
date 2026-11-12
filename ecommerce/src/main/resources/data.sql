@@ -2,6 +2,9 @@
 -- 1. INSERTAR JUEGOS DE MESA
 -- =====================================================
 
+-- Estados usados: DISPONIBLE (Catan, Dixit, Carcassonne, Ticket to Ride),
+-- PREVENTA (Azul, Chess) y AGOTADO con stock 0 (Pandemic, Monopoly).
+
 INSERT INTO JUEGOS_MESA
 (ID, NOMBRE, DESCRIPCION, PRECIO_MONTO, STOCK,
  MINIMO_JUGADORES, MAXIMO_JUGADORES, MECANICA_DE_JUEGO,
@@ -37,30 +40,30 @@ VALUES
      'https://example.com/ticket.jpg'),
 
     ('bbbbbbbb-2222-2222-2222-222222222222',
-     'Pandemic', 'Juego cooperativo de crisis globales', 165000, 6,
+     'Pandemic', 'Juego cooperativo de crisis globales', 165000, 0,
      2, 4, 'Cooperación y gestión de acciones',
-     'Salud y crisis global', 8, 'AVANZADA', 'DISPONIBLE',
+     'Salud y crisis global', 8, 'AVANZADA', 'AGOTADO',
      'cccccccc-cccc-cccc-cccc-cccccccccccc', FALSE,
      'https://example.com/pandemic.jpg'),
 
     ('cccccccc-1111-1111-1111-111111111111',
      'Azul', 'Construcción de patrones y mosaicos', 140000, 9,
      2, 4, 'Construcción de patrones', 'Arte y mosaicos',
-     8, 'INTERMEDIA', 'DISPONIBLE',
+     8, 'INTERMEDIA', 'PREVENTA',
      'cccccccc-cccc-cccc-cccc-cccccccccccc', FALSE,
      'https://example.com/azul.jpg'),
 
     ('cccccccc-2222-2222-2222-222222222222',
      'Chess', 'Juego clásico de estrategia', 65000, 20,
      2, 2, 'Estrategia abstracta', 'Estrategia y táctica',
-     6, 'AVANZADA', 'DISPONIBLE',
+     6, 'AVANZADA', 'PREVENTA',
      'dddddddd-dddd-dddd-dddd-dddddddddddd', FALSE,
      'https://example.com/chess.jpg'),
 
     ('dddddddd-1111-1111-1111-111111111111',
-     'Monopoly', 'Negociación y gestión económica', 95000, 10,
+     'Monopoly', 'Negociación y gestión económica', 95000, 0,
      2, 6, 'Gestión económica', 'Bienes raíces y negocios',
-     8, 'BASICA', 'DISPONIBLE',
+     8, 'BASICA', 'AGOTADO',
      'dddddddd-dddd-dddd-dddd-dddddddddddd', FALSE,
      'https://example.com/monopoly.jpg');
 

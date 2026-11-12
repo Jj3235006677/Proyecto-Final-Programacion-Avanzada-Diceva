@@ -1,4 +1,3 @@
-
 package com.uniquindio.ecommerce.domain.entity;
 
 import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
@@ -6,6 +5,7 @@ import com.uniquindio.ecommerce.domain.valueobject.DetalleCompra;
 import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
 import com.uniquindio.ecommerce.domain.valueobject.Precio;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,8 @@ public class Compra {
     private Precio precioTotal;
     private final LocalDateTime fechaCompra;
     private EstadoPago estadoPago;
+    private String codigoCupon;
+    private int porcentajeDescuento;
 
     private Compra(
             UUID id,
@@ -101,15 +103,54 @@ public class Compra {
         return compra;
     }
 
-    public void sumarContidadesDinero(Precio valor) {
+    public static Compra reconstruir(
+            UUID id,
+            List<DetalleCompra> detalles,
+            String cedulaUsuario,
+            LocalDateTime fechaCompra,
+            Precio precioTotal,
+            EstadoPago estadoPago,
+            String codigoCupon,
+            int porcentajeDescuento) {
 
-        if (valor == null) {
+        Compra compra = reconstruir(id, detalles, cedulaUsuario, fechaCompra, precioTotal, estadoPago);
+        compra.codigoCupon = codigoCupon;
+        compra.porcentajeDescuento = porcentajeDescuento;
+        return compra;
+    }
+
+    public void aplicarCupon(Cupon cupon, LocalDate hoy) {
+
+        if (cupon == null) {
+            throw new ReglaDominioException("El cupón no existe");
+        }
+
+        if (estadoPago != EstadoPago.PENDIENTE) {
             throw new ReglaDominioException(
-                    "El precio que se suma es obligatorio"
+                    "Solo se puede aplicar un cupón a una compra pendiente"
             );
         }
 
-        precioTotal = precioTotal.sumar(valor);
+        if (codigoCupon != null) {
+            throw new ReglaDominioException(
+                    "Esta compra ya tiene un cupón aplicado"
+            );
+        }
+
+        if (detalles.isEmpty()) {
+            throw new ReglaDominioException(
+                    "Agrega al menos un juego antes de usar un cupón"
+            );
+        }
+
+        cupon.verificarVigente(hoy);
+
+        this.codigoCupon = cupon.getCodigo();
+        this.porcentajeDescuento = cupon.getPorcentaje();
+    }
+
+    public Precio getTotalAPagar() {
+        return precioTotal.aplicarDescuento(porcentajeDescuento);
     }
 
     public void confirmarCompra() {
@@ -211,6 +252,14 @@ public class Compra {
 
     public EstadoPago getEstadoPago() {
         return estadoPago;
+    }
+
+    public String getCodigoCupon() {
+        return codigoCupon;
+    }
+
+    public int getPorcentajeDescuento() {
+        return porcentajeDescuento;
     }
 
     private static void validarDatosReconstruccion(
