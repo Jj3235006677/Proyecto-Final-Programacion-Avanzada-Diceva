@@ -1,4 +1,3 @@
-
 package com.uniquindio.ecommerce.application.dto.response;
 
 import com.uniquindio.ecommerce.domain.valueobject.DetalleCompra;
@@ -15,6 +14,9 @@ public record CompraResponse(
         String cedulaUsuario,
         Precio precioTotal,
         LocalDateTime fechaCompra,
-        EstadoPago estadoPago
+        EstadoPago estadoPago,
+        String codigoCupon,
+        int porcentajeDescuento,
+        Precio totalAPagar
 ) {
 }

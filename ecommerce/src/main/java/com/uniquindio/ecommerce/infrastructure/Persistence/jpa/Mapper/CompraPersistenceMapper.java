@@ -1,4 +1,3 @@
-
 package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.Mapper;
 
 import com.uniquindio.ecommerce.domain.entity.Compra;
@@ -22,6 +21,8 @@ public class CompraPersistenceMapper {
         entity.setCedulaUsuario(compra.getCedulaUsuario());
         entity.setFechaCompra(compra.getFechaCompra());
         entity.setEstadoPago(compra.consultarEstadoCompra());
+        entity.setCodigoCupon(compra.getCodigoCupon());
+        entity.setPorcentajeDescuento(compra.getPorcentajeDescuento());
 
         entity.setPrecio(
                 new PrecioEmbeddable(
@@ -72,7 +73,9 @@ public class CompraPersistenceMapper {
                 entity.getCedulaUsuario(),
                 entity.getFechaCompra(),
                 new Precio(entity.getPrecio().getMonto()),
-                entity.getEstadoPago()
+                entity.getEstadoPago(),
+                entity.getCodigoCupon(),
+                entity.getPorcentajeDescuento() == null ? 0 : entity.getPorcentajeDescuento()
         );
     }
 }

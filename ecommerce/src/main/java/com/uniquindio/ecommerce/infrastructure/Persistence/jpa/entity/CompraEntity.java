@@ -1,4 +1,3 @@
-
 package com.uniquindio.ecommerce.infrastructure.Persistence.jpa.entity;
 
 import com.uniquindio.ecommerce.domain.valueobject.EstadoPago;
@@ -35,6 +34,12 @@ public class CompraEntity {
 
     @Embedded
     private PrecioEmbeddable precio;
+
+    @Column(name = "codigo_cupon", length = 30)
+    private String codigoCupon;
+
+    @Column(name = "porcentaje_descuento")
+    private Integer porcentajeDescuento;
 
     @ElementCollection
     @CollectionTable(

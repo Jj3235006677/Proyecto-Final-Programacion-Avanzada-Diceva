@@ -1,4 +1,3 @@
-
 package com.uniquindio.ecommerce.infrastructure.rest.mapper;
 
 import com.uniquindio.ecommerce.application.dto.response.CompraResponse;
@@ -16,7 +15,10 @@ public class CompraMapper {
                 compra.getCedulaUsuario(),
                 compra.getPrecioTotal(),
                 compra.getFechaCompra(),
-                compra.consultarEstadoCompra()
+                compra.consultarEstadoCompra(),
+                compra.getCodigoCupon(),
+                compra.getPorcentajeDescuento(),
+                compra.getTotalAPagar()
         );
     }
 }

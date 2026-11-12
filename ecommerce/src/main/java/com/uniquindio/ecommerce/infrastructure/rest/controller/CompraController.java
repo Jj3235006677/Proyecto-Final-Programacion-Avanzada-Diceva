@@ -1,7 +1,7 @@
-
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
 
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.AgregarJuegoUseCase;
+import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.AplicarCuponUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.ConfirmarCompraUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.ConsultarCompraUseCase;
 import com.uniquindio.ecommerce.application.UseCase.CompraUseCaseS.CrearCompraUseCase;
@@ -37,6 +37,7 @@ public class CompraController {
     private final RealizarRembolsoUseCase realizarRembolsoUseCase;
     private final AgregarJuegoUseCase agregarJuegoUseCase;
     private final ConsultarCompraUseCase consultarCompraUseCase;
+    private final AplicarCuponUseCase aplicarCuponUseCase;
     private final CompraMapper mapper;
     private final UsuarioRepository usuarioRepository;
 
@@ -46,6 +47,7 @@ public class CompraController {
             RealizarRembolsoUseCase realizarRembolsoUseCase,
             AgregarJuegoUseCase agregarJuegoUseCase,
             ConsultarCompraUseCase consultarCompraUseCase,
+            AplicarCuponUseCase aplicarCuponUseCase,
             CompraMapper mapper,
             UsuarioRepository usuarioRepository) {
 
@@ -54,6 +56,7 @@ public class CompraController {
         this.realizarRembolsoUseCase = realizarRembolsoUseCase;
         this.agregarJuegoUseCase = agregarJuegoUseCase;
         this.consultarCompraUseCase = consultarCompraUseCase;
+        this.aplicarCuponUseCase = aplicarCuponUseCase;
         this.mapper = mapper;
         this.usuarioRepository = usuarioRepository;
     }
@@ -125,6 +128,29 @@ public class CompraController {
         confirmarCompraUseCase.ejecutar(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Aplicar un cupón de descuento a una compra pendiente del usuario autenticado.
+     */
+    @PatchMapping("/{id}/cupon")
+    public ResponseEntity<CompraResponse> aplicarCupon(
+            @PathVariable UUID id,
+            @RequestParam
+            @NotBlank(message = "El código del cupón es obligatorio")
+            String codigo,
+            Authentication authentication) {
+
+        String cedula = usuarioRepository.buscarPorEmail(authentication.getName())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "El usuario autenticado no existe"
+                ))
+                .getCedula();
+
+        Compra compra = aplicarCuponUseCase.ejecutar(id, codigo, cedula);
+
+        return ResponseEntity.ok(mapper.toResponse(compra));
     }
 
     /**

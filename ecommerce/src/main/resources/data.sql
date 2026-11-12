@@ -69,6 +69,18 @@ VALUES
 
 
 -- =====================================================
+-- 1.1 INSERTAR CUPONES DE DESCUENTO
+-- =====================================================
+-- VIEJO15 está vencido a propósito, para probar el error.
+
+INSERT INTO CUPONES (CODIGO, PORCENTAJE, FECHA_VENCIMIENTO)
+VALUES
+    ('DICEVA10', 10, DATE '2027-12-31'),
+    ('JUEGANAVIDAD', 20, DATE '2026-12-31'),
+    ('VIEJO15', 15, DATE '2025-01-31');
+
+
+-- =====================================================
 -- 2. INSERTAR COMPRAS
 -- =====================================================
 
