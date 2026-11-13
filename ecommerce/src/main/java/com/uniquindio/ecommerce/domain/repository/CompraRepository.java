@@ -7,11 +7,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CompraRepository {
-    Optional<Compra> obtenerPorId(UUID id);// SE usa el optional por un null no hace explotar el codigo
 
+    Optional<Compra> obtenerPorId(UUID id); // Optional para que un null no haga explotar el código
 
     void guardar(Compra compra);
 
     List<Compra> buscarAprobadasPorUsuarioYJuego(String cedulaUsuario, UUID idJuego);
 
+    List<Compra> buscarPendientes();
+
+    List<Compra> buscarPorUsuario(String cedulaUsuario);
 }

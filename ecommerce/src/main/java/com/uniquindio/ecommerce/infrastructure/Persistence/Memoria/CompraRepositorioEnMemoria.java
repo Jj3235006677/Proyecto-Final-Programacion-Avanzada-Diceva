@@ -26,4 +26,15 @@ public class CompraRepositorioEnMemoria implements CompraRepository {
     }
 
 
+    @Override
+    public List<Compra> buscarPendientes() {
+        return List.of();
+    }
+
+    @Override
+    public List<Compra> buscarPorUsuario(String cedulaUsuario) {
+        return List.of();
+    }
+
+
 }

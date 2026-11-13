@@ -1,4 +1,3 @@
-
 package com.uniquindio.ecommerce.infrastructure.rest.exeption;
 
 import com.uniquindio.ecommerce.domain.exception.ReglaDominioException;
@@ -20,13 +19,13 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Reglas de negocio incumplidas: 400 Bad Request
+    // Reglas de negocio incumplidas: 422 Unprocessable Entity
     @ExceptionHandler(ReglaDominioException.class)
     public ResponseEntity<Map<String, Object>> manejarReglaDominio(
             ReglaDominioException ex) {
 
         return construirRespuesta(
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.UNPROCESSABLE_ENTITY,
                 ex.getMessage()
         );
     }

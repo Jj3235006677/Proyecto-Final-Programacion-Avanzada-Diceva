@@ -39,6 +39,26 @@ public class CompraReposiryJpa implements CompraRepository {
                 .toList();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Compra> buscarPendientes() {
+        return compraJpaDataRepository
+                .findByEstadoPagoOrderByFechaCompraAsc(EstadoPago.PENDIENTE)
+                .stream()
+                .map(compraPersistenceMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Compra> buscarPorUsuario(String cedulaUsuario) {
+        return compraJpaDataRepository
+                .findByCedulaUsuarioOrderByFechaCompraDesc(cedulaUsuario)
+                .stream()
+                .map(compraPersistenceMapper::toDomain)
+                .toList();
+    }
+
 
 
 

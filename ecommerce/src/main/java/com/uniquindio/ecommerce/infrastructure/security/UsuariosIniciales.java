@@ -36,7 +36,7 @@ public class UsuariosIniciales implements CommandLineRunner {
                 new Semilla(
                         "Administrador", "DICEVA",
                         "admin@diceva.com", "900000001",
-                        "c", TipoUsuario.ADMIN
+                        "Admin123!", TipoUsuario.ADMIN
                 ),
                 new Semilla(
                         "Ana", "García",

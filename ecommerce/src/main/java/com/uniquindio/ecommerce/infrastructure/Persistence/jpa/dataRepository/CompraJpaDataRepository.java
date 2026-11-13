@@ -24,4 +24,13 @@ public interface CompraJpaDataRepository extends JpaRepository<CompraEntity, UUI
             @Param("cedula") String cedula,
             @Param("idJuego") UUID idJuego,
             @Param("estado") EstadoPago estado);
+
+
+
+    List<CompraEntity> findByEstadoPagoOrderByFechaCompraAsc(EstadoPago estadoPago);
+
+    List<CompraEntity> findByCedulaUsuarioOrderByFechaCompraDesc(String cedulaUsuario);
+
+
+
 }
