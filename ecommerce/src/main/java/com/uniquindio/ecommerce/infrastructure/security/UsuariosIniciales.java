@@ -35,7 +35,7 @@ public class UsuariosIniciales implements CommandLineRunner {
         List<Semilla> semillas = List.of(
                 new Semilla(
                         "Administrador", "DICEVA",
-                        "admin@diceva.com", "900000001",
+                            "admin@diceva.com", "900000001",
                         "Admin123!", TipoUsuario.ADMIN
                 ),
                 new Semilla(

@@ -153,6 +153,23 @@ public class Compra {
         return precioTotal.aplicarDescuento(porcentajeDescuento);
     }
 
+    public void cancelar(String cedula, boolean esAdmin) {
+
+        if (!esAdmin && (cedula == null || !cedulaUsuario.equals(cedula))) {
+            throw new ReglaDominioException(
+                    "Solo puedes pedir el reembolso de tus propias compras"
+            );
+        }
+
+        if (estadoPago != EstadoPago.PENDIENTE) {
+            throw new ReglaDominioException(
+                    "Solo se pueden reembolsar compras pendientes"
+            );
+        }
+
+        this.estadoPago = EstadoPago.REEMBOLSADO;
+    }
+
     public void confirmarCompra() {
 
         if (!estadoPago.puedeTransicionarA(EstadoPago.APROBADO)) {
