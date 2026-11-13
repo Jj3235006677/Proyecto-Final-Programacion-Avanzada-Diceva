@@ -89,4 +89,15 @@ public interface JuegoMesaJpaDataRepository
       AND j.eliminacionLogica = false
     """)
     List<JuegoMesaEntity> buscarPorNombre(@Param("nombre") String nombre);
+
+
+    @Query("""
+    SELECT j
+    FROM JuegoMesaEntity j
+    WHERE j.eliminacionLogica = false
+      AND j.stock > 0
+      AND j.rangoJugadores.minimoJugadores <= :jugadores
+      AND j.rangoJugadores.maximoJugadores >= :jugadores
+    """)
+    List<JuegoMesaEntity> buscarParaJugadores(@Param("jugadores") int jugadores);
 }

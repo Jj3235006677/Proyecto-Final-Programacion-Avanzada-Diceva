@@ -1,4 +1,3 @@
-
 package com.uniquindio.ecommerce.pruebaControlador;
 
 import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.CrearJuegoMesaUseCase;
@@ -45,6 +44,9 @@ class PruebaControllerJuegoMesa {
     @MockitoBean
     private com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.EliminarJuegoMesaUseCase eliminarJuegoMesaUseCase;
 
+    @MockitoBean
+    private com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.RecomendarJuegosUseCase recomendarJuegosUseCase;
+
 
     @Test
     void deberiaResponder400CuandoSeRompeUnaReglaDeNegocio() throws Exception {
@@ -80,8 +82,4 @@ class PruebaControllerJuegoMesa {
                 anyInt(), any(), any()
         );
     }
-
-
-
-
 }

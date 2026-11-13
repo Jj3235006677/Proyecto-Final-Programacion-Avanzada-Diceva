@@ -26,4 +26,6 @@ public interface JuegoMesaRepository {
     void eliminarLogicamente(UUID idJuegoMesa);
 
     Optional<JuegoMesa> obtenerPorNombre(String nombreJuegoMesa);
+
+    List<JuegoMesa> buscarParaJugadores(int jugadores);
 }

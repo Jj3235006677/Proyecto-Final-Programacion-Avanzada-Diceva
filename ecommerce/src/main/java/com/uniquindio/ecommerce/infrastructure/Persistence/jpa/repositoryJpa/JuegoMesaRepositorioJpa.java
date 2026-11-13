@@ -104,4 +104,14 @@ public class JuegoMesaRepositorioJpa implements JuegoMesaRepository {
                 .findFirst()
                 .map(juegoMesaPersistenceMapper::toDomain);
     }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<JuegoMesa> buscarParaJugadores(int jugadores) {
+        return juegoMesaJpaDataRepository.buscarParaJugadores(jugadores)
+                .stream()
+                .map(juegoMesaPersistenceMapper::toDomain)
+                .toList();
+    }
 }

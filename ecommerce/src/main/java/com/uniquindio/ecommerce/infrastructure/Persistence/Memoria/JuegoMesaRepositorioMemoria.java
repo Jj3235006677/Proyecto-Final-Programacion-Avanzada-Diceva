@@ -50,4 +50,10 @@ public class JuegoMesaRepositorioMemoria implements JuegoMesaRepository {
         return Optional.empty();
     }
 
+
+    @Override
+    public List<JuegoMesa> buscarParaJugadores(int jugadores) {
+        return List.of();
+    }
+
 }

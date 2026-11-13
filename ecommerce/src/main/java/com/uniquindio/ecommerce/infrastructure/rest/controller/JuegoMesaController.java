@@ -1,7 +1,5 @@
 package com.uniquindio.ecommerce.infrastructure.rest.controller;
 
-
-
 import com.uniquindio.ecommerce.application.UseCase.JuegoMesaUseCase.*;
 import com.uniquindio.ecommerce.application.dto.request.JuegoMesaRequest;
 import com.uniquindio.ecommerce.application.dto.response.JuegoMesaResponse;
@@ -30,20 +28,24 @@ public class JuegoMesaController {
     private final BuscarJuegosPaginadosUseCase buscarJuegosPaginadosUseCase;
     private final ObtenerRankingJuegosUseCase obtenerRankingJuegosUseCase;
     private final EliminarJuegoMesaUseCase eliminarJuegoMesaUseCas;
+    private final RecomendarJuegosUseCase recomendarJuegosUseCase;
 
     public JuegoMesaController(
             JuegoMesaMapper juegoMesaMapper,
             CrearJuegoMesaUseCase crearJuegoMesaUseCase,
             ConsultarJuegoMesaUseCase consultarJuegoMesaUseCase,
-            BuscarJuegosPaginadosUseCase buscarJuegosPaginadosUseCase,ObtenerRankingJuegosUseCase obtenerRankingJuegosUseCase,EliminarJuegoMesaUseCase eliminarrJuegoMesaUseCase) {
+            BuscarJuegosPaginadosUseCase buscarJuegosPaginadosUseCase,
+            ObtenerRankingJuegosUseCase obtenerRankingJuegosUseCase,
+            EliminarJuegoMesaUseCase eliminarrJuegoMesaUseCase,
+            RecomendarJuegosUseCase recomendarJuegosUseCase) {
 
         this.juegoMesaMapper = juegoMesaMapper;
         this.crearJuegoMesaUseCase = crearJuegoMesaUseCase;
         this.consultarJuegoMesaUseCase = consultarJuegoMesaUseCase;
         this.buscarJuegosPaginadosUseCase = buscarJuegosPaginadosUseCase;
-        this.obtenerRankingJuegosUseCase=obtenerRankingJuegosUseCase;
-        this.eliminarJuegoMesaUseCas=eliminarrJuegoMesaUseCase;
-
+        this.obtenerRankingJuegosUseCase = obtenerRankingJuegosUseCase;
+        this.eliminarJuegoMesaUseCas = eliminarrJuegoMesaUseCase;
+        this.recomendarJuegosUseCase = recomendarJuegosUseCase;
     }
 
     // Consultar juegos de mesa con búsqueda, filtro y paginación
@@ -123,6 +125,8 @@ public class JuegoMesaController {
                 .created(location)
                 .body(response);
     }
+
+    // Eliminar un juego de mesa (eliminación lógica)
     @PutMapping("/{id}/eliminacion-logica")
     public ResponseEntity<Void> eliminarLogicamente(
             @PathVariable UUID id) {
@@ -148,9 +152,19 @@ public class JuegoMesaController {
 
         return ResponseEntity.ok(respuesta);
     }
-    // Consultar el ranking de juegos más incluidos en compras
 
+    // Recomendar hasta 3 juegos al azar para un número de jugadores ("Lanza los dados")
+    @GetMapping("/aleatorio")
+    public ResponseEntity<List<JuegoMesaResponse>> recomendar(
+            @RequestParam int jugadores,
+            @RequestParam(required = false) List<UUID> excluir) {
 
+        List<JuegoMesaResponse> respuesta = recomendarJuegosUseCase
+                .ejecutar(jugadores, excluir)
+                .stream()
+                .map(juegoMesaMapper::toResponse)
+                .toList();
 
-
+        return ResponseEntity.ok(respuesta);
+    }
 }
